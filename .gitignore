@@ -3,5 +3,5 @@ tmp/**/*
 config/database.yml
 doc/api
 doc/app
-doc/plugclass ApplicationController < ActionController::Baseins
+doc/plugins
 config/initializers/site_keys.rb
