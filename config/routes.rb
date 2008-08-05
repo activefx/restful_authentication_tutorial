@@ -1,10 +1,20 @@
 ActionController::Routing::Routes.draw do |map|
   map.logout '/logout', :controller => 'sessions', :action => 'destroy'
-  map.login '/login', :controller => 'sessions', :action => 'new'
+  map.login '/login', :controller => 'sessions', :action => 'new' => 
   map.register '/register', :controller => 'users', :action => 'create'
   map.signup '/signup', :controller => 'users', :action => 'new'
-  map.resources :users
+  map.activate '/activate/:activation_code', :controller => 'users', :action => 'activate', :activation_code => nil
+  map.forgot_password '/forgot_password', :controller => 'passwords', :action => 'new'  
+	map.reset_password '/reset_password/:id', :controller => 'passwords', :action => 'edit'  
+  map.change_password '/change_password', :controller => 'users', :action => 'change_password'
+  map.open_id_complete 'session', :controller => "sessions", :action => "create", :requirements => { :method => :get }
+  
+  map.resources :users :member => { :changepassword => :get, :change => :put, :enable => :put } do |users|
+		users.resources :roles
+	end
 
+	map.resources :roles
+  map.resources :passwords
   map.resource :session
 
   # The priority is based upon order of creation: first created -> highest priority.
@@ -39,7 +49,7 @@ ActionController::Routing::Routes.draw do |map|
   #   end
 
   # You can have the root of your site routed with map.root -- just remember to delete public/index.html.
-  # map.root :controller => "welcome"
+  map.root :controller => "users", :action => "index"
 
   # See how all your routes lay out with "rake routes"
 
