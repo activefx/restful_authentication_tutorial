@@ -10,19 +10,30 @@
 </head>
 <body>
 
-  <% render :partial => "users/user_bar" %>
+  <div id="flash" class="box">
+	  <% if flash[:notice] -%>
+      <div id="notice"><center><%= flash[:notice] %></center></div>
+        <% flash[:notice] = nil %>
+    <% end -%>
+    <% if flash[:error] -%>
+      <div id="error"><center><%= flash[:error] %></center></div>
+        <%= flash[:error] = nil %>
+    <% end -%>		
+  </div>
+
+  <%= render :partial => "users/user_bar" %>
   	
-	<% ubermenu 'nav' do |m| %>
-	  <% m.action 'Home', root_path %>
-		<% if logged_in? %>
-			<% m.action 'Edit Profile', edit_user_path(current_user) %>
-		<% end %>
+	<%# ubermenu 'nav' do |m| %>
+	  <%# m.action 'Home', root_path %>
+		<%# if logged_in? %>
+			<%# m.action 'Edit Profile', edit_user_path(current_user) %>
+		<%# end %>
     <%# if current_user.has_role?('admin') %>
 	    <%# m.submenu 'Administer Users', services_path do |s| %>
 	      <%# s.action 'Edit Roles', service_path('a') %>
 	    <%# end %>
 		<%# end %>
-	<% end %>
+	<%# end %>
 
 	<%= yield %>
 

@@ -1,6 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
   map.logout '/logout', :controller => 'sessions', :action => 'destroy'
-  map.login '/login', :controller => 'sessions', :action => 'new' => 
+  map.login '/login', :controller => 'sessions', :action => 'new'
   map.register '/register', :controller => 'users', :action => 'create'
   map.signup '/signup', :controller => 'users', :action => 'new'
   map.activate '/activate/:activation_code', :controller => 'users', :action => 'activate', :activation_code => nil
@@ -9,7 +9,7 @@ ActionController::Routing::Routes.draw do |map|
   map.change_password '/change_password', :controller => 'users', :action => 'change_password'
   map.open_id_complete 'session', :controller => "sessions", :action => "create", :requirements => { :method => :get }
   
-  map.resources :users :member => { :changepassword => :get, :change => :put, :enable => :put } do |users|
+  map.resources :users, :member => { :changepassword => :get, :change => :put, :enable => :put } do |users|
 		users.resources :roles
 	end
 
