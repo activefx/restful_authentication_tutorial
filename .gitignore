@@ -1,0 +1,7 @@
+log/*.log
+tmp/**/*
+config/database.yml
+doc/api
+doc/app
+doc/plugclass ApplicationController < ActionController::Baseins
+config/initializers/site_keys.rb
