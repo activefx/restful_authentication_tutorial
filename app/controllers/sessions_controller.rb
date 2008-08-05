@@ -11,7 +11,7 @@ class SessionsController < ApplicationController
 			params[:login] = nil
       open_id_authentication(params[:openid_identifier])
     else
-      password_authentication(params[:name], params[:password])
+      password_authentication(params[:login], params[:password])
     end
   end
 
@@ -24,7 +24,7 @@ class SessionsController < ApplicationController
   protected
 
   def password_authentication(name, password)
-    user = User.authenticate(params[:login], params[:password])
+    user = User.authenticate(name, password)
     if user
 			successful_login(user)
     else

@@ -7,10 +7,15 @@
 <p><label for="password">Password</label><br/>
 <%= password_field_tag 'password', nil %></p>
 
-<!-- Uncomment this if you want this functionality
+<p>Or use OpenID:</p>
+
+<p><label for="openid_identifier">OpenID:</label><br/>
+<%= text_field_tag "openid_identifier", @openid_identifier %></p>
+
+<p>Stay logged in on this computer:</p>
+
 <p><label for="remember_me">Remember me:</label>
 <%= check_box_tag 'remember_me', '1', @remember_me %></p>
--->
 
-<p><%= submit_tag 'Log in' %></p>
+<p><%= submit_tag 'Log in', :disable_with => "Signing in&hellip;" %></p>
 <% end -%>
