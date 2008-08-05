@@ -67,7 +67,7 @@ class UsersController < ApplicationController
   end
 
   # Change password view
-  def password
+  def changepassword
   end
   
   # Change password action  

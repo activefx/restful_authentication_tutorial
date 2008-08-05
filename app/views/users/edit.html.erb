@@ -1,0 +1,10 @@
+<h1>Edit your account</h1>
+<p>Show current profile for: <%= link_to_current_user :content_method => :login %> | <%= link_to 'Change Password', changepassword_user_path %></p>
+<%= error_messages_for :user %>
+  
+<% form_for :user, :url => user_url(@user), :html => { :method => :put } do |f| %>  
+  <p>Email:<br /><%= f.text_field :email, :size => 60 %></p>  
+  <%= submit_tag 'Save' %>
+<% end %>
+
+
