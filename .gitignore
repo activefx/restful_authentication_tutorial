@@ -5,4 +5,5 @@ doc/api
 doc/app
 doc/plugins
 config/initializers/site_keys.rb
+config/initializers/mail.rb
 *~
