@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20080805045812) do
+ActiveRecord::Schema.define(:version => 20080806025753) do
 
   create_table "open_id_authentication_associations", :force => true do |t|
     t.integer "issued",     :limit => 11

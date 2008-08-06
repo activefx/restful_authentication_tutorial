@@ -1,0 +1,6 @@
+<h1>Roles for <%=h user.login %></h1>
+<ul> 
+	<% for role in @roles %>
+		<li><%= check_box_tag "user[role_ids][]", role.id, @user.roles.include?(role) %> <%= role.name %></li>
+  <% end %>
+</ul> 

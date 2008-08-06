@@ -1,5 +1,4 @@
 class UsersController < ApplicationController
-  layout "application"
   before_filter :login_required, :only => [ :show, :edit, :update, :destroy, :enable, :password, :change ]
 
   def index
