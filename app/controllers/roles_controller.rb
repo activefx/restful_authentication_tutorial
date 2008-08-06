@@ -1,6 +1,6 @@
 class RolesController < ApplicationController
   before_filter :login_required
-
+	require_role :admin
 
   def index
     @user = User.find(params[:id])
