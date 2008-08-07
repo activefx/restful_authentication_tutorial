@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
-  before_filter :login_required, :only => [ :show, :edit, :update, :destroy, :enable, :password, :change ]
+  before_filter :login_required, :only => [ :index, :show, :edit, :update, :destroy, :enable, :password, :change ]
+	require_role :admin, :only => [ :index, :destroy, :enable ]
 
   def index
     @users = User.find(:all)
@@ -85,12 +86,12 @@ class UsersController < ApplicationController
         end
       else
         flash[:error] = "New password does not match the password confirmation."
-        #(@old_password && params[:old_password]) = nil
+        @old_password = nil
         render :action => 'edit'      
       end
     else
       flash[:error] = "Your old password is incorrect."
-		 #(@old_password && params[:old_password]) = nil
+		  @old_password = nil
       render :action => 'edit'
     end 
   end

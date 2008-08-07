@@ -3,14 +3,14 @@ class RolesController < ApplicationController
 	require_role :admin
 
   def index
-    @user = User.find(params[:id])
+    @user = User.find(params[:user_id])
 		@roles = Role.find(:all, :order => :name)
 	end
 
 
 	def update
 		params[:user][:role_ids] ||= []
-    @user = User.find(params[:id])
+    @user = User.find(params[:user_id])
     if @user.update_attributes(params[:user])
       flash[:notice] = "User roles were successfully updated."
       redirect_to users_path

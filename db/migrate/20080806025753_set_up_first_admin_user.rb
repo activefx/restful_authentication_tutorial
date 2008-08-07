@@ -8,6 +8,7 @@ class SetUpFirstAdminUser < ActiveRecord::Migration
 		user.password_confirmation = "password"
     user.save
 		role = Role.new
+		#Admin role name should be "admin"
 		role.name = "admin"
 		role.save
 		admin_user = User.find_by_login("admin")

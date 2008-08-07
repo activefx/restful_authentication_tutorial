@@ -8,7 +8,6 @@ class SessionsController < ApplicationController
   def create
     logout_keeping_session!
     if using_open_id?
-			params[:login] = nil
       open_id_authentication(params[:openid_identifier])
     else
       password_authentication(params[:login], params[:password])
@@ -42,7 +41,7 @@ class SessionsController < ApplicationController
     # Pass optional :required and :optional keys to specify what sreg fields you want.
     # Be sure to yield registration, a third argument in the #authenticate_with_open_id block.
     authenticate_with_open_id(identity_url, 
-        :required => [ :nickname, :email ],
+        :required => [ :nickname, :email], 
         :optional => :fullname) do |result, identity_url, registration|
       case result.status
       when :missing
