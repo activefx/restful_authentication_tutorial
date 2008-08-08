@@ -22,18 +22,15 @@
   </div>
 
   <%= render :partial => "users/user_bar" %>
-  	
-	<%# ubermenu 'nav' do |m| %>
-	  <%# m.action 'Home', root_path %>
-		<%# if logged_in? %>
-			<%# m.action 'Edit Profile', edit_user_path(current_user) %>
-		<%# end %>
-    <%# if current_user.has_role?('admin') %>
-	    <%# m.submenu 'Administer Users', services_path do |s| %>
-	      <%# s.action 'Edit Roles', service_path('a') %>
-	    <%# end %>
-		<%# end %>
-	<%# end %>
+
+  <ul>
+		<li><%= link_to 'Homepage', root_path %></li>
+    <% if logged_in? && current_user.has_role?('admin') %>
+      <li><%= link_to 'Administer Users', users_path %></li>
+    <% end %> 
+  </ul>
+
+
 
 	<%= yield %>
 

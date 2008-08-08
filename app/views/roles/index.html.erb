@@ -1,5 +1,6 @@
 <h1>Roles for <%=h @user.login %></h1>
-<% form_for #update roles do |f| -%>
+<% form_for @user, :url => { :action => "update", :id => @user } do |f| -%>
+<%= f.hidden_field :created_at %>
 <ul> 
 	<% for role in @roles %>
 		<li><%= check_box_tag "user[role_ids][]", role.id, @user.roles.include?(role) %> <%= role.name %></li>
@@ -7,6 +8,6 @@
 </ul> 
 
   <p>
-    <%= f.submit "Update" %>
+    <%= f.submit "Update", :disable_with => "Updating&hellip;" %>
   </p>
 <% end %>

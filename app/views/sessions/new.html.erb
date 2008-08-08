@@ -5,7 +5,8 @@
 <%= text_field_tag 'login', @login %></p>
 
 <p><label for="password">Password</label><br/>
-<%= password_field_tag 'password', nil %></p>
+<%= password_field_tag 'password', nil %><br/>
+<%= link_to 'Forgot Password?', forgot_password_path %></p>
 
 <p>Or use OpenID:</p>
 
