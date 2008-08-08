@@ -74,6 +74,11 @@ class User < ActiveRecord::Base
     u && u.authenticated?(password) ? u : nil
   end
 
+#   def self.authenticate(login, password)    
+#     u = find :first, :conditions => ['login = ?', login] # need to get the salt
+#     u && u.authenticated?(password) ? u : nil  
+#   end
+
   def self.find_for_forget(email)
     find :first, :conditions => ['email = ? and activated_at IS NOT NULL', email]
   end
