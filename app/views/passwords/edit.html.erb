@@ -1,5 +1,6 @@
 <h1>Reset your password</h1>
-<% form_tag url_for(:action => "update", :id => params[:id]) do %>
+<% form_for "password", :url => password_url(params[:id]),
+       :html => { :method => :put } do |f| %>
     Password:<br />
     <%= password_field_tag :password %><br />
     Confirm Password:<br />

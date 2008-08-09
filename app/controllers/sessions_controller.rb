@@ -23,23 +23,19 @@ class SessionsController < ApplicationController
   protected
 
   def password_authentication(name, password)
-    user = User.authenticate(name, password)
-    if user
-			successful_login(user)
-    else
-			failed_login
-    end
+    begin
+			user = User.authenticate(name, password)
+      if user
+			  successful_login(user)
+      else
+			  failed_login
+      end
+		rescue User::NotActivated
+			failed_login "Your account has not been activated."
+		rescue User::NotEnabled
+			failed_login "Your account has been disabled, please contact the administrator."
+		end
   end
-
-#     if user == nil
-#       failed_login("Your username or password is incorrect.")
-#     elsif user.activated_at.blank?  
-#       failed_login("Your account is not active, please check your email for the activation code.")
-#     elsif user.enabled == false
-#       failed_login("Your account has been disabled.")
-#     else
-#       self.current_user = user
-#       successful_login
 
   # Track failed login attempts
   def note_failed_signin(message)
@@ -55,13 +51,13 @@ class SessionsController < ApplicationController
         :optional => :fullname) do |result, identity_url, registration|
       case result.status
       when :missing
-        failed_login "Sorry, the OpenID server couldn't be found"
+        failed_login "Sorry, the OpenID server couldn't be found."
       when :invalid
-        failed_login "Sorry, but this does not appear to be a valid OpenID"
+        failed_login "Sorry, but this does not appear to be a valid OpenID."
       when :canceled
-        failed_login "OpenID verification was canceled"
+        failed_login "OpenID verification was canceled."
       when :failed
-        failed_login "Sorry, the OpenID verification failed"
+        failed_login "Sorry, the OpenID verification failed."
       when :successful
 				if user = User.find_by_identity_url(identity_url)
 					successful_login(user)
@@ -72,8 +68,7 @@ class SessionsController < ApplicationController
             redirect_back_or_default('/')
       			flash[:notice] = "Thanks for signing up!  We're sending you an email with your activation code."
 					else
-						failed_login "We were unable to create a new account for you from your OpenID profile." #+
-              #@user.errors.full_messages.to_sentence					
+						failed_login "We were unable to create a new account for you from your OpenID profile." 
 					end
 				end
       end
@@ -105,10 +100,10 @@ class SessionsController < ApplicationController
     new_cookie_flag = (params[:remember_me] == "1")
     handle_remember_cookie! new_cookie_flag
     redirect_back_or_default('/')
-    flash[:notice] = "Logged in successfully"
+    flash[:notice] = "Logged in successfully."
   end
 
-  def failed_login(message = "Couldn't log you in as '#{params[:login]}'")
+  def failed_login(message = "Could not log you in as '#{params[:login]}', your username or password is incorrect.")
     note_failed_signin(message)
     @login       = params[:login]
     @remember_me = params[:remember_me]

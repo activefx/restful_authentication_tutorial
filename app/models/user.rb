@@ -45,11 +45,16 @@ class User < ActiveRecord::Base
   # anything else you want your user to change should be added here.
   attr_accessible :login, :email, :name, :password, :password_confirmation, :identity_url, :role_ids
 
+	class NotActivated < StandardError; end
+  class NotEnabled < StandardError; end
+	class NoActivationCode < StandardError; end
+	class AlreadyActivated < StandardError; end
 
   # Activates the user in the database.
   def activate!
     self.activated_at = Time.now.utc
-    self.activation_code = nil
+		#Leave activation code in place to determine if already activated.
+    #self.activation_code = nil
     save(false)
     @activated = true
   end
@@ -70,14 +75,27 @@ class User < ActiveRecord::Base
   # This will also let us return a human error message.
   #
   def self.authenticate(login, password)
-    u = find :first, :conditions => ['login = ? and activated_at IS NOT NULL', login] # need to get the salt
-    u && u.authenticated?(password) ? u : nil
+    u = find :first, :conditions => ['login = ?', login] # need to get the salt
+    #u && u.authenticated?(password) ? u : nil
+    if (u && u.authenticated?(password))
+		  raise	NotActivated if u.activated_at.blank?
+			raise NotEnabled if !u.enabled?
+			u
+		else
+			nil
+		end
   end
 
-#   def self.authenticate(login, password)    
-#     u = find :first, :conditions => ['login = ?', login] # need to get the salt
-#     u && u.authenticated?(password) ? u : nil  
-#   end
+	def self.find_with_activation_code(activation_code)
+		raise NoActivationCode if activation_code.nil?
+		u = find :first, :conditions => ['activation_code = ?', activation_code]
+		if u
+			raise AlreadyActivated if !u.activated_at.blank?
+			u
+		else
+			nil
+		end
+	end
 
   def self.find_for_forget(email)
     find :first, :conditions => ['email = ? and activated_at IS NOT NULL', email]

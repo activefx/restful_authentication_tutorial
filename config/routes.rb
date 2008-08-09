@@ -5,7 +5,7 @@ ActionController::Routing::Routes.draw do |map|
   map.signup '/signup', :controller => 'users', :action => 'new'
   map.activate '/activate/:activation_code', :controller => 'users', :action => 'activate', :activation_code => nil
   map.forgot_password '/forgot_password', :controller => 'passwords', :action => 'new'  
-	map.reset_password '/reset_password/:id', :controller => 'passwords', :action => 'edit'  
+	map.reset_password '/reset_password/:id', :controller => 'passwords', :action => 'edit', :id => nil  
   map.change_password '/change_password', :controller => 'users', :action => 'change_password'
   map.open_id_complete 'session', :controller => "sessions", :action => "create", :requirements => { :method => :get }
   
@@ -13,7 +13,6 @@ ActionController::Routing::Routes.draw do |map|
 		users.resources :roles
 	end
 
-  map.resource :settings
   map.resources :passwords
   map.resource :session
 

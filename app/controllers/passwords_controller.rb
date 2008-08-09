@@ -24,21 +24,23 @@ class PasswordsController < ApplicationController
   # Then if everything checks out, shows the password reset fields
   def edit
     if params[:id].nil?
+			flash[:error] = "The password reset code was missing.  Please follow the URL from your email, or enter your email below to resend the reset code."
       render :action => 'new'
       return
     end
     @user = User.find_by_password_reset_code(params[:id]) if params[:id]
     raise if @user.nil?
-    rescue
+  rescue
     logger.warn "Invalid password reset code from #{request.remote_ip} at #{Time.now.utc}"
-    flash[:notice] = "Sorry - That is an invalid password reset code. Please check your code and try again. (Perhaps your email client inserted a carriage return?)"
-    redirect_to new_user_path
+    flash[:notice] = "Invalid password reset code, please check your email and try again."
+    redirect_to root_path
   end
     
   # Reset password action /reset_password/:id
   # Checks once again that an id is included and makes sure that the password field isn't blank
   def update
     if params[:id].nil?
+			flash[:error] = "The password reset code was missing.  Please follow the URL from your email, or enter your email below to resend the reset code."
       render :action => 'new'
       return
     end
@@ -49,22 +51,25 @@ class PasswordsController < ApplicationController
     end
     @user = User.find_by_password_reset_code(params[:id]) if params[:id]
     raise if @user.nil?
-    return if @user unless params[:password]
-      if (params[:password] == params[:password_confirmation])
-        @user.password_confirmation = params[:password_confirmation]
-        @user.password = params[:password]
-        @user.reset_password        
-        flash[:notice] = @user.save ? "Password reset." : "There was a problem resetting your password."
-      else
-        flash[:notice] = "Password mismatch."
-        render :action => 'edit', :id => params[:id]
-        return
-      end  
-      redirect_to login_path
-    rescue
+    if (params[:password] == params[:password_confirmation])
+      @user.password_confirmation = params[:password_confirmation]
+      @user.password = params[:password]
+      if @user.save
+			  @user.reset_password        
+        flash[:notice] = "Password reset." 
+			else
+				flash[:notice] = "There was a problem resetting your password."
+			end
+    else
+      flash[:notice] = "Password and password confirmation did not match."
+      render :action => 'edit', :id => params[:id]
+      return
+    end  
+    redirect_to login_path
+  rescue
     logger.warn "Invalid password reset code from #{request.remote_ip} at #{Time.now.utc}"
-    flash[:notice] = "Sorry - That is an invalid password reset code. Please check your code and try again. (Perhaps your email client inserted a carriage return?)"
-    redirect_to new_user_path
+    flash[:notice] = "Invalid password reset code, please check your email and try again."
+    redirect_to root_path
   end
     
 end
