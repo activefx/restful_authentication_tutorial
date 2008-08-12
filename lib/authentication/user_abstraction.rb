@@ -57,6 +57,17 @@ module Authentication
 				end
 		  end
 
+			def find_with_identity_url(identity_url)
+		    u = find :first, :conditions => ['identity_url = ?', identity_url] 
+		    if u
+				  raise	NotActivated if u.activated_at.blank?
+					raise NotEnabled if !u.enabled?
+					u
+				else
+					nil
+				end
+			end
+
 			def send_new_code(email)
 				raise BlankEmail if email.blank?
 				u = find :first, :conditions => ['email = ?', email]

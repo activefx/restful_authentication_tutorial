@@ -28,56 +28,60 @@ class SessionsController < ApplicationController
       if user
 			  successful_login(user)
       else
-			  failed_login
+			  failed_login("Could not log you in as '#{name}', your username or password is incorrect.", name)
       end
 		rescue Authentication::UserAbstraction::NotActivated
-			failed_login "Your account has not been activated."
+			failed_login("Your account has not been activated.", name)
 		rescue Authentication::UserAbstraction::NotEnabled
-			failed_login "Your account has been disabled, please %s."
 			#replace with your site's contact form
 			flash[:error_item] = ["contact the administrator", root_path]
+			failed_login("Your account has been disabled, please %s.", name)
 		end
   end
 
   # Track failed login attempts
-  def note_failed_signin(message)
-    flash[:error] = message
-    logger.warn "Failed login for '#{params[:login] || params[:openid_identifier]}' from #{request.remote_ip} at #{Time.now.utc}"
+  def note_failed_signin(message, login_name)
+    flash[:error] = message		
+    logger.warn "Failed login for '#{login_name}' from #{request.remote_ip} at #{Time.now.utc}"
   end
 
-  def open_id_authentication(identity_url)
+  def open_id_authentication(identity_url_params)
     # Pass optional :required and :optional keys to specify what sreg fields you want.
     # Be sure to yield registration, a third argument in the #authenticate_with_open_id block.
-    authenticate_with_open_id(identity_url, 
-        #:required => [ :nickname, :email], 
+    authenticate_with_open_id(identity_url_params, 
         :optional => [ :nickname, :email, :fullname]) do |result, identity_url, registration|
       case result.status
       when :missing
-        failed_login "Sorry, the OpenID server couldn't be found."
+        failed_login("Sorry, the OpenID server couldn't be found.", identity_url)
       when :invalid
-        failed_login "Sorry, but this does not appear to be a valid OpenID."
+        failed_login("Sorry, but this does not appear to be a valid OpenID.", identity_url)
       when :canceled
-        failed_login "OpenID verification was canceled."
+        failed_login("OpenID verification was canceled.", identity_url)
       when :failed
-        failed_login "Sorry, the OpenID verification failed."
+        failed_login("Sorry, the OpenID verification failed.", identity_url)
       when :successful
-				if user = User.find_by_identity_url(identity_url)
-					successful_login(user)
-				else
-					@user = OpenidUser.new
-					assign_registration_attributes!(registration)
-					@user.identity_url = identity_url
-					if @user.save
-            redirect_back_or_default('/')
-      			flash[:notice] = "Thanks for signing up!  We're sending you an email with your activation code."
+				begin
+					if user = User.find_with_identity_url(identity_url)
+						successful_login(user)
 					else
-						flash[:error] = "We need some additional details before we can create your account."
-						session[:identity_url] = identity_url
-						render :template => "openid_users/new"
-
-						#redirect_to :controller => 'openid_users', :action => 'new'
-						#failed_login "We were unable to create a new account for you from your OpenID profile." 
+						@user = OpenidUser.new
+						assign_registration_attributes!(registration)
+						@user.identity_url = identity_url
+						if @user.save
+	            redirect_back_or_default('/')
+	      			flash[:notice] = "Thanks for signing up!  We're sending you an email with your activation code."
+						else
+							flash[:error] = "We need some additional details before we can create your account."
+							session[:identity_url] = identity_url
+							render :template => "openid_users/new"
+						end
 					end
+				rescue Authentication::UserAbstraction::NotActivated
+					failed_login ("Your account has not been activated.", identity_url)
+				rescue Authentication::UserAbstraction::NotEnabled
+					#replace with your site's contact form
+					flash[:error_item] = ["contact the administrator", root_path]
+					failed_login("Your account has been disabled, please %s.", identity_url)
 				end
       end
     end
@@ -111,8 +115,8 @@ class SessionsController < ApplicationController
     flash[:notice] = "Logged in successfully."
   end
 
-  def failed_login(message = "Could not log you in as '#{params[:login]}', your username or password is incorrect.")
-    note_failed_signin(message)
+  def failed_login(message, login_name)
+    note_failed_signin(message, login_name)
     @login       = params[:login]
     @remember_me = params[:remember_me]
     render :action => 'new'
