@@ -49,6 +49,8 @@ class User < ActiveRecord::Base
   class NotEnabled < StandardError; end
 	class NoActivationCode < StandardError; end
 	class AlreadyActivated < StandardError; end
+	class BlankEmail < StandardError; end
+	class EmailNotFound < StandardError; end
 
   # Activates the user in the database.
   def activate!
@@ -86,6 +88,17 @@ class User < ActiveRecord::Base
 		end
   end
 
+	def self.send_new_code(email)
+		raise BlankEmail if email.blank?
+		u = find :first, :conditions => ['email = ?', email]
+		raise EmailNotFound if u.nil?
+		if u.send(:make_activation_code) && u.save(false)
+			@lost_activation = true
+		else
+			false
+		end
+	end	
+
 	def self.find_with_activation_code(activation_code)
 		raise NoActivationCode if activation_code.nil?
 		u = find :first, :conditions => ['activation_code = ?', activation_code]
@@ -117,6 +130,10 @@ class User < ActiveRecord::Base
   def recently_forgot_password?
     @forgotten_password
   end
+
+	def lost_activation_code?
+		@lost_activation
+	end
 
   def recently_reset_password?
     @reset_password

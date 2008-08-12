@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
-  before_filter :login_required, :only => [ :index, :show, :edit, :update, :destroy, :enable, :password, :change ]
+  before_filter :login_required, :only =>  [ :index, :show, :edit, :update, :destroy, 
+																						 :enable, :password, :changepassword, :change ]
 	require_role :admin, :only => [ :index, :destroy, :enable ]
 
   def index
@@ -24,7 +25,9 @@ class UsersController < ApplicationController
       redirect_back_or_default('/')
       flash[:notice] = "Thanks for signing up!  We're sending you an email with your activation code."
     else
-      flash[:error]  = "We couldn't set up that account, sorry.  Please try again, or contact an admin (link is above)."
+      flash[:error]  = "We couldn't set up that account, sorry.  Please try again, or %s."
+			#Replace root_path with your site's contact form.
+			flash[:error_item] = ["contact us", root_path]
       render :action => 'new'
     end
   end
@@ -55,7 +58,8 @@ class UsersController < ApplicationController
 	      redirect_to login_path
 			else
 				logger.warn "Invalid activation code from #{request.remote_ip} at #{Time.now.utc}"
-	      flash[:error]  = "We couldn't find a user with that activation code, please check your email and try again."
+	      flash[:error]  = "We couldn't find a user with that activation code, please check your email and try again, or %s."
+				flash[:error_item] = ["request a new activation code", new_code_path]
 	      redirect_back_or_default('/')
 			end
 		rescue User::NoActivationCode
@@ -64,6 +68,32 @@ class UsersController < ApplicationController
 		rescue User::AlreadyActivated
       flash[:notice] = "Your account has already been activated."
       redirect_to login_path
+		end
+  end
+
+  # Enter email address to recover password 
+  def new_code
+  end
+
+  # Forgot password action
+  def create_code  
+		begin  
+	    if User.send_new_code(params[:email])
+	      flash[:notice] = "A new activation code has been sent to your email address."
+	      redirect_to root_path
+	    else				
+	      flash[:error] = "There was a problem resending your activation code, please %s."
+				#Replace root_path with your site's contact form.
+				flash[:error_item] = ["contact us", root_path]
+	      redirect_to new_code_path
+	    end  
+		rescue User::BlankEmail
+			flash[:error] = "Please enter your email address."
+			redirect_to new_code_path
+		rescue User::EmailNotFound
+			logger.warn "Invalid email entered '#{params[:email]}' from #{request.remote_ip} at #{Time.now.utc}"
+			flash[:error] = "Could not find a user with that email address."
+			redirect_to new_code_path
 		end
   end
 

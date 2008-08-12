@@ -10,16 +10,8 @@
 </head>
 <body>
 
-  <div id="flash" class="box">
-	  <% if flash[:notice] -%>
-      <div id="notice"><center><%= flash[:notice] %></center></div>
-        <% flash[:notice] = nil %>
-    <% end -%>
-    <% if flash[:error] -%>
-      <div id="error"><center><%= flash[:error] %></center></div>
-        <%= flash[:error] = nil %>
-    <% end -%>		
-  </div>
+	<%= flash_messages %>
+
 
   <%= render :partial => "users/user_bar" %>
 
