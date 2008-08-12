@@ -62,10 +62,10 @@ class UsersController < ApplicationController
 				flash[:error_item] = ["request a new activation code", new_code_path]
 	      redirect_back_or_default('/')
 			end
-		rescue User::NoActivationCode
+		rescue Authentication::UserAbstraction::NoActivationCode
       flash[:error] = "The activation code was missing.  Please follow the URL from your email."
       redirect_back_or_default('/')
-		rescue User::AlreadyActivated
+		rescue Authentication::UserAbstraction::AlreadyActivated
       flash[:notice] = "Your account has already been activated."
       redirect_to login_path
 		end
@@ -87,10 +87,10 @@ class UsersController < ApplicationController
 				flash[:error_item] = ["contact us", root_path]
 	      redirect_to new_code_path
 	    end  
-		rescue User::BlankEmail
+		rescue Authentication::UserAbstraction::BlankEmail
 			flash[:error] = "Please enter your email address."
 			redirect_to new_code_path
-		rescue User::EmailNotFound
+		rescue Authentication::UserAbstraction::EmailNotFound
 			logger.warn "Invalid email entered '#{params[:email]}' from #{request.remote_ip} at #{Time.now.utc}"
 			flash[:error] = "Could not find a user with that email address."
 			redirect_to new_code_path
@@ -119,10 +119,19 @@ class UsersController < ApplicationController
 
   # Change password view
   def changepassword
+		if (!current_user.identity_url.blank? && current_user.password.blank?)
+			flash[:error] = "OpenID users cannot change their password."
+			redirect_to :action => 'show'
+		end
   end
   
   # Change password action  
   def change
+		if (!current_user.identity_url.blank? && current_user.password.blank?)
+			flash[:error] = "OpenID users cannot change their password."
+			redirect_to :action => 'show'
+			return
+		end
     if User.authenticate(current_user.login, params[:old_password])
       if ((params[:password] == params[:password_confirmation]) && !params[:password_confirmation].blank?)
         current_user.password_confirmation = params[:password_confirmation]

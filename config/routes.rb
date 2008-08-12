@@ -12,7 +12,8 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :users, :member => { :changepassword => :get, :change => :put, :enable => :put } do |users|
 		users.resources :roles
 	end
-
+	
+	map.resources :openid_users
   map.resources :passwords
   map.resource :session
 

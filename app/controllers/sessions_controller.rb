@@ -30,10 +30,12 @@ class SessionsController < ApplicationController
       else
 			  failed_login
       end
-		rescue User::NotActivated
+		rescue Authentication::UserAbstraction::NotActivated
 			failed_login "Your account has not been activated."
-		rescue User::NotEnabled
-			failed_login "Your account has been disabled, please contact the administrator."
+		rescue Authentication::UserAbstraction::NotEnabled
+			failed_login "Your account has been disabled, please %s."
+			#replace with your site's contact form
+			flash[:error_item] = ["contact the administrator", root_path]
 		end
   end
 
@@ -47,8 +49,8 @@ class SessionsController < ApplicationController
     # Pass optional :required and :optional keys to specify what sreg fields you want.
     # Be sure to yield registration, a third argument in the #authenticate_with_open_id block.
     authenticate_with_open_id(identity_url, 
-        :required => [ :nickname, :email], 
-        :optional => :fullname) do |result, identity_url, registration|
+        #:required => [ :nickname, :email], 
+        :optional => [ :nickname, :email, :fullname]) do |result, identity_url, registration|
       case result.status
       when :missing
         failed_login "Sorry, the OpenID server couldn't be found."
@@ -62,13 +64,19 @@ class SessionsController < ApplicationController
 				if user = User.find_by_identity_url(identity_url)
 					successful_login(user)
 				else
-					@user = User.new
+					@user = OpenidUser.new
 					assign_registration_attributes!(registration)
-					if @user.save(false)
+					@user.identity_url = identity_url
+					if @user.save
             redirect_back_or_default('/')
       			flash[:notice] = "Thanks for signing up!  We're sending you an email with your activation code."
 					else
-						failed_login "We were unable to create a new account for you from your OpenID profile." 
+						flash[:error] = "We need some additional details before we can create your account."
+						session[:identity_url] = identity_url
+						render :template => "openid_users/new"
+
+						#redirect_to :controller => 'openid_users', :action => 'new'
+						#failed_login "We were unable to create a new account for you from your OpenID profile." 
 					end
 				end
       end
