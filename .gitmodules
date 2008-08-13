@@ -16,7 +16,6 @@
 [submodule "vendor/plugins/role_requirement"]
 	path = vendor/plugins/role_requirement
 	url = git://github.com/timcharper/role_requirement.git
-
 [submodule "vendor/plugins/query_stats"]
 	path = vendor/plugins/query_stats
 	url = git://github.com/dan-manges/query_stats.git

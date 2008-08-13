@@ -7,6 +7,7 @@ class ApplicationController < ActionController::Base
   include AuthenticatedSystem
   # You can move this into a different controller, if you wish.  This module gives you the require_role helpers, and others.
   include RoleRequirementSystem
+	include ExceptionLoggable
 
   helper :all # include all helpers, all the time
 
