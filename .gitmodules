@@ -16,3 +16,4 @@
 [submodule "vendor/plugins/role_requirement"]
 	path = vendor/plugins/role_requirement
 	url = git://github.com/timcharper/role_requirement.git
+
