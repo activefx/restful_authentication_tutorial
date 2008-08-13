@@ -3,7 +3,7 @@
   <a href="#" onclick="Element.toggle('session_debug_info');return false">session</a> |
   <a href="#" onclick="Element.toggle('env_debug_info');return false">env</a> |
   <a href="#" onclick="Element.toggle('request_debug_info');return false">request</a> |
-  <a href="#" onclick="Element.toggle('cookies_debug_info');return false">request</a> |
+  <a href="#" onclick="Element.toggle('cookies_debug_info');return false">cookies</a> |
   <a href="#" onclick="Element.toggle('controller_debug_info');return false">controller stats</a> |
   <a href="#" onclick="Element.toggle('view_debug_info');return false">view stats</a> |
   <a href="#" onclick="Element.toggle('runtime_debug_info');return false">runtime stats</a>
@@ -29,7 +29,7 @@
   </fieldset>
 
   <fieldset id="cookies_debug_info" class="debug_info" style="display: none">
-    <legend>request</legend>
+    <legend>cookies</legend>
       <%= debug(cookies) %>
   </fieldset>
   

@@ -22,9 +22,12 @@
     <% end %> 
   </ul>
 
-
-
 	<%= yield %>
+  
+  <% if ENV["RAILS_ENV"] == "development" %>
+  <%# if Rails.env.development? %>
+    <%= render :partial => 'shared/debug' %>
+  <% end %>
 
 </body>
 </html>
