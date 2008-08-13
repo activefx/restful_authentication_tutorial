@@ -67,3 +67,8 @@ Rails::Initializer.run do |config|
   # config.active_record.observers = :cacher, :garbage_collector
 	config.active_record.observers = :user_observer
 end
+
+#Change for your text editor
+#Ex. Textmate = "txmt://open?url=file://"
+#See also http://josevalim.blogspot.com/2008/06/textmate-protocol-behavior-on-any.html
+#Footnotes::Filter.prefix = "gedit://open?file://"

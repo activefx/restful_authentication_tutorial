@@ -19,6 +19,7 @@
 		<li><%= link_to 'Homepage', root_path %></li>
     <% if logged_in? && current_user.has_role?('admin') %>
       <li><%= link_to 'Administer Users', users_path %></li>
+			<li><%= link_to 'Logged Exceptions', logged_exceptions_path %></li>
     <% end %> 
   </ul>
 
@@ -28,6 +29,10 @@
   <%# if Rails.env.development? %>
     <%= render :partial => 'shared/debug' %>
   <% end %>
+
+	<div id="footnotes_holder">
+
+	</div>
 
 </body>
 </html>

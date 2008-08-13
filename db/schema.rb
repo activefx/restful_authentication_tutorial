@@ -9,11 +9,22 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20080806025753) do
+ActiveRecord::Schema.define(:version => 20080813053928) do
+
+  create_table "logged_exceptions", :force => true do |t|
+    t.string   "exception_class"
+    t.string   "controller_name"
+    t.string   "action_name"
+    t.text     "message"
+    t.text     "backtrace"
+    t.text     "environment"
+    t.text     "request"
+    t.datetime "created_at"
+  end
 
   create_table "open_id_authentication_associations", :force => true do |t|
-    t.integer "issued",     :limit => 11
-    t.integer "lifetime",   :limit => 11
+    t.integer "issued"
+    t.integer "lifetime"
     t.string  "handle"
     t.string  "assoc_type"
     t.binary  "server_url"
@@ -21,9 +32,9 @@ ActiveRecord::Schema.define(:version => 20080806025753) do
   end
 
   create_table "open_id_authentication_nonces", :force => true do |t|
-    t.integer "timestamp",  :limit => 11, :null => false
+    t.integer "timestamp",  :null => false
     t.string  "server_url"
-    t.string  "salt",                     :null => false
+    t.string  "salt",       :null => false
   end
 
   create_table "roles", :force => true do |t|
@@ -31,8 +42,8 @@ ActiveRecord::Schema.define(:version => 20080806025753) do
   end
 
   create_table "roles_users", :id => false, :force => true do |t|
-    t.integer "role_id", :limit => 11
-    t.integer "user_id", :limit => 11
+    t.integer "role_id"
+    t.integer "user_id"
   end
 
   add_index "roles_users", ["role_id"], :name => "index_roles_users_on_role_id"
