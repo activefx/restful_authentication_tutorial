@@ -117,8 +117,9 @@ class SessionsController < ApplicationController
 
   def failed_login(message, login_name)
     note_failed_signin(message, login_name)
-    @login       = params[:login]
-    @remember_me = params[:remember_me]
+    @login       			 = params[:login]
+    @remember_me 			 = params[:remember_me]
+		@openid_identifier = params[:openid_identifier]
     render :action => 'new'
   end
 

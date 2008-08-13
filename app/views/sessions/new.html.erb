@@ -13,9 +13,8 @@
 <p><label for="openid_identifier">OpenID:</label><br/>
 <%= text_field_tag "openid_identifier", @openid_identifier %></p>
 
-<p>Stay logged in on this computer:</p>
-
-<p><label for="remember_me">Remember me:</label>
+<p>Stay logged in on this computer:<br/>
+<label for="remember_me">Remember me:</label>
 <%= check_box_tag 'remember_me', '1', @remember_me %></p>
 
 <p><%= submit_tag 'Log in', :disable_with => "Signing in&hellip;" %></p>
