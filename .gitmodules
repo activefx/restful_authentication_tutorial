@@ -20,3 +20,6 @@
 [submodule "vendor/plugins/query_stats"]
 	path = vendor/plugins/query_stats
 	url = git://github.com/dan-manges/query_stats.git
+[submodule "vendor/rails"]
+	path = vendor/rails
+	url = git://github.com/rails/rails.git
