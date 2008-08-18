@@ -25,14 +25,15 @@
 
 	<%= yield %>
   
-  <% if ENV["RAILS_ENV"] == "development" %>
-  <%# if Rails.env.development? %>
-    <%= render :partial => 'shared/debug' %>
-  <% end %>
+	<% if ENV["RAILS_ENV"] == "development" %>
+	<%# if Rails.env.development? %>
 
-	<div id="footnotes_holder">
+	  <div id="footnotes_holder">
+	  </div>
 
-	</div>
+	  <%= render :partial => 'shared/debug' %>
+
+	<% end %>
 
 </body>
 </html>

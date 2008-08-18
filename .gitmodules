@@ -24,4 +24,4 @@
 	url = git://github.com/rails/rails.git
 [submodule "vendor/plugins/footnotes"]
 	path = vendor/plugins/footnotes
-	url = git://github.com/drnic/rails-footnotes.git
+	url = git://github.com/activefx/rails-footnotes.git

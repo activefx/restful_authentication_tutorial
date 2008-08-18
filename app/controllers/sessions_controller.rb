@@ -3,6 +3,7 @@ class SessionsController < ApplicationController
 
   # render new.html.erb
   def new
+
   end
 
   def create
@@ -77,7 +78,7 @@ class SessionsController < ApplicationController
 						end
 					end
 				rescue Authentication::UserAbstraction::NotActivated
-					failed_login ("Your account has not been activated.", identity_url)
+					failed_login("Your account has not been activated.", identity_url)
 				rescue Authentication::UserAbstraction::NotEnabled
 					#replace with your site's contact form
 					flash[:error_item] = ["contact the administrator", root_path]
