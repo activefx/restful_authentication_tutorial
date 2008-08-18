@@ -25,3 +25,6 @@
 [submodule "vendor/plugins/footnotes"]
 	path = vendor/plugins/footnotes
 	url = git://github.com/activefx/rails-footnotes.git
+[submodule "vendor/plugins/recaptcha"]
+	path = vendor/plugins/recaptcha
+	url = git://github.com/ambethia/recaptcha.git
