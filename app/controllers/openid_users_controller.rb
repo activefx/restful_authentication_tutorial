@@ -10,7 +10,7 @@ class OpenidUsersController < ApplicationController
 		@user.identity_url = session[:identity_url]
     success = @user && @user.save
     if success && @user.errors.empty?
-			session[:identity_url] = nil
+			session[:identity_url] = nil			
       redirect_back_or_default('/')
       flash[:notice] = "Thanks for signing up!  We're sending you an email with your activation code."
     else

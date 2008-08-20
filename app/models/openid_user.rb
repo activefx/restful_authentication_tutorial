@@ -13,5 +13,13 @@ class OpenidUser < ActiveRecord::Base
   # HACK HACK HACK -- how to do attr_accessible from here?
   # prevents a user from submitting a crafted form that bypasses activation
   # anything else you want your user to change should be added here.
-  attr_accessible :login, :email, :name, :identity_url, :role_ids
+  attr_accessible :login, :email, :name
+
+	def to_xml(options = {})
+		#Add attributes accessible by xml
+  	#Ex. default_only = [:id, :login, :name]
+		default_only = []
+  	options[:only] = (options[:only] || []) + default_only
+  	super(options)
+  end
 end
