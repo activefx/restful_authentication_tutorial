@@ -32,7 +32,7 @@ module AuthenticatedSystem
     #  end
     #
     def authorized?(action=nil, resource=nil, *args)
-      logged_in?
+      logged_in? && current_user.enabled?
     end
 
     # Filter method to enforce a login requirement.
