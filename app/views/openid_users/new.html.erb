@@ -4,6 +4,8 @@
 <%= error_messages_for :user %>
 <% form_for :user, :url => openid_users_path do |f| -%>
 
+<%= f.hidden_field :identity_url %>
+
 <p><label for="name">Name (optional)</label><br/>
 <%= f.text_field :name %></p>
 

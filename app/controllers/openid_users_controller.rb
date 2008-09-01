@@ -8,7 +8,7 @@ class OpenidUsersController < ApplicationController
 	def create
     logout_keeping_session!
     @user = OpenidUser.new(params[:user])
-		@user.identity_url = session[:identity_url]
+		@user.identity_url = params[:user][:identity_url]
     success = @user && @user.save
     if success && @user.errors.empty?
 			session[:identity_url] = nil			

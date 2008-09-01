@@ -67,8 +67,7 @@ class SessionsController < ApplicationController
 						successful_login(user)
 					else
 						@user = OpenidUser.new
-						assign_registration_attributes!(registration)
-						@user.identity_url = identity_url
+						assign_registration_attributes!(registration, identity_url)
 						if @user.save
 	            redirect_back_or_default('/')
 	      			flash[:notice] = "Thanks for signing up!  We're sending you an email with your activation code."
@@ -91,7 +90,8 @@ class SessionsController < ApplicationController
       
   # registration is a hash containing the valid sreg keys given above
   # use this to map them to fields of your user model
-  def assign_registration_attributes!(registration)
+  def assign_registration_attributes!(registration, identity_url)
+		@user.send(:identity_url=, identity_url)
     model_to_registration_mapping.each do |model_attribute, registration_attribute|
       unless registration[registration_attribute].blank?
         @user.send("#{model_attribute}=", registration[registration_attribute])
