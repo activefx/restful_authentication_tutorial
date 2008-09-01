@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   before_filter :login_required, :only =>  [ :index, :show, :edit, :update, :destroy, 
 																						 :enable, :password, :changepassword, :change ]
+	before_filter :login_prohibited, :only => [:new, :create]
 	require_role :admin, :only => [ :index, :destroy, :enable ]
 
   def index
@@ -66,7 +67,7 @@ class UsersController < ApplicationController
 			else
 				logger.warn "Invalid activation code from #{request.remote_ip} at #{Time.now.utc}"
 	      flash[:error]  = "We couldn't find a user with that activation code, please check your email and try again, or %s."
-				flash[:error_item] = ["request a new activation code", new_code_path]
+				flash[:error_item] = ["request a new activation code", resend_activation_path]
 	      redirect_back_or_default('/')
 			end
 		rescue Authentication::UserAbstraction::NoActivationCode
@@ -78,29 +79,26 @@ class UsersController < ApplicationController
 		end
   end
 
-  # Enter email address to recover password 
+  # Enter email address to resend activation 
   def new_code
   end
 
-  # Forgot password action
+  # Resend activation action
   def create_code  
 		begin  
-	    if User.send_new_code(params[:email])
+	    if !params[:email].blank? && User.send_new_activation_code(params[:email])
 	      flash[:notice] = "A new activation code has been sent to your email address."
 	      redirect_to root_path
 	    else				
 	      flash[:error] = "There was a problem resending your activation code, please %s."
 				#Replace root_path with your site's contact form.
 				flash[:error_item] = ["contact us", root_path]
-	      redirect_to new_code_path
-	    end  
-		rescue Authentication::UserAbstraction::BlankEmail
-			flash[:error] = "Please enter your email address."
-			redirect_to new_code_path
+	      redirect_to resend_activation_path
+	    end 
 		rescue Authentication::UserAbstraction::EmailNotFound
 			logger.warn "Invalid email entered '#{params[:email]}' from #{request.remote_ip} at #{Time.now.utc}"
 			flash[:error] = "Could not find a user with that email address."
-			redirect_to new_code_path
+			redirect_to resend_activation_path
 		end
   end
 
@@ -134,32 +132,23 @@ class UsersController < ApplicationController
   
   # Change password action  
   def change
-		if (!current_user.identity_url.blank? && current_user.password.blank?)
+		begin
+			if current_user.change_password(params[:old_password], params[:password], params[:password_confirmation])
+	   		flash[:notice] = "Password successfully updated."
+	    	redirect_to :action => 'show'			
+			else
+				@old_password = nil
+	      flash[:error] = "Your password was not changed, you old password may be incorrect."
+	      render :action => 'changepassword'
+			end
+		rescue Authentication::UserAbstraction::OpenidUser
 			flash[:error] = "OpenID users cannot change their password."
 			redirect_to :action => 'show'
-			return
-		end
-    if User.authenticate(current_user.login, params[:old_password])
-      if ((params[:password] == params[:password_confirmation]) && !params[:password_confirmation].blank?)
-        current_user.password_confirmation = params[:password_confirmation]
-        current_user.password = params[:password]        
-    		if current_user.save
-          flash[:notice] = "Password successfully updated."
-          redirect_to :action => 'show'
-        else
-					@old_password = nil
-          flash[:error] = "An error occured, your password was not changed."
-          render :action => 'changepassword'
-        end
-      else        
-        @old_password = nil
-				flash[:error] = "New password does not match the password confirmation."
-        render :action => 'changepassword'      
-      end
-    else      
-		  @old_password = nil
-			flash[:error] = "Your old password is incorrect."
+		rescue Authentication::UserAbstraction::PasswordMismatch
+      @old_password = nil
+			flash[:error] = "New password does not match the password confirmation."
       render :action => 'changepassword'
-    end 
-  end
+		end
+	end
+
 end

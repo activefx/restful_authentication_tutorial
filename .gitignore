@@ -1,6 +1,7 @@
 log/*.log
 tmp/**/*
 config/database.yml
+config/config.yml
 doc/api
 doc/app
 doc/plugins

@@ -7,6 +7,7 @@ ActionController::Routing::Routes.draw do |map|
   map.forgot_password '/forgot_password', :controller => 'passwords', :action => 'new'  
 	map.reset_password '/reset_password/:id', :controller => 'passwords', :action => 'edit', :id => nil  
   map.change_password '/change_password', :controller => 'users', :action => 'change_password'
+	map.resend_activation '/resend_activation', :controller => 'users', :action => 'new_code'
   map.open_id_complete 'session', :controller => "sessions", :action => "create", :requirements => { :method => :get }
   
   map.resources :users, :member => { :changepassword => :get, :change => :put, :enable => :put } do |users|

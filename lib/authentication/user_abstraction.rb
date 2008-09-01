@@ -7,6 +7,8 @@ module Authentication
 		class AlreadyActivated < StandardError; end
 		class BlankEmail < StandardError; end
 		class EmailNotFound < StandardError; end
+		class OpenidUser < StandardError; end
+		class PasswordMismatch < StandardError; end
 
     # Stuff directives into including module
     def self.included( recipient )
@@ -48,50 +50,45 @@ module Authentication
 		  def authenticate(login, password)
 		    u = find :first, :conditions => ['login = ?', login] # need to get the salt
 		    #u && u.authenticated?(password) ? u : nil
-		    if (u && u.authenticated?(password))
-				  raise	NotActivated if u.activated_at.blank?
-					raise NotEnabled if !u.enabled?
-					u
-				else
-					nil
-				end
+		    return nil unless (u && u.authenticated?(password))
+				raise	NotActivated unless u.active?
+				raise NotEnabled unless u.enabled?
+				u
 		  end
 
 			def find_with_identity_url(identity_url)
 		    u = find :first, :conditions => ['identity_url = ?', identity_url] 
-		    if u
-				  raise	NotActivated if u.activated_at.blank?
-					raise NotEnabled if !u.enabled?
-					u
-				else
-					nil
-				end
+				raise	NotActivated unless u.active?
+			  raise NotEnabled unless u.enabled?
+				u
 			end
 
-			def send_new_code(email)
-				raise BlankEmail if email.blank?
+			def send_new_activation_code(email)
 				u = find :first, :conditions => ['email = ?', email]
-				raise EmailNotFound if u.nil?
-				if u.send(:make_activation_code) && u.save(false)
-					@lost_activation = true
-				else
-					false
-				end
+				raise EmailNotFound if (u.nil? || email.blank?)
+				return nil unless (u.send(:make_activation_code) && u.save(false))
+				@lost_activation = true
 			end	
 
 			def find_with_activation_code(activation_code)
 				raise NoActivationCode if activation_code.nil?
 				u = find :first, :conditions => ['activation_code = ?', activation_code]
-				if u
-					raise AlreadyActivated if !u.activated_at.blank?
-					u
-				else
-					nil
-				end
+				return nil unless u
+				raise AlreadyActivated unless u.active?
+				u
+			end
+
+			def find_with_password_reset_code(reset_code)
+				raise StandardError if reset_code.blank?
+				u = find :first, :conditions => ['password_reset_code = ?', reset_code]
+				raise StandardError if u.nil?
+				u
 			end
 
 		  def find_for_forget(email)
-		    find :first, :conditions => ['email = ? and activated_at IS NOT NULL', email]
+		    u = find :first, :conditions => ['email = ? and activated_at IS NOT NULL', email]
+				return false if (email.blank? || u.nil? || (!u.identity_url.blank? && u.password.blank?))
+				(u.forgot_password && u.save) ? true : false
 		  end
    
     end # class methods
@@ -100,12 +97,22 @@ module Authentication
     # Instance Methods
     #
     module ModelInstanceMethods
-      
+
 		  def has_role?(role_in_question)
 		    @_list ||= self.roles.collect(&:name)
+				#Users with role "admin" can access any role protected resource
+				#Comment the next line to disable this feature
 		    return true if @_list.include?("admin")
 		    (@_list.include?(role_in_question.to_s) )
 		  end
+
+			def change_password(old_password, new_password, new_confirmation)
+				raise OpenidUser if (!self.identity_url.blank? && self.password.blank?)
+				raise PasswordMismatch if (new_password != new_confirmation)
+				return nil unless User.authenticate(self.login, old_password)
+        self.password, self.password_confirmation = new_password, new_confirmation
+				save
+			end
 
 		  # Activates the user in the database.
 		  def activate!
@@ -121,8 +128,7 @@ module Authentication
 		  end
 
 		  def active?
-		    # the existence of an activation code means they have not activated yet
-		    activation_code.nil?
+		    !activated_at.blank?
 		  end
 
 		  def forgot_password

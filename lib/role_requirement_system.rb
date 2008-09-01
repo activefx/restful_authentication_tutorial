@@ -110,8 +110,20 @@ module RoleRequirementSystem
     
     def access_denied
       if logged_in?
-        render :nothing => true, :status => 401
-        return false
+				#Original role requirement code
+        #render :nothing => true, :status => 401
+        #return false
+				respond_to do |format|
+					format.html do 
+						flash[:error] = "You don't have permission to complete this action."
+	          redirect_to root_path
+					end
+	        format.any do
+	          headers["Status"]           = "Unauthorized"
+	          headers["WWW-Authenticate"] = %(Basic realm="Web Password")
+	          render :text => "You don't have permission to complete this action.", :status => '401 Unauthorized'				
+					end
+				end
       else
         super
       end

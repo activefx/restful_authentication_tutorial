@@ -1,5 +1,5 @@
 # Be sure to restart your server when you modify this file
-
+require 'yaml'
 # Uncomment below to force Rails into production mode when
 # you don't control web/app server and can't set it the proper way
 # ENV['RAILS_ENV'] ||= 'production'
@@ -9,6 +9,10 @@ RAILS_GEM_VERSION = '2.1.0' unless defined? RAILS_GEM_VERSION
 
 # Bootstrap the Rails environment, frameworks, and default configuration
 require File.join(File.dirname(__FILE__), 'boot')
+
+#Load application and environment specific constants
+raw_config = File.read(RAILS_ROOT + "/config/config.yml")
+APP_CONFIG = YAML.load(raw_config)[RAILS_ENV]
 
 Rails::Initializer.run do |config|
   # Settings in config/environments/* take precedence over those specified here.
@@ -49,8 +53,8 @@ Rails::Initializer.run do |config|
   # Make sure the secret is at least 30 characters and all random, 
   # no regular words or you'll be exposed to dictionary attacks.
   config.action_controller.session = {
-    :session_key => '_restful_authentication_tutorial_session',
-    :secret      => '16e3dfe49ec834fabca6656a171e625a2ddb65df75834eee30eac33d621b1de2c52d3cd855cd14932051d23bcc11f7bbd632434ab4caf960325e328c63166275'
+    :session_key => APP_CONFIG['settings']['session_key'],
+    :secret      => APP_CONFIG['settings']['secret']
   }
 
   # Use the database for sessions instead of the cookie-based default,

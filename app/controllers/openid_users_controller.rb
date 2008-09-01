@@ -1,4 +1,5 @@
 class OpenidUsersController < ApplicationController
+  before_filter :login_prohibited
 
 	def new
 

@@ -53,6 +53,13 @@ module AuthenticatedSystem
       authorized? || access_denied
     end
 
+		# Prevents logged in users from accessing actions reserved for
+		# non-authenticated users such as the login or signup forms
+		# Make sure to redirect to a path they can access to avoid an infinite loop
+		def login_prohibited
+			!logged_in? || (redirect_to root_path)
+		end
+
     # Redirect as appropriate when an access request fails.
     #
     # The default action is to redirect to the login screen.
@@ -65,6 +72,7 @@ module AuthenticatedSystem
       respond_to do |format|
         format.html do
           store_location
+					flash[:error] = "You must be logged in to access this feature."
           redirect_to new_session_path
         end
         # format.any doesn't work in rails version < http://dev.rubyonrails.org/changeset/8987
