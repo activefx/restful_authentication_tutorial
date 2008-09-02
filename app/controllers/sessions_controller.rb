@@ -35,8 +35,7 @@ class SessionsController < ApplicationController
 		rescue Authentication::UserAbstraction::NotActivated
 			failed_login("Your account has not been activated.", name)
 		rescue Authentication::UserAbstraction::NotEnabled
-			#replace with your site's contact form
-			flash[:error_item] = ["contact the administrator", root_path]
+			flash[:error_item] = ["contact the administrator", contact_site]
 			failed_login("Your account has been disabled, please %s.", name)
 		end
   end
@@ -80,8 +79,7 @@ class SessionsController < ApplicationController
 				rescue Authentication::UserAbstraction::NotActivated
 					failed_login("Your account has not been activated.", identity_url)
 				rescue Authentication::UserAbstraction::NotEnabled
-					#replace with your site's contact form
-					flash[:error_item] = ["contact the administrator", root_path]
+					flash[:error_item] = ["contact the administrator", contact_site]
 					failed_login("Your account has been disabled, please %s.", identity_url)
 				end
       end

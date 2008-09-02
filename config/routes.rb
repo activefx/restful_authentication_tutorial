@@ -3,19 +3,21 @@ ActionController::Routing::Routes.draw do |map|
   map.login '/login', :controller => 'sessions', :action => 'new'
   map.register '/register', :controller => 'users', :action => 'create'
   map.signup '/signup', :controller => 'users', :action => 'new'
-  map.activate '/activate/:activation_code', :controller => 'users', :action => 'activate', :activation_code => nil
+  map.activate '/activate/:activation_code', :controller => 'activations', :action => 'activate', :activation_code => nil
   map.forgot_password '/forgot_password', :controller => 'passwords', :action => 'new'  
 	map.reset_password '/reset_password/:id', :controller => 'passwords', :action => 'edit', :id => nil  
   map.change_password '/change_password', :controller => 'users', :action => 'change_password'
-	map.resend_activation '/resend_activation', :controller => 'users', :action => 'new_code'
+	map.resend_activation '/resend_activation', :controller => 'activations', :action => 'edit'
   map.open_id_complete 'session', :controller => "sessions", :action => "create", :requirements => { :method => :get }
   
   map.resources :users, :member => { :changepassword => :get, :change => :put, :enable => :put } do |users|
 		users.resources :roles
+		users.resources :password_settings
 	end
 	
 	map.resources :openid_users
   map.resources :passwords
+	map.resources :activations
   map.resource :session
 
   # The priority is based upon order of creation: first created -> highest priority.

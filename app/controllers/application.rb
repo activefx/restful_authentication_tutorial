@@ -20,4 +20,9 @@ class ApplicationController < ActionController::Base
   # from your application log (in this case, all fields with names like "password"). 
   filter_parameter_logging :password, :password_confirmation, :old_password
 
+  # Change to the location of your contact form
+	def contact_site
+		root_path
+	end
+
 end

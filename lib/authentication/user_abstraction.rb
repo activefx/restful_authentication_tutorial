@@ -75,9 +75,14 @@ module Authentication
 				raise NoActivationCode if activation_code.nil?
 				u = find :first, :conditions => ['activation_code = ?', activation_code]
 				return nil unless u
-				raise AlreadyActivated unless u.active?
-				u
+				u.active? ? (raise AlreadyActivated) : u
 			end
+
+			#def find_and_activate!(activation_code)
+			#	u = find_with_activation_code(activation_code)
+			#	raise StandardError if u.nil?
+			#	u.activate!
+			#end
 
 			def find_with_password_reset_code(reset_code)
 				raise StandardError if reset_code.blank?
@@ -107,10 +112,10 @@ module Authentication
 		    (@_list.include?(role_in_question.to_s) )
 		  end
 
-			def change_password(old_password, new_password, new_confirmation)
+			def change_password!(old_password, new_password, new_confirmation)
 				raise OpenidUser if (!self.identity_url.blank? && self.password.blank?)
 				raise PasswordMismatch if (new_password != new_confirmation)
-				return nil unless User.authenticate(self.login, old_password)
+				return nil unless (!new_password.blank? && User.authenticate(self.login, old_password))
         self.password, self.password_confirmation = new_password, new_confirmation
 				save
 			end
@@ -137,7 +142,7 @@ module Authentication
 		    @forgotten_password = true
 		  end
 
-		  def reset_password
+		  def reset_password!
 		    # First update the password_reset_code before setting the
 		    # reset_password flag to avoid duplicate email notifications.
 		    update_attribute(:password_reset_code, nil)

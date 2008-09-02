@@ -1,5 +1,5 @@
 <h1>Edit your account</h1>
-<p>Show current profile for: <%= link_to_current_user :content_method => :login %> | <%= link_to 'Change Password', changepassword_user_path %></p>
+<p>Show current profile for: <%= link_to_current_user :content_method => :login %> | <%= link_to 'Change Password', user_password_settings_path(current_user) %></p>
 <%= error_messages_for :user %>
   
 <% form_for :user, :url => user_url(@user), :html => { :method => :put } do |f| %>  

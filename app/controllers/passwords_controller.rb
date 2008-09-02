@@ -35,7 +35,7 @@ class PasswordsController < ApplicationController
       @user.password_confirmation = params[:password_confirmation]
       @user.password = params[:password]
       if (!params[:password].blank? && @user.save)
-			  @user.reset_password        
+			  @user.reset_password!        
         flash[:notice] = "Password reset." 
 			else
 				flash[:notice] = "There was a problem resetting your password."

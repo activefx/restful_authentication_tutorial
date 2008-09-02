@@ -16,8 +16,7 @@ class OpenidUsersController < ApplicationController
       flash[:notice] = "Thanks for signing up!  We're sending you an email with your activation code."
     else
       flash[:error]  = "We couldn't set up that account, sorry.  Please try again, or %s."
-			#Replace root_path with your site's contact form.
-			flash[:error_item] = ["contact us", root_path]
+			flash[:error_item] = ["contact us", contact_site]
       render :action => 'new'
     end
 	end
