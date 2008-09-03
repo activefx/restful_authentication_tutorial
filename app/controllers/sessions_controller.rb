@@ -2,13 +2,14 @@
 class SessionsController < ApplicationController
 	before_filter :login_prohibited, :only => [:new, :create]
 	before_filter :login_required, :only => [:destroy]
+	protect_from_forgery :only => [ :new, :destroy ]
 
   # render new.html.erb
   def new
   end
 
-  def create
-    logout_keeping_session!
+  def create  
+    logout_keeping_session!  
     if using_open_id?
       open_id_authentication(params[:openid_identifier])
     else

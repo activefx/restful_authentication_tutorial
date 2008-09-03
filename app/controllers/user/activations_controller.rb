@@ -2,6 +2,7 @@ class User::ActivationsController < ApplicationController
 	before_filter :login_prohibited
 
   def activate
+    logout_keeping_session!
 		begin      
 			if user = User.find_with_activation_code(params[:activation_code])
 	      user.activate!

@@ -4,6 +4,7 @@ require File.dirname(__FILE__) + '/../spec_helper'
 # Then, you can remove it from this and the units test.
 include AuthenticatedTestHelper
 include AuthenticatedSystem
+def action_name() end
 
 describe SessionsController do
   fixtures :users

@@ -1,4 +1,4 @@
-# -*- coding: mule-utf-8 -*-
+# -*- coding: utf-8 -*-
 require File.dirname(__FILE__) + '/../spec_helper'
 
 # Be sure to include AuthenticatedTestHelper in spec/spec_helper.rb instead.
@@ -16,7 +16,7 @@ describe User do
         violated "#{@user.errors.full_messages.to_sentence}" if @user.new_record?
       end
     end
-    
+
     it 'increments User#count' do
       @creating_user.should change(User, :count).by(1)
     end
@@ -28,10 +28,10 @@ describe User do
     end
   end
 
-  #              
+  #
   # Validations
   #
- 
+
   it 'requires login' do
     lambda do
       u = create_user(:login => nil)
@@ -40,7 +40,7 @@ describe User do
   end
 
   describe 'allows legitimate logins:' do
-    ['123', '1234567890_234567890_234567890_234567890', 
+    ['123', '1234567890_234567890_234567890_234567890',
      'hello.-_there@funnychar.com'].each do |login_str|
       it "'#{login_str}'" do
         lambda do
@@ -52,7 +52,7 @@ describe User do
   end
   describe 'disallows illegitimate logins:' do
     ['12', '1234567890_234567890_234567890_234567890_', "tab\t", "newline\n",
-     "Iñtërnâtiônàlizætiøn hasn't happened to ruby 1.8 yet", 
+     "Iñtërnâtiônàlizætiøn hasn't happened to ruby 1.8 yet",
      'semicolon;', 'quote"', 'tick\'', 'backtick`', 'percent%', 'plus+', 'space '].each do |login_str|
       it "'#{login_str}'" do
         lambda do
@@ -88,7 +88,7 @@ describe User do
     ['foo@bar.com', 'foo@newskool-tld.museum', 'foo@twoletter-tld.de', 'foo@nonexistant-tld.qq',
      'r@a.wk', '1234567890-234567890-234567890-234567890-234567890-234567890-234567890-234567890-234567890@gmail.com',
      'hello.-_there@funnychar.com', 'uucp%addr@gmail.com', 'hello+routing-str@gmail.com',
-     'domain@can.haz.many.sub.doma.in', 
+     'domain@can.haz.many.sub.doma.in', 'student.name@university.edu'
     ].each do |email_str|
       it "'#{email_str}'" do
         lambda do
@@ -115,7 +115,7 @@ describe User do
   end
 
   describe 'allows legitimate names:' do
-    ['Andre The Giant (7\'4", 520 lb.) -- has a posse', 
+    ['Andre The Giant (7\'4", 520 lb.) -- has a posse',
      '', '1234567890_234567890_234567890_234567890_234567890_234567890_234567890_234567890_234567890_234567890',
     ].each do |name_str|
       it "'#{name_str}'" do
@@ -157,11 +157,11 @@ describe User do
     User.authenticate('quentin', 'monkey').should == users(:quentin)
   end
 
-  it "doesn't authenticates user with bad password" do
-    User.authenticate('quentin', 'monkey').should == users(:quentin)
+  it "doesn't authenticate user with bad password" do
+    User.authenticate('quentin', 'invalid_password').should be_nil
   end
 
- if REST_AUTH_SITE_KEY.blank? 
+ if REST_AUTH_SITE_KEY.blank?
    # old-school passwords
    it "authenticates a user against a hard-coded old-style password" do
      User.authenticate('old_password_holder', 'test').should == users(:old_password_holder)
