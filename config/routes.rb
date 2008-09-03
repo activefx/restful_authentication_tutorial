@@ -8,8 +8,6 @@ ActionController::Routing::Routes.draw do |map|
   map.forgot_password '/forgot_password', :controller => 'user/passwords', :action => 'new'  
 	map.reset_password '/reset_password/:id', :controller => 'user/passwords', :action => 'edit', :id => nil  
 	map.resend_activation '/resend_activation', :controller => 'user/activations', :action => 'edit'
-  map.open_id_complete 'session', :controller => "sessions", :action => "create", 
-		:requirements => { :method => :get }
   
   map.namespace :admin do |admin|
     admin.resources :users, :member => { :enable => :put } do |users|
