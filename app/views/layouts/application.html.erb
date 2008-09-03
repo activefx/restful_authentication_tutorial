@@ -13,12 +13,12 @@
 	<%= flash_messages %>
 
 
-  <%= render :partial => "users/user_bar" %>
+  <%= render :partial => "user/profiles/user_bar" %>
 
   <ul>
 		<li><%= link_to 'Homepage', root_path %></li>
     <% if logged_in? && current_user.has_role?('admin') %>
-      <li><%= link_to 'Administer Users', users_path %></li>
+      <li><%= link_to 'Administer Users', admin_users_path %></li>
 			<li><%= link_to 'Logged Exceptions', logged_exceptions_path %></li>
     <% end %> 
   </ul>

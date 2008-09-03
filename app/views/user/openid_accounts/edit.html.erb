@@ -1,0 +1,10 @@
+<h1>Edit your account</h1>
+<p>Show current profile for: <%= link_to_current_user :content_method => :login %> 
+<%= error_messages_for :user %>
+  
+<% form_for :user, :url => user_openid_account_url(@user), :html => { :method => :put } do |f| %>  
+  
+	<%= render :partial => "user/profiles/edit_profile", :locals => { :f => f } %> 
+  
+  <%= submit_tag 'Save' %>
+<% end %>

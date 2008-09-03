@@ -33,7 +33,8 @@ class SessionsController < ApplicationController
 			  failed_login("Could not log you in as '#{name}', your username or password is incorrect.", name)
       end
 		rescue Authentication::UserAbstraction::NotActivated
-			failed_login("Your account has not been activated.", name)
+			flash[:error_item] = ["request a new activation code", resend_activation_path]
+			failed_login("Your account has not been activated, please check your email or %s.", name)
 		rescue Authentication::UserAbstraction::NotEnabled
 			flash[:error_item] = ["contact the administrator", contact_site]
 			failed_login("Your account has been disabled, please %s.", name)
@@ -73,11 +74,12 @@ class SessionsController < ApplicationController
 						else
 							flash[:error] = "We need some additional details before we can create your account."
 							session[:identity_url] = identity_url
-							render :template => "openid_users/new"
+							render :template => "user/openid_accounts/new"
 						end
 					end
 				rescue Authentication::UserAbstraction::NotActivated
-					failed_login("Your account has not been activated.", identity_url)
+					flash[:error_item] = ["request a new activation code", resend_activation_path]
+					failed_login("Your account has not been activated, please check your email or %s.", identity_url)
 				rescue Authentication::UserAbstraction::NotEnabled
 					flash[:error_item] = ["contact the administrator", contact_site]
 					failed_login("Your account has been disabled, please %s.", identity_url)

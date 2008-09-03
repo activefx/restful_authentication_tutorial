@@ -1,24 +1,32 @@
 ActionController::Routing::Routes.draw do |map|
   map.logout '/logout', :controller => 'sessions', :action => 'destroy'
   map.login '/login', :controller => 'sessions', :action => 'new'
-  map.register '/register', :controller => 'users', :action => 'create'
-  map.signup '/signup', :controller => 'users', :action => 'new'
-  map.activate '/activate/:activation_code', :controller => 'activations', :action => 'activate', :activation_code => nil
-  map.forgot_password '/forgot_password', :controller => 'passwords', :action => 'new'  
-	map.reset_password '/reset_password/:id', :controller => 'passwords', :action => 'edit', :id => nil  
-  map.change_password '/change_password', :controller => 'users', :action => 'change_password'
-	map.resend_activation '/resend_activation', :controller => 'activations', :action => 'edit'
-  map.open_id_complete 'session', :controller => "sessions", :action => "create", :requirements => { :method => :get }
+  map.register '/register', :controller => 'user/profiles', :action => 'create'
+  map.signup '/signup', :controller => 'user/profiles', :action => 'new'
+  map.activate '/activate/:activation_code', :controller => 'user/activations', 
+		:action => 'activate', :activation_code => nil
+  map.forgot_password '/forgot_password', :controller => 'user/passwords', :action => 'new'  
+	map.reset_password '/reset_password/:id', :controller => 'user/passwords', :action => 'edit', :id => nil  
+	map.resend_activation '/resend_activation', :controller => 'user/activations', :action => 'edit'
+  map.open_id_complete 'session', :controller => "sessions", :action => "create", 
+		:requirements => { :method => :get }
   
-  map.resources :users, :member => { :changepassword => :get, :change => :put, :enable => :put } do |users|
-		users.resources :roles
-		users.resources :password_settings
-	end
-	
-	map.resources :openid_users
-  map.resources :passwords
-	map.resources :activations
-  map.resource :session
+  map.namespace :admin do |admin|
+    admin.resources :users, :member => { :enable => :put } do |users|
+			users.resources :roles
+		end    
+  end
+
+  map.namespace :user do |user|
+		user.resources :activations
+		user.resources :openid_accounts 
+		user.resources :passwords
+    user.resources :profiles do |profiles|
+			profiles.resources :password_settings
+		end
+  end    
+
+	map.resource :session
 
   # The priority is based upon order of creation: first created -> highest priority.
 
