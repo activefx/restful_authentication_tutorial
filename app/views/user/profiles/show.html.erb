@@ -1,4 +1,8 @@
-<h1>User: <%=h @user.login %></h1>
+<h1>My Profile: <%=h @user.login %> <%= link_to '(edit)', edit_user_profile_path(current_user) %></h1>
 <p>Joined on: <%= @user.created_at.to_s(:long) %></p>
+<p>Name: <%=h @user.name %></p>
+<p>Username: <%=h @user.login %></p>
+<p>Email: <%=h @user.email %></p>
+<p>Password: <%= link_to '(change)', user_profile_password_settings_path(current_user) %></p>
 
 

@@ -8,7 +8,6 @@ ActionController::Routing::Routes.draw do |map|
   map.forgot_password '/forgot_password', :controller => 'user/passwords', :action => 'new'  
 	map.reset_password '/reset_password/:id', :controller => 'user/passwords', :action => 'edit', :id => nil  
 	map.resend_activation '/resend_activation', :controller => 'user/activations', :action => 'edit'
- 
 
   map.namespace :admin do |admin|
     admin.resources :users, :member => { :enable => :put } do |users|
@@ -25,7 +24,8 @@ ActionController::Routing::Routes.draw do |map|
 		end
   end    
 
-	map.resource :session
+	map.resource  :session
+	map.resources :members
 
   # The priority is based upon order of creation: first created -> highest priority.
 

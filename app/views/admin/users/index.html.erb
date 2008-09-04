@@ -3,10 +3,11 @@
     <tr>
       <th>Login</th>
       <th>Email</th>
+			<th>Active?</th>
       <th>Enabled?</th>
       <th>Roles</th>
     </tr>
       <%= render :partial => 'user', :collection => @users %>
   </table>
 
-
+	<%= will_paginate @users %>

@@ -3,11 +3,22 @@ class Admin::UsersController < ApplicationController
 	require_role :admin
 
   def index
-    @users = User.find(:all)
+    @users = User.administrative_member_list(params[:page])
   end
 
+	# Administrative activate action
+	def update
+		@user = User.find_by_login(params[:id])
+    if @user.activate!
+      flash[:notice] = "User activated."
+    else
+      flash[:error] = "There was a problem activating this user."
+    end
+    redirect_to :action => 'index'		
+	end
+
   def destroy
-    @user = User.find(params[:id])
+    @user = User.find_by_login(params[:id])
     if @user.update_attribute(:enabled, false)
       flash[:notice] = "User disabled."
     else
@@ -17,7 +28,7 @@ class Admin::UsersController < ApplicationController
   end
 
   def enable
-    @user = User.find(params[:id])
+    @user = User.find_by_login(params[:id])
     if @user.update_attribute(:enabled, true)
       flash[:notice] = "User enabled."
     else

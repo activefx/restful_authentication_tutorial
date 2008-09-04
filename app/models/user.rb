@@ -13,6 +13,19 @@ class User < ActiveRecord::Base
 	# Because role_ids is included, never mass assign a User
   attr_accessible :login, :email, :name, :password, :password_confirmation, :role_ids
 
+	def self.member_list(page)
+		paginate :all,
+						 :per_page => 50, :page => page,
+        		 :conditions => ['enabled = ? and activated_at IS NOT NULL', true],
+        		 :order => 'login'
+	end
+
+	def self.administrative_member_list(page)
+		paginate :all,
+						 :per_page => 50, :page => page,
+        		 :order => 'login'
+	end
+
 	def to_xml(options = {})
 		#Add attributes accessible by xml
   	#Ex. default_only = [:id, :login, :name]

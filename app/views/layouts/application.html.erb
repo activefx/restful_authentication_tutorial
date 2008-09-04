@@ -17,6 +17,9 @@
 
   <ul>
 		<li><%= link_to 'Homepage', root_path %></li>
+    <% if logged_in? %>
+			<li><%= link_to 'Members', members_path %></li>
+		<% end %>
     <% if logged_in? && current_user.has_role?('admin') %>
       <li><%= link_to 'Administer Users', admin_users_path %></li>
 			<li><%= link_to 'Logged Exceptions', logged_exceptions_path %></li>

@@ -42,7 +42,9 @@ class User::ProfilesController < ApplicationController
 
   def update
     @user = current_user
-    if @user.update_attributes(params[:user])
+		# Do not mass assign user attributes
+    if @user.update_attributes(:name  => params[:user][:name],
+															 :email => params[:user][:email])
       flash[:notice] = "Profile updated."
       redirect_to :action => 'show'
     else

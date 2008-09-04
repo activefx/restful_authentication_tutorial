@@ -116,6 +116,10 @@ module Authentication
     		write_attribute :email, (value ? value.downcase : nil)
   		end
 
+      def to_param
+        login
+      end
+
 		  def has_role?(role_in_question)
 		    @_list ||= self.roles.collect(&:name)
 				#Users with role "admin" can access any role protected resource
