@@ -53,7 +53,7 @@ module Authentication
 		  #
 		  def authenticate(login, password)
 				return nil if login.blank? || password.blank?
-		    u = find :first, :conditions => ['login = ?', login] # need to get the salt
+		    u = find :first, :conditions => ['login = ?', login], :include => :roles # need to get the salt
 		    return nil unless (u && u.authenticated?(password))
 				raise	NotActivated unless u.active?
 				raise NotEnabled unless u.enabled?
