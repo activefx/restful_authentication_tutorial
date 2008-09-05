@@ -1,15 +1,15 @@
 9/05/08: Alpha release
 
-Full featured restful authentication starter app from http://railsforum.com/viewtopic.php?id=14216 combining role requirement, open id authentication, recaptcha, ui, debugging, and security plugins. This is a preliminary release and has not been tested or audited. 
+Full featured restful authentication starter app from http://railsforum.com/viewtopic.php?id=14216 combining role requirement, open id authentication, recaptcha, ui, debugging, and security plugins. This is a preliminary release and has not been tested or audited. Please feel free to fork and improve, or message me with any feature requests, suggestions, bugs, fixes for the known issues, resources, etc. 
 
-A more in depth tutorial is located at http://railsforum.com/viewtopic.php?id=14216.
+A more in depth tutorial is located at http://railsforum.com/viewtopic.php?id=14216. Details on the new version of the restful authentication plugin can be found at http://github.com/technoweenie/restful-authentication/wikis/home. 
 
 SET UP
 	- git clone git://github.com/activefx/restful_authentication_tutorial.git
 	- git submodule init
 	- git submodule update
 	- Set up database.yml file
-	- Set up config.yml file
+	- Set up config.yml file (repeat as necessary for test and production environments)
 	- Change the login and password for the admin user in the _set_up_first_admin_user.rb migration
 	- Change contact_site method in application.rb to redirect to your site's contact form or info
 	- rake db:create:all or db:create
@@ -40,7 +40,7 @@ CURRENT FEATURES
 KNOWN ISSUES
 	- View and Layout notes for the rails-footnotes plugin do not work due to changes to ActionView::Base
 	- SessionsController#create returns ActionController::InvalidAuthenticityToken unless protect_from_forgery is skipped for the create action. This may just be an issue on my end from fooling with the cookies, secret, and session key.
-	- OpenID plugin returns unknown method relative_url_root even though its defined in ActionController::AbstractRequest. Created an initializer to temporarily fix the problem. 
+	- OpenID plugin returns unknown method relative_url_root even though its defined in ActionController::AbstractRequest. Created an initializer to temporarily fix the problem. http://gist.github.com/6240 
 	- Roles controller needs to be redesigned. Currently mass assigns user (shouldn't be a problem because only admins can access the controller) and can return the wrong flash message if the role association is updated but user validations still fail.
 	- Not sure if the exception_logger is working properly. If someone can test and let me know if it works or what the problem is it would be greatly appreciated. 
 
@@ -60,7 +60,7 @@ TODO
 PLUGINS
 Custom-err-msg by David Easley is released under the MIT License
 	- http://rubyforge.org/projects/custom-err-msg/
-Exception_logger by Chris Wanstrath is believed to be released under the MIT License
+Exception_logger by Chris Wanstrath appears to be released under the MIT License
 	- http://github.com/defunkt/exception_logger/tree/master
 Rails-footnotes by Jose Valim and Duane Johnson is released under the MIT License
 	- http://github.com/drnic/rails-footnotes/tree/master
@@ -102,7 +102,7 @@ Beta Invitations:
 Configuration File:
 	- http://railscasts.com/episodes/85-yaml-configuration-file
 	- https://peepcode.com/products/draft-rails-code-review-pdf
-Additiona Resources:
+Additional Resources:
 	- http://delicious.com/activefx/restful_authentication
 	- http://delicious.com/activefx/openid
 
