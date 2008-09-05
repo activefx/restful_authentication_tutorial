@@ -21,4 +21,12 @@ module ApplicationHelper
     end
   end
 
+	def if_admin?
+    yield if logged_in? && current_user.has_role?('admin')
+	end
+
+	def if_logged_in?
+		yield if logged_in?
+	end
+
 end

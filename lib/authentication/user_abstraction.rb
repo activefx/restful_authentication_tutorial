@@ -52,7 +52,7 @@ module Authentication
 		  # This will also let us return a human error message.
 		  #
 		  def authenticate(login, password)
-				return nil if login.blank? || password.blank?
+				return nil if (login.blank? || password.blank?)
 		    u = find :first, :conditions => ['login = ?', login], :include => :roles # need to get the salt
 		    return nil unless (u && u.authenticated?(password))
 				raise	NotActivated unless u.active?
@@ -62,7 +62,7 @@ module Authentication
 
 			def find_with_identity_url(identity_url)
 		    u = find :first, :conditions => ['identity_url = ?', identity_url] 
-				return nil unless u
+				return nil if (identity_url.blank? || u.nil?) 
 				raise	NotActivated unless u.active?
 			  raise NotEnabled unless u.enabled?
 				u
@@ -70,7 +70,7 @@ module Authentication
 
 			def send_new_activation_code(email)
 				u = find :first, :conditions => ['email = ?', email]
-				raise EmailNotFound if (u.nil? || email.blank?)
+				raise EmailNotFound if (email.blank? || u.nil?)
 				return nil unless (u.send(:make_activation_code) && u.save(false))
 				@lost_activation = true
 			end	
@@ -82,16 +82,9 @@ module Authentication
 				u.active? ? (raise AlreadyActivated) : u
 			end
 
-			#def find_and_activate!(activation_code)
-			#	u = find_with_activation_code(activation_code)
-			#	raise StandardError if u.nil?
-			#	u.activate!
-			#end
-
 			def find_with_password_reset_code(reset_code)
-				raise StandardError if reset_code.blank?
 				u = find :first, :conditions => ['password_reset_code = ?', reset_code]
-				raise StandardError if u.nil?
+				raise StandardError if (reset_code.blank? || u.nil?)
 				u
 			end
 
@@ -129,7 +122,7 @@ module Authentication
 		  end
 
 			def change_password!(old_password, new_password, new_confirmation)
-				raise OpenidUser if (!self.identity_url.blank? && self.password.blank?)
+				raise OpenidUser if (!self.identity_url.blank? && self.crypted_password.blank?)
 				raise PasswordMismatch if (new_password != new_confirmation)
 				return nil unless (!new_password.blank? && User.authenticate(self.login, old_password))
         self.password, self.password_confirmation = new_password, new_confirmation

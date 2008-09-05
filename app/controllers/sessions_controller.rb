@@ -1,7 +1,6 @@
 # This controller handles the login/logout function of the site.  
 class SessionsController < ApplicationController
 	before_filter :login_prohibited, :only => [:new, :create]
-	before_filter :login_required, :only => [:destroy]
 	protect_from_forgery :only => [ :new, :destroy ]
 
   # render new.html.erb
@@ -74,7 +73,6 @@ class SessionsController < ApplicationController
 	      			flash[:notice] = "Thanks for signing up!  We're sending you an email with your activation code."
 						else
 							flash[:error] = "We need some additional details before we can create your account."
-							session[:identity_url] = identity_url
 							render :template => "user/openid_accounts/new"
 						end
 					end

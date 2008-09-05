@@ -4,8 +4,6 @@ class Role < ActiveRecord::Base
   #validates_uniqueness_of   :name,    :case_sensitive => false
   #validates_format_of       :name,    :with => /\w/, :message => "should be a word."
 
-	ADMIN_ROLE = "admin"
-
 	attr_accessible nil  
 
 	def to_xml(options = {})

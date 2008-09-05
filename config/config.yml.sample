@@ -1,0 +1,21 @@
+development:
+  settings:
+    name: Your Application
+    domain: localhost:3000
+    session_key: _your_application_session
+    secret: 1138371c71fe2f4f6769090e9fa0d7314b4febcc1c1966f9c83e16a3c880e0ca396cbb37e9ce53bbefc2417cb7363d7127200d51f16b9aeda033dbc3600c63fc
+    forgery: b8029fa60066bb90d7fb4e68265a112b
+  rest_auth:
+    site_key: e587f9d09baa59c920b9ee97ac70f58b3c51356c
+    stretches: 10
+  mail:
+    address: mail.yourapplication.com
+    port: 25
+    domain: yourapplication.com
+    authentication: :login
+    user_name: emailaccount@yourapplication.com
+    password: emailaccountpassword
+    sender: donotreply@yourapplication.com
+  recaptcha:
+    publickey:
+    privatekey:

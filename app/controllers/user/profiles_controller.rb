@@ -15,8 +15,8 @@ class User::ProfilesController < ApplicationController
   def create
     logout_keeping_session!
 		# WARNING
-		# Because role ids are an accessible attribute, anytime you 
-		# use User.new you need to assign the params individually
+		# Because role ids are an accessible attribute, anytime you create  
+		# or update a User you need to assign the params individually
     @user = User.new(:login => params[:user][:login],
 										 :email => params[:user][:email],
 										 :name => params[:user][:name],
