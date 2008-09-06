@@ -6,6 +6,7 @@ A more in depth tutorial is located at http://railsforum.com/viewtopic.php?id=14
 
 SET UP
 	- git clone git://github.com/activefx/restful_authentication_tutorial.git
+	- cd restful_authentication_tutorial
 	- git submodule init
 	- git submodule update
 	- Set up database.yml file
