@@ -12,7 +12,7 @@ class User::ActivationsController < ApplicationController
 				logger.warn "Invalid activation code from #{request.remote_ip} at #{Time.now.utc}"
 	      flash[:error]  = "We couldn't find a user with that activation code, please check your email and try again, or %s."
 				flash[:error_item] = ["request a new activation code", resend_activation_path]
-	      redirect_back_or_default('/')
+	      redirect_to root_path
 			end
 		rescue Authentication::UserAbstraction::NoActivationCode
       flash[:error] = "The activation code was missing.  Please follow the URL from your email."

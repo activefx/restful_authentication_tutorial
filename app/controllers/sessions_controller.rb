@@ -69,7 +69,7 @@ class SessionsController < ApplicationController
 						@user = OpenidUser.new
 						assign_registration_attributes!(registration, identity_url)
 						if @user.save
-	            redirect_back_or_default('/')
+	            redirect_to root_path
 	      			flash[:notice] = "Thanks for signing up!  We're sending you an email with your activation code."
 						else
 							flash.now[:error] = "We need some additional details before we can create your account."
