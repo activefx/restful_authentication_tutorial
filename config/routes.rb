@@ -10,6 +10,7 @@ ActionController::Routing::Routes.draw do |map|
 	map.resend_activation '/resend_activation', :controller => 'user/activations', :action => 'edit'
 
   map.namespace :admin do |admin|
+		admin.resources :controls
     admin.resources :users, :member => { :enable => :put } do |users|
 			users.resources :roles
 		end    

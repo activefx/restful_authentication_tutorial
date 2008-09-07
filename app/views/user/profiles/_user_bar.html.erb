@@ -1,9 +1,8 @@
 <% if logged_in? -%>
   <div id="user-bar-greeting">Logged in as <%= link_to_current_user :content_method => :login %> | 
-		<%= link_to 'My Account', user_profile_path(current_user) %> |
-		<%= link_to 'Edit Profile', edit_user_profile_path(current_user) %> </div>
-  <div id="user-bar-action"  >(<%= link_to "log out", logout_path, { :title => "Log out" }    %>)</div>
+		<%= link_to 'My Account', user_profile_path(current_user), { :title => "My account" } %> |
+		<%= link_to "Log Out", logout_path, { :title => "Log out" }    %> </div>
 <% else -%>
-  <div id="user-bar-greeting"><%= link_to "Log in",  login_path,  { :title => "Log in" } %></div>
-  <div id="user-bar-action"  ><%= link_to "Sign up", signup_path, { :title => "Create an account" } %></div>
+  <div id="user-bar-greeting"><%= link_to "Log In",  login_path,  { :title => "Log in" } %> |
+  	<%= link_to "Sign Up", signup_path, { :title => "Create an account" } %></div>
 <% end -%>

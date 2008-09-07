@@ -21,8 +21,7 @@
 			<li><%= link_to 'Members', members_path %></li>
 		<% end %>
     <% if_admin? do %>
-      <li><%= link_to 'Administer Users', admin_users_path %></li>
-			<li><%= link_to 'Logged Exceptions', logged_exceptions_path %></li>
+      <li><%= link_to 'Admin', admin_controls_path %></li>
     <% end %> 
   </ul>
 
