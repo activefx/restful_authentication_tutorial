@@ -11,7 +11,7 @@ SET UP
 	- git submodule update
 	- Set up database.yml file
 	- Set up config.yml file (repeat as necessary for test and production environments)
-	- Change the login and password for the admin user in the _set_up_first_admin_user.rb migration
+	- Change the login and password for the admin Thanks for your message Neil. I'm probably going to leave the thread the same because there are so many links pointing to it and people have started asking about the newest version of restauth, I know its kind of a pain though with so many replies. Right now, when a user is disabled while logged in, they remain logged in, but can't do anything - everytime they try to access an action that requires being logged in, they are redirected to the root_path (which is why its important the root_path is accessible by anyone) and told they do not have permission. The only "logged in" action they can complete is logging out, and when they try to log back in, they are told their account has been disabled. If the session was stored in the database it would be much easier to kick a user out when they are disabled, but since the session is stored in a cookie, I'm not sure of a better way to do it. - Mattuser in the _set_up_first_admin_user.rb migration
 	- Change contact_site method in application.rb to redirect to your site's contact form or info
 	- rake db:create:all or db:create
 	- rake db:migrate

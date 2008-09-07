@@ -12,7 +12,7 @@ class User::PasswordsController < ApplicationController
       redirect_to root_path
     else
 			logger.warn "Password reset not sent with email '#{params[:email]}' from #{request.remote_ip} at #{Time.now.utc}"
-      flash[:notice] = "A password reset link was not sent, you may have enetered an invalid email address."
+      flash.now[:notice] = "A password reset link was not sent, you may have enetered an invalid email address."
       render :action => 'new'
     end  
   end
@@ -41,7 +41,7 @@ class User::PasswordsController < ApplicationController
 				flash[:notice] = "There was a problem resetting your password."
 			end
     else
-      flash[:notice] = "Password and password confirmation did not match."
+      flash.now[:notice] = "Password and password confirmation did not match."
       render :action => 'edit', :id => params[:id]
       return
     end  

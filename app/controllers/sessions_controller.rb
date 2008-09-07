@@ -43,7 +43,7 @@ class SessionsController < ApplicationController
 
   # Track failed login attempts
   def note_failed_signin(message, login_name)
-    flash[:error] = message		
+    flash.now[:error] = message		
     logger.warn "Failed login for '#{login_name}' from #{request.remote_ip} at #{Time.now.utc}"
   end
 
@@ -72,7 +72,7 @@ class SessionsController < ApplicationController
 	            redirect_back_or_default('/')
 	      			flash[:notice] = "Thanks for signing up!  We're sending you an email with your activation code."
 						else
-							flash[:error] = "We need some additional details before we can create your account."
+							flash.now[:error] = "We need some additional details before we can create your account."
 							render :template => "user/openid_accounts/new"
 						end
 					end

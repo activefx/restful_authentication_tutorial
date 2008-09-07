@@ -27,7 +27,7 @@ class User::ProfilesController < ApplicationController
       redirect_back_or_default('/')
       flash[:notice] = "Thanks for signing up!  We're sending you an email with your activation code."
     else
-      flash[:error]  = "We couldn't set up that account, sorry.  Please try again, or %s."
+      flash.now[:error]  = "We couldn't set up that account, sorry.  Please try again, or %s."
 			flash[:error_item] = ["contact us", contact_site]
       render :action => 'new'
     end
@@ -48,7 +48,7 @@ class User::ProfilesController < ApplicationController
       flash[:notice] = "Profile updated."
       redirect_to :action => 'show'
     else
-			flash[:error] = "There was a problem updating your profile."
+			flash.now[:error] = "There was a problem updating your profile."
       render :action => 'edit'
     end
   end

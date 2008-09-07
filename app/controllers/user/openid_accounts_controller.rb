@@ -16,7 +16,7 @@ class User::OpenidAccountsController < ApplicationController
       redirect_back_or_default('/')
       flash[:notice] = "Thanks for signing up!  We're sending you an email with your activation code."
     else
-      flash[:error]  = "Sorry, we couldn't set up that account.  Please correct the errors and try again, or %s."
+      flash.now[:error]  = "Sorry, we couldn't set up that account.  Please correct the errors and try again, or %s."
 			flash[:error_item] = ["sign up for a regular account", new_user_profile_path]
       render :action => 'new'
     end
@@ -32,7 +32,7 @@ class User::OpenidAccountsController < ApplicationController
       flash[:notice] = "Profile updated."
       redirect_to user_profile_path
     else
-			flash[:error] = "There was a problem updating your profile."
+			flash.now[:error] = "There was a problem updating your profile."
       render :action => 'edit'
     end
   end
