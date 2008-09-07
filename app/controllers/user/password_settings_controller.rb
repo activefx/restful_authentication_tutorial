@@ -17,7 +17,7 @@ class User::PasswordSettingsController < ApplicationController
 	    	redirect_to user_profile_path(current_user)		
 			else
 				@old_password = nil
-	      flash[:error] = "Your password was not changed, you old password may be incorrect."
+	      flash.now[:error] = "Your password was not changed, you old password may be incorrect."
 	      render :action => 'index'
 			end
 		rescue Authentication::UserAbstraction::OpenidUser
@@ -25,7 +25,7 @@ class User::PasswordSettingsController < ApplicationController
 			redirect_to user_profile_path(current_user)
 		rescue Authentication::UserAbstraction::PasswordMismatch
       @old_password = nil
-			flash[:error] = "New password does not match the password confirmation."
+			flash.now[:error] = "New password does not match the password confirmation."
       render :action => 'index'
 		end
 	end
