@@ -1,0 +1,107 @@
+.yui-d2f {
+	border: 1px solid #999999;
+	padding: 5px;
+}
+
+#main_navigation li {
+	display: inline;
+	list-style-type: none;
+}
+
+h1, h2, h3 {
+	margin-top: 0em;
+	margin-right: 0pt;
+	margin-bottom: 0em;
+	margin-left: 0pt;
+}
+p {
+	margin-bottom: 0em;
+}
+
+#hd .yui-u {
+	text-align: right;
+}
+
+#hd .first {
+	text-align: left;
+}
+
+#bd .yui-b {
+	border: 1px solid #999999;
+	padding: 5px;
+}
+
+/**
+#bd .yui-main div.yui-b {
+	border: 0px;
+} **/
+
+/* Scaffolding CSS */
+.fieldWithErrors {
+  padding: 2px;
+  background-color: red;
+  display: table;
+}
+
+#errorExplanation {
+  width: 400px;
+  border: 2px solid red;
+  padding: 7px;
+  padding-bottom: 12px;
+  margin-bottom: 20px;
+  background-color: #f0f0f0;
+}
+
+#errorExplanation h2 {
+  text-align: left;
+  font-weight: bold;
+  padding: 5px 5px 5px 15px;
+  font-size: 12px;
+  margin: -7px;
+  background-color: #c00;
+  color: #fff;
+}
+
+#errorExplanation p {
+  color: #333;
+  margin-bottom: 0;
+  padding: 5px;
+}
+
+#errorExplanation ul li {
+  font-size: 12px;
+  list-style: square;
+}
+
+/* Flash Notice Style */
+#flash {
+	text-align: center;
+	padding: .5em;
+	margin-bottom: 1em;
+	font: bold 1em sans-serif;
+}
+
+.notice {
+	border: 1px solid #000099;
+	background-color: #F0F0FF;
+}
+
+.error {
+	border: 1px solid #AF5F5F;
+	background-color: #FFF0F0;
+}
+
+.warning {
+	border: 1px solid #FFCC00;
+	background-color: #FFFFCC;
+}
+
+/* embeds the openid image in the text field */
+input#openid_identifier {
+   background: url(http://openid.net/login-bg.gif) no-repeat;
+   background-color: #fff;
+   background-position: 0 50%;
+   color: #000;
+   padding-left: 18px;
+}
+

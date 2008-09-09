@@ -5,36 +5,54 @@
 <head>
   <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
   <title><%= APP_CONFIG['settings']['name'] %>: <%= controller.action_name %></title>
+  <%= stylesheet_link_tag 'reset' %>
+  <%= stylesheet_link_tag 'fonts' %>
+  <%= stylesheet_link_tag 'grids' %>
+  <%= stylesheet_link_tag 'base' %>
   <%= stylesheet_link_tag 'main' %>
   <%= javascript_include_tag :defaults %>
 </head>
 <body>
+	<div id="main" class="yui-d2f"><!-- start YUI layout -->
 
-	<%= flash_messages %>
+		<div id="hd"><!-- header -->
+    	<div class="yui-gd"> <!-- the "special grid" --> 
+    		<div class="yui-u first">
+					<h1>Your Application</h1>
+					<p>awesome tagline for your application</p>
+				</div> 
+    		<div class="yui-u">
+					<%= render :partial => "user/profiles/user_bar" %>
+				</div> 
+    	</div> 
+			<div id="navigation_container">
+				<% ubermenu :id => 'main_navigation' do |m| %>
+				  <% m.action 'Homepage', root_path %>
+					<% if_logged_in? do %>
+				  	<% m.action 'Members', members_path %>
+					<% end %>
+			    <% if_admin? do %>
+				  	<% m.action 'Admin', admin_controls_path %>
+					<% end %>
+				<% end %>
+			</div>
+		</div>
 
+		<div id="bd"><!-- body -->
+			<%= render :partial => "layouts/#{controller.nested_layout}" %>
+		</div>  
 
-  <%= render :partial => "user/profiles/user_bar" %>
-
-	<% ubermenu :id => 'navigation' do |m| %>
-	  <% m.action 'Homepage', root_path %>
-		<% if_logged_in? do %>
-	  	<% m.action 'Members', members_path %>
-		<% end %>
-    <% if_admin? do %>
-	  	<% m.action 'Admin', admin_controls_path %>
-		<% end %>
-	<% end %>
-
-
-	<%= yield %>
+		<div id="ft"><!-- footer -->
+			<p>Copyright 2008 Your Company</p>
+		</div>  	
   
+	</div><!-- end YUI layout -->
+  
+	<!-- debug -->
 	<% if Rails.env.development? %>
-
 	  <div id="footnotes_holder">
 	  </div>
-
 	  <%= render :partial => 'shared/debug' %>
-
 	<% end %>
 
 </body>

@@ -1,0 +1,11 @@
+<div class="yui-t6"><!-- t6 is a 300px sidebar -->
+	<div class="yui-main"> 
+		<div class="yui-b"><!-- main content block -->
+			<%= flash_messages %>
+			<%= yield %>
+		</div> 
+	</div> 
+		<div class="yui-b"><!-- narrow content block -->
+			<%= yield :side %>
+		</div> 
+</div>

@@ -29,6 +29,7 @@ CURRENT FEATURES
 	- Change Password 
 	- Helper methods (link_to_user, if_admin?, etc.)
 	- Configuration file
+	- Yahoo User Interface 3 CSS template
 	- Authentication Plugins 
 		- restful_authentication, open_id_authentication, role_requirement, recaptcha
 	- UI Plugins 
@@ -55,7 +56,6 @@ TODO
 	- Beta invitations
 	- Integrate user interface plugins / dry form builders
 	- Move query stats and rows logger to footnotes plugin
-	- Add css / open source design template (that does not require attribution)
 	- Refactoring, google authentication, oauth, api metering
 
 PLUGINS
@@ -90,6 +90,8 @@ Uberkit by Michael Bleigh and Intridea, Inc. is released under the MIT License
 	- http://github.com/activefx/uberkit/tree/master (modified for restful_authentication_tutorial)
 Will_paginate by PJ Hyett and Mislav Marohnic is released under the MIT License 
 	- http://github.com/mislav/will_paginate/tree/master
+Yahoo User Interface by Yahoo! Inc. is released under the BSD License
+	- http://developer.yahoo.com/yui/3/
 
 RESOURCES
 Roles / Role Requirement:
@@ -104,6 +106,11 @@ Beta Invitations:
 Configuration File:
 	- http://railscasts.com/episodes/85-yaml-configuration-file
 	- https://peepcode.com/products/draft-rails-code-review-pdf
+Yahoo User Interface 3 CSS
+	- http://developer.yahoo.com/yui/3/cssreset/
+	- http://developer.yahoo.com/yui/3/cssfonts/
+	- http://developer.yahoo.com/yui/3/cssgrids/
+	- http://developer.yahoo.com/yui/3/cssbase/
 Additional Resources:
 	- http://delicious.com/activefx/restful_authentication
 	- http://delicious.com/activefx/openid
