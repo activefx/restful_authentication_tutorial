@@ -1,16 +1,17 @@
 require 'digest/sha1'
 
-class User < ActiveRecord::Base
-  include Authentication
-  include Authentication::ByPassword
+class User < ActiveRecord::Base  
+	include Authentication
   include Authentication::ByCookieToken
 	include Authentication::UserAbstraction
+
+	set_inheritance_column :user_type
 
   # HACK HACK HACK -- how to do attr_accessible from here?
   # prevents a user from submitting a crafted form that bypasses activation
   # anything else you want your user to change should be added here.
 	# Add identity_url if you want users to be able to update their OpenID identity
-	# Because role_ids is included, never mass assign a User
+	# Because role_ids is included, never mass assign a User, SiteUser, or OpenidUser
   attr_accessible :login, :email, :name, :password, :password_confirmation, :role_ids
 
 	def self.member_list(page)

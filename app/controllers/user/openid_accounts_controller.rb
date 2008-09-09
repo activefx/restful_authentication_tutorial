@@ -8,7 +8,9 @@ class User::OpenidAccountsController < ApplicationController
 
 	def create
     logout_keeping_session!
-    @user = OpenidUser.new(params[:user])
+    @user = OpenidUser.new(:login => params[:user][:login],
+										 			 :email => params[:user][:email],
+										 			 :name => params[:user][:name])
 		@user.identity_url = params[:user][:identity_url]
     success = @user && @user.save
     if success && @user.errors.empty?
@@ -28,7 +30,8 @@ class User::OpenidAccountsController < ApplicationController
 
   def update
     @user = OpenidUser.find_by_login(current_user.login)
-    if @user.update_attributes(params[:user])
+    if @user.update_attributes(:name  => params[:user][:name],
+															 :email => params[:user][:email])
       flash[:notice] = "Profile updated."
       redirect_to user_profile_path
     else

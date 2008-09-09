@@ -1,7 +1,7 @@
 class SetUpFirstAdminUser < ActiveRecord::Migration
   def self.up
 		#Be sure to change these settings for your initial admin user
-    user = User.new
+    user = SiteUser.new
 		user.login = "admin"
 		user.email = APP_CONFIG['settings']['admin_email']
 		user.password = "password"
@@ -11,7 +11,7 @@ class SetUpFirstAdminUser < ActiveRecord::Migration
 		#Admin role name should be "admin" for convenience
 		role.name = "admin"
 		role.save
-		admin_user = User.find_by_login("admin")
+		admin_user = SiteUser.find_by_login("admin")
 		admin_role = Role.find_by_name("admin")
 		admin_user.activated_at = Time.now.utc
 		admin_user.roles << admin_role

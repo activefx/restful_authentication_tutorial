@@ -50,6 +50,7 @@ ActiveRecord::Schema.define(:version => 20080813053928) do
   add_index "roles_users", ["user_id"], :name => "index_roles_users_on_user_id"
 
   create_table "users", :force => true do |t|
+    t.string   "user_type"
     t.string   "login",                     :limit => 40
     t.string   "name",                      :limit => 100, :default => ""
     t.string   "email",                     :limit => 100

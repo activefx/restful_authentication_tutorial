@@ -9,7 +9,7 @@ class User::ProfilesController < ApplicationController
 
   # render new.rhtml
   def new
-    @user = User.new
+    @user = SiteUser.new
   end
  
   def create
@@ -17,11 +17,11 @@ class User::ProfilesController < ApplicationController
 		# WARNING
 		# Because role ids are an accessible attribute, anytime you create  
 		# or update a User you need to assign the params individually
-    @user = User.new(:login => params[:user][:login],
-										 :email => params[:user][:email],
-										 :name => params[:user][:name],
-										 :password => params[:user][:password],
-										 :password_confirmation => params[:user][:password_confirmation])
+    @user = SiteUser.new(:login => params[:user][:login],
+										 		 :email => params[:user][:email],
+										 		 :name => params[:user][:name],
+										 		 :password => params[:user][:password],
+										 		 :password_confirmation => params[:user][:password_confirmation])
     success = @user && @user.save
     if success && @user.errors.empty?
       redirect_back_or_default('/')

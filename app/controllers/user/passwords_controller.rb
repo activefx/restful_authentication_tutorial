@@ -7,7 +7,7 @@ class User::PasswordsController < ApplicationController
 
   # Forgot password action
   def create    
-    if User.find_for_forget(params[:email])    
+    if SiteUser.find_for_forget(params[:email])    
       flash[:notice] = "A password reset link has been sent to your email address."
       redirect_to root_path
     else
@@ -21,7 +21,7 @@ class User::PasswordsController < ApplicationController
   # Checks that the id code matches a user in the database
   # Then if everything checks out, shows the password reset fields
   def edit
-    @user = User.find_with_password_reset_code(params[:id])
+    @user = SiteUser.find_with_password_reset_code(params[:id])
   rescue
     logger.warn "Invalid password reset code from #{request.remote_ip} at #{Time.now.utc}"
     flash[:notice] = "Invalid password reset code, please check your email and try again."
@@ -30,7 +30,7 @@ class User::PasswordsController < ApplicationController
     
   # Reset password action /reset_password/:id
   def update
-    @user = User.find_with_password_reset_code(params[:reset_code]) 
+    @user = SiteUser.find_with_password_reset_code(params[:reset_code]) 
     if (params[:password] == params[:password_confirmation])
       @user.password_confirmation = params[:password_confirmation]
       @user.password = params[:password]

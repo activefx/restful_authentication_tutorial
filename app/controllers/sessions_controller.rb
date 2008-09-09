@@ -26,7 +26,7 @@ class SessionsController < ApplicationController
 
   def password_authentication(name, password)
     begin
-			user = User.authenticate(name, password)
+			user = SiteUser.authenticate(name, password)
       if user
 			  successful_login(user)
       else
@@ -63,7 +63,7 @@ class SessionsController < ApplicationController
         failed_login("Sorry, the OpenID verification failed.", identity_url)
       when :successful
 				begin
-					if user = User.find_with_identity_url(identity_url)
+					if user = OpenidUser.find_with_identity_url(identity_url)
 						successful_login(user)
 					else
 						@user = OpenidUser.new
