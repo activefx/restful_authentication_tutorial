@@ -87,6 +87,7 @@ Rspec and Rspec_rails by The RSpec Development Team is released under the MIT Li
 	- http://github.com/dchelimsky/rspec-rails/tree/master
 Uberkit by Michael Bleigh and Intridea, Inc. is released under the MIT License 
 	- http://github.com/mbleigh/uberkit/tree/master
+	- http://github.com/activefx/uberkit/tree/master (modified for restful_authentication_tutorial)
 Will_paginate by PJ Hyett and Mislav Marohnic is released under the MIT License 
 	- http://github.com/mislav/will_paginate/tree/master
 

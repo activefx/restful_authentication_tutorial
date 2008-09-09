@@ -15,15 +15,16 @@
 
   <%= render :partial => "user/profiles/user_bar" %>
 
-  <ul>
-		<li><%= link_to 'Homepage', root_path %></li>
-    <% if_logged_in? do %>
-			<li><%= link_to 'Members', members_path %></li>
+	<% ubermenu :id => 'navigation' do |m| %>
+	  <% m.action 'Homepage', root_path %>
+		<% if_logged_in? do %>
+	  	<% m.action 'Members', members_path %>
 		<% end %>
     <% if_admin? do %>
-      <li><%= link_to 'Admin', admin_controls_path %></li>
-    <% end %> 
-  </ul>
+	  	<% m.action 'Admin', admin_controls_path %>
+		<% end %>
+	<% end %>
+
 
 	<%= yield %>
   
