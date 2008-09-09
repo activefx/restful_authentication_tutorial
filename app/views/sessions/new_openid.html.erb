@@ -1,12 +1,8 @@
-<h1>Log in with your account</h1>
+<h1>Log in with OpenID</h1>
 
 <% form_tag session_path do -%>
-<p><%= label_tag 'login' %><br />
-<%= text_field_tag 'login', @login %></p>
-
-<p><%= label_tag 'password' %><br/>
-<%= password_field_tag 'password', nil %><br/>
-<%= link_to 'Forgot Password?', forgot_password_path %></p>
+<p><%= label_tag 'openid_indentifier', 'OpenID Url' %><br/>
+<%= text_field_tag "openid_identifier", @openid_identifier %></p>
 
 <p>Stay logged in on this computer:<br/>
 <%= label_tag 'remember_me', 'Remember me' %>

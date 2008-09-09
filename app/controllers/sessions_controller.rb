@@ -5,7 +5,12 @@ class SessionsController < ApplicationController
 
   # render new.html.erb
   def new
+
   end
+
+	def new_openid
+
+	end
 
   def create  
     logout_keeping_session!  

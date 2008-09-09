@@ -25,7 +25,7 @@ ActionController::Routing::Routes.draw do |map|
 		end
   end    
 
-	map.resource  :session
+	map.resource  :session, :member => { :new_openid => :get }
 	map.resources :members
 
   # The priority is based upon order of creation: first created -> highest priority.

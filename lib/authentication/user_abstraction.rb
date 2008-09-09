@@ -61,7 +61,7 @@ module Authentication
 		  end
 
 			def find_with_identity_url(identity_url)
-		    u = find :first, :conditions => ['identity_url = ?', identity_url] 
+		    u = self.find :first, :conditions => ['identity_url = ?', identity_url] 
 				return nil if (identity_url.blank? || u.nil?) 
 				raise	NotActivated unless u.active?
 			  raise NotEnabled unless u.enabled?

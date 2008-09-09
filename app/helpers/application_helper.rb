@@ -21,6 +21,12 @@ module ApplicationHelper
     end
   end
 
+  def show_login(partial)
+    update_page do |page|
+      page['logins'].replace_html :partial => "user/profiles/#{partial}"
+    end
+  end
+
 	def if_admin?
     yield if logged_in? && current_user.has_role?('admin')
 	end
