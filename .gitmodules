@@ -28,3 +28,6 @@
 [submodule "vendor/plugins/uberkit"]
 	path = vendor/plugins/uberkit
 	url = git://github.com/activefx/uberkit.git
+[submodule "vendor/plugins/auto_migrations"]
+	path = vendor/plugins/auto_migrations
+	url = git://github.com/pjhyett/auto_migrations.git

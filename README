@@ -30,12 +30,15 @@ CURRENT FEATURES
 	- Helper methods (link_to_user, if_admin?, etc.)
 	- Configuration file
 	- Yahoo User Interface 3 CSS template
+	- Nested layouts
 	- Authentication Plugins 
 		- restful_authentication, open_id_authentication, role_requirement, recaptcha
 	- UI Plugins 
 		- custom-err-msg, permalink_fu, uberkit, will_paginate
 	- Debug Plugins 
 		- exception_logger, rails-footnotes, query_analyzer, query_stats, rows_logger
+	- Development Plugins
+		- auto_migrations
 	- Testing 
 		- rspec, rspec_rails
 	
@@ -59,6 +62,8 @@ TODO
 	- Refactoring, google authentication, oauth, api metering
 
 PLUGINS
+Auto_migrations by PJ Hyett is released under the MIT License
+	- http://github.com/pjhyett/auto_migrations/tree/master
 Custom-err-msg by David Easley is released under the MIT License
 	- http://rubyforge.org/projects/custom-err-msg/
 Exception_logger by Chris Wanstrath appears to be released under the MIT License
