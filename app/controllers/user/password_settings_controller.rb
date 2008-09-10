@@ -20,7 +20,7 @@ class User::PasswordSettingsController < ApplicationController
 	      flash.now[:error] = "Your password was not changed, you old password may be incorrect."
 	      render :action => 'index'
 			end
-		rescue Authentication::UserAbstraction::OpenidUser
+		rescue Authentication::UserAbstraction::OpenidAccount
 			flash[:error] = "OpenID users cannot change their password."
 			redirect_to user_profile_path(current_user)
 		rescue Authentication::UserAbstraction::PasswordMismatch

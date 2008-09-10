@@ -7,7 +7,7 @@ module Authentication
 		class AlreadyActivated < StandardError; end
 		class BlankEmail < StandardError; end
 		class EmailNotFound < StandardError; end
-		class OpenidUser < StandardError; end
+		class OpenidAccount < StandardError; end
 		class PasswordMismatch < StandardError; end
 
     # Stuff directives into including module
@@ -122,7 +122,7 @@ module Authentication
 		  end
 
 			def change_password!(old_password, new_password, new_confirmation)
-				raise OpenidUser if (!self.identity_url.blank? && self.crypted_password.blank?)
+				raise OpenidAccount if (!self.identity_url.blank? && self.crypted_password.blank?)
 				raise PasswordMismatch if (new_password != new_confirmation)
 				return nil unless (!new_password.blank? && User.authenticate(self.login, old_password))
         self.password, self.password_confirmation = new_password, new_confirmation
