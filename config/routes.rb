@@ -1,6 +1,7 @@
 ActionController::Routing::Routes.draw do |map|
   map.logout '/logout', :controller => 'sessions', :action => 'destroy'
   map.login '/login', :controller => 'sessions', :action => 'new'
+	map.login_with_openid '/login_with_openid', :controller => 'openid_sessions', :action => 'new'
   map.register '/register', :controller => 'user/profiles', :action => 'create'
   map.signup '/signup', :controller => 'user/profiles', :action => 'new'
   map.activate '/activate/:activation_code', :controller => 'user/activations', 
@@ -25,7 +26,8 @@ ActionController::Routing::Routes.draw do |map|
 		end
   end    
 
-	map.resource  :session, :member => { :new_openid => :get }
+	map.resource  :session
+	map.resource  :openid_session
 	map.resources :members
 
   # The priority is based upon order of creation: first created -> highest priority.
@@ -67,6 +69,6 @@ ActionController::Routing::Routes.draw do |map|
 	map.logged_exceptions "logged_exceptions/:action/:id", :controller => "logged_exceptions"
 
   # Install the default routes as the lowest priority.
-  map.connect ':controller/:action/:id'
-  map.connect ':controller/:action/:id.:format'
+  #map.connect ':controller/:action/:id'
+  #map.connect ':controller/:action/:id.:format'
 end

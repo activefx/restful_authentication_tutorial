@@ -23,7 +23,7 @@ module ApplicationHelper
 
   def show_login(partial)
     update_page do |page|
-      page['logins'].replace_html :partial => "user/profiles/#{partial}"
+      page['logins'].replace_html :partial => "shared/#{partial}"
     end
   end
 

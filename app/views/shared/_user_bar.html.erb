@@ -4,7 +4,7 @@
 		<%= link_to "Log Out", logout_path, { :title => "Log out" }    %> </div>
 <% else -%>
   <div id="user-bar-greeting">Log in with: 
-		<%= link_to_function "Username", show_login('site_user'), :href => new_session_path %> |
-		<%= link_to_function "OpenID", show_login('openid_user'), :href => new_openid_session_path %> |
+		<%= link_to_function "Username", show_login('site_user'), :href => login_path %> |
+		<%= link_to_function "OpenID", show_login('openid_user'), :href => login_with_openid_path %> |
   	<%= link_to "New Account", signup_path, { :title => "Create an account" } %></div>	
 <% end -%>

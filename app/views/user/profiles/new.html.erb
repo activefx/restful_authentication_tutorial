@@ -1,5 +1,5 @@
 <h1>Sign up as a new user</h1>
-<p>New OpenID users should <%= link_to "log in here",  login_path %>.</p>
+<p>New OpenID users should <%= link_to "log in here",  new_openid_session_path %>.</p>
 <% @user.password = @user.password_confirmation = nil %>
 
 <%= error_messages_for :user %>
