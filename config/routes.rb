@@ -71,4 +71,5 @@ ActionController::Routing::Routes.draw do |map|
   # Install the default routes as the lowest priority.
   #map.connect ':controller/:action/:id'
   #map.connect ':controller/:action/:id.:format'
+	map.connect '*path' , :controller => 'four_oh_fours'
 end
