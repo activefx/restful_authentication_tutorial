@@ -48,7 +48,6 @@ CURRENT FEATURES
 KNOWN ISSUES
 	- View and Layout notes for the rails-footnotes plugin do not work due to changes to ActionView::Base
 	- SessionsController#create returns ActionController::InvalidAuthenticityToken unless protect_from_forgery is skipped for the create action. This may just be an issue on my end from fooling with the cookies, secret, and session key.
-	- OpenID plugin returns unknown method relative_url_root even though its defined in ActionController::AbstractRequest. Created an initializer to temporarily fix the problem. http://gist.github.com/6240 
 	- Roles controller needs to be redesigned. Currently mass assigns user (shouldn't be a problem because only admins can access the controller) and can return the wrong flash message if the role association is updated but user validations still fail.
 	- Not sure if the exception_logger is working properly. If someone can test and let me know if it works or what the problem is it would be greatly appreciated. I think an error with the rails-footnotes plugin is preventing exceptions from being logged. 
 
@@ -117,11 +116,13 @@ Configuration File:
 	- https://peepcode.com/products/draft-rails-code-review-pdf
 404 Handling:
 	- Advanced Rails Recipes #7 (http://www.amazon.com/Advanced-Rails-Recipes-Mike-Clark/dp/0978739221)
-Yahoo User Interface 3 CSS
+Yahoo User Interface 3 CSS:
 	- http://developer.yahoo.com/yui/3/cssreset/
 	- http://developer.yahoo.com/yui/3/cssfonts/
 	- http://developer.yahoo.com/yui/3/cssgrids/
 	- http://developer.yahoo.com/yui/3/cssbase/
+Rails Security:
+	- http://www.slideshare.net/heikowebers/advanced-ruby-on-rails-security/
 Additional Resources:
 	- http://delicious.com/activefx/restful_authentication
 	- http://delicious.com/activefx/openid
