@@ -6,6 +6,7 @@ development:
     secret: 1138371c71fe2f4f6769090e9fa0d7314b4febcc1c1966f9c83e16a3c880e0ca396cbb37e9ce53bbefc2417cb7363d7127200d51f16b9aeda033dbc3600c63fc
     forgery: b8029fa60066bb90d7fb4e68265a112b
     admin_email: yourpersonalemail@example.com
+    in_beta: true
   rest_auth:
     site_key: e587f9d09baa59c920b9ee97ac70f58b3c51356c
     stretches: 10

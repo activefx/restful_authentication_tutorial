@@ -50,6 +50,7 @@ KNOWN ISSUES
 	- SessionsController#create returns ActionController::InvalidAuthenticityToken unless protect_from_forgery is skipped for the create action. This may just be an issue on my end from fooling with the cookies, secret, and session key.
 	- Roles controller needs to be redesigned. Currently mass assigns user (shouldn't be a problem because only admins can access the controller) and can return the wrong flash message if the role association is updated but user validations still fail.
 	- Not sure if the exception_logger is working properly. If someone can test and let me know if it works or what the problem is it would be greatly appreciated. I think an error with the rails-footnotes plugin is preventing exceptions from being logged. 
+	- Check_visitor filter in the application controller could pose performance problems later on. You may want to remove it if tracking failed logins is not important to you. Suggestions for a better failed login tracking system are also appreciated.
 
 TODO
 	- Fix known issues
