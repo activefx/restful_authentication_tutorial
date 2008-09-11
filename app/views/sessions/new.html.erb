@@ -8,6 +8,11 @@
 <%= password_field_tag 'password', nil %><br/>
 <%= link_to 'Forgot Password?', forgot_password_path %></p>
 
+<% if_recaptcha? do %>
+	<p>Please enter the following words below.<br/>
+	<%= recaptcha_tags %></p>
+<% end %>
+
 <p>Stay logged in on this computer:<br/>
 <%= label_tag 'remember_me', 'Remember me' %>
 <%= check_box_tag 'remember_me', '1', @remember_me %></p>

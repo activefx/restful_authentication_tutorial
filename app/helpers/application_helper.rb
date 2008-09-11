@@ -23,7 +23,11 @@ module ApplicationHelper
 
   def show_login(partial)
     update_page do |page|
-      page['logins'].replace_html :partial => "shared/#{partial}"
+			if @bad_visitor
+				page.redirect_to send("#{partial}_path")
+			else
+				page['logins'].replace_html :partial => "shared/#{partial}"
+			end
     end
   end
 
@@ -33,6 +37,10 @@ module ApplicationHelper
 
 	def if_logged_in?
 		yield if logged_in?
+	end
+
+	def if_recaptcha?
+		yield if @recaptcha
 	end
 
 end

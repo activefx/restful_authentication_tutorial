@@ -1,8 +1,15 @@
 <h1>Log in with OpenID</h1>
 
 <% form_tag session_path do -%>
+<%= hidden_field_tag 'openid', true %>
+
 <p><%= label_tag 'openid_indentifier', 'OpenID Url' %><br/>
 <%= text_field_tag "openid_identifier", @openid_identifier %></p>
+
+<% if_recaptcha? do %>
+	<p>Please enter the following words below.<br/>
+	<%= recaptcha_tags %></p>
+<% end %>
 
 <p>Stay logged in on this computer:<br/>
 <%= label_tag 'remember_me', 'Remember me' %>

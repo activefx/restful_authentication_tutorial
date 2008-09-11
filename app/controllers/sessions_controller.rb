@@ -5,10 +5,17 @@ class SessionsController < ApplicationController
 
   # render new.html.erb
   def new
+		#	Display recaptcha only if the number of failed logins have 
+		# exceeded the specified limit within a certain timeframe
+		@recaptcha = @bad_visitor
   end
 
   def create  
     logout_keeping_session!  
+		if @bad_visitor && !verify_recaptcha
+			failed_login("The captcha was incorrect, please enter the words from the picture again.", '', params[:openid])
+			return
+		end
     if using_open_id?
       open_id_authentication(params[:openid_identifier])
     else
@@ -42,9 +49,9 @@ class SessionsController < ApplicationController
   end
 
   # Track failed login attempts
-  def note_failed_signin(message, login_name)
-    flash.now[:error] = message		
-    logger.warn "Failed login for '#{login_name}' from #{request.remote_ip} at #{Time.now.utc}"
+  def note_failed_signin(message)
+		flash.now[:error] = message
+		UserFailure.record_failure(request.remote_ip, request.env['HTTP_USER_AGENT'])
   end
 
   def open_id_authentication(identity_url_params)
@@ -54,13 +61,13 @@ class SessionsController < ApplicationController
         :optional => [ :nickname, :email, :fullname]) do |result, identity_url, registration|
       case result.status
       when :missing
-        failed_login("Sorry, the OpenID server couldn't be found.", identity_url)
+        failed_login("Sorry, the OpenID server couldn't be found.", identity_url, true)
       when :invalid
-        failed_login("Sorry, but this does not appear to be a valid OpenID.", identity_url)
+        failed_login("Sorry, but this does not appear to be a valid OpenID.", identity_url, true)
       when :canceled
-        failed_login("OpenID verification was canceled.", identity_url)
+        failed_login("OpenID verification was canceled.", identity_url, true)
       when :failed
-        failed_login("Sorry, the OpenID verification failed.", identity_url)
+        failed_login("Sorry, the OpenID verification failed.", identity_url, true)
       when :successful
 				begin
 					if user = OpenidUser.find_with_identity_url(identity_url)
@@ -78,10 +85,10 @@ class SessionsController < ApplicationController
 					end
 				rescue Authentication::UserAbstraction::NotActivated
 					flash[:error_item] = ["request a new activation code", resend_activation_path]
-					failed_login("Your account has not been activated, please check your email or %s.", identity_url)
+					failed_login("Your account has not been activated, please check your email or %s.", identity_url, true)
 				rescue Authentication::UserAbstraction::NotEnabled
 					flash[:error_item] = ["contact the administrator", contact_site]
-					failed_login("Your account has been disabled, please %s.", identity_url)
+					failed_login("Your account has been disabled, please %s.", identity_url, true)
 				end
       end
     end
@@ -116,12 +123,17 @@ class SessionsController < ApplicationController
     flash[:notice] = "Logged in successfully."
   end
 
-  def failed_login(message, login_name)
-    note_failed_signin(message, login_name)
+  def failed_login(message, login_name, openid = nil) 	
+		note_failed_signin(message)	   
     @login       			 = params[:login]
     @remember_me 			 = params[:remember_me]
-		@openid_identifier = params[:openid_identifier]
-    render :action => 'new'
+		@openid_identifier = params[:openid_identifier] 
+		@recaptcha = @bad_visitor 
+		if openid 
+			render :template => 'openid_sessions/new'
+		else
+			render :action => 'new'
+		end
   end
 
 end

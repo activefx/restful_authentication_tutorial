@@ -27,8 +27,11 @@ CURRENT FEATURES
 	- Activation, with option to resend activation code
 	- Forgot Password / Reset Password
 	- Change Password 
+	- Failed login attempts database logging
+	- Recaptcha displayed for more than 5 failed logins
 	- Helper methods (link_to_user, if_admin?, etc.)
 	- Configuration file
+	- 404 handling and database logging
 	- Yahoo User Interface 3 CSS template
 	- Nested layouts
 	- Authentication Plugins 
@@ -52,8 +55,7 @@ KNOWN ISSUES
 TODO
 	- Fix known issues
 	- Full rSpec test suite
-	- Integrate optional recaptcha helpers
-	- Track failed login attempts and display recaptcha
+	- Set up admin interface on a subdomain and require a second password
 	- Better access and permission denied redirects
 	- Make the ActivationsController "activate" action restful
 	- Beta invitations
@@ -99,6 +101,8 @@ Yahoo User Interface by Yahoo! Inc. is released under the BSD License
 	- http://developer.yahoo.com/yui/3/
 
 RESOURCES
+Recaptcha (sign up for keys):
+	- http://www.recaptcha.net
 Roles / Role Requirement:
 	- http://scottmotte.com/archives/106
 	- http://pastie.org/226807
@@ -111,6 +115,8 @@ Beta Invitations:
 Configuration File:
 	- http://railscasts.com/episodes/85-yaml-configuration-file
 	- https://peepcode.com/products/draft-rails-code-review-pdf
+404 Handling:
+	- Advanced Rails Recipes #7 (http://www.amazon.com/Advanced-Rails-Recipes-Mike-Clark/dp/0978739221)
 Yahoo User Interface 3 CSS
 	- http://developer.yahoo.com/yui/3/cssreset/
 	- http://developer.yahoo.com/yui/3/cssfonts/

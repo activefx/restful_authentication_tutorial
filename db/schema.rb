@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20080910224435) do
+ActiveRecord::Schema.define(:version => 20080910234648) do
 
   create_table "four_oh_fours", :force => true do |t|
     t.string   "url"
@@ -67,6 +67,17 @@ ActiveRecord::Schema.define(:version => 20080910224435) do
 
   add_index "roles_users", ["role_id"], :name => "index_roles_users_on_role_id"
   add_index "roles_users", ["user_id"], :name => "index_roles_users_on_user_id"
+
+  create_table "user_failures", :force => true do |t|
+    t.string   "remote_ip"
+    t.string   "http_user_agent"
+    t.string   "failure_type"
+    t.integer  "count",           :default => 0
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "user_failures", ["remote_ip"], :name => "index_user_failures_on_remote_ip", :unique => true
 
   create_table "users", :force => true do |t|
     t.string   "user_type"
