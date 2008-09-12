@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20080910234648) do
+ActiveRecord::Schema.define(:version => 20080911154835) do
 
   create_table "four_oh_fours", :force => true do |t|
     t.string   "url"
@@ -21,6 +21,15 @@ ActiveRecord::Schema.define(:version => 20080910234648) do
 
   add_index "four_oh_fours", ["url", "referer"], :name => "index_four_oh_fours_on_url_and_referer", :unique => true
   add_index "four_oh_fours", ["url"], :name => "index_four_oh_fours_on_url"
+
+  create_table "invitations", :force => true do |t|
+    t.integer  "sender_id"
+    t.string   "email"
+    t.string   "token"
+    t.datetime "sent_at"
+  end
+
+  add_index "invitations", ["token"], :name => "index_invitations_on_token", :unique => true
 
   create_table "logged_exceptions", :force => true do |t|
     t.string   "exception_class"
@@ -77,7 +86,7 @@ ActiveRecord::Schema.define(:version => 20080910234648) do
     t.datetime "updated_at"
   end
 
-  add_index "user_failures", ["remote_ip"], :name => "index_user_failures_on_remote_ip", :unique => true
+  add_index "user_failures", ["remote_ip"], :name => "index_user_failures_on_remote_ip"
 
   create_table "users", :force => true do |t|
     t.string   "user_type"
@@ -95,6 +104,8 @@ ActiveRecord::Schema.define(:version => 20080910234648) do
     t.string   "password_reset_code",       :limit => 40
     t.boolean  "enabled",                                  :default => true
     t.string   "identity_url"
+    t.integer  "invitation_id"
+    t.integer  "invitation_limit"
   end
 
   add_index "users", ["login"], :name => "index_users_on_login", :unique => true

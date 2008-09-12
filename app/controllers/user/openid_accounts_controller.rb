@@ -10,13 +10,15 @@ class User::OpenidAccountsController < ApplicationController
     logout_keeping_session!
     @user = OpenidUser.new(:login => params[:user][:login],
 										 			 :email => params[:user][:email],
-										 			 :name => params[:user][:name])
+										 			 :name => params[:user][:name],
+													 :invitation_token => params[:user][:invitation_token])
 		@user.identity_url = params[:user][:identity_url]
     success = @user && @user.save
     if success && @user.errors.empty?
 			session[:identity_url] = nil			
       redirect_back_or_default('/')
-      flash[:notice] = "Thanks for signing up!  We're sending you an email with your activation code."
+      flash[:notice] = "Thanks for signing up! "
+			flash[:notice] += ((in_beta? && @user.emails_match?) ? "You can now log into your account." : "We're sending you 														an email with your activation code.")
     else
       flash.now[:error]  = "Sorry, we couldn't set up that account.  Please correct the errors and try again, or %s."
 			flash[:error_item] = ["sign up for a regular account", new_user_profile_path]

@@ -7,6 +7,7 @@ development:
     forgery: b8029fa60066bb90d7fb4e68265a112b
     admin_email: yourpersonalemail@example.com
     in_beta: true
+    new_user_invite_limit: 5
   rest_auth:
     site_key: e587f9d09baa59c920b9ee97ac70f58b3c51356c
     stretches: 10

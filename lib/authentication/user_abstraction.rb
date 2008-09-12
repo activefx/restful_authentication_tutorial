@@ -33,10 +33,15 @@ module Authentication
   				validates_format_of       :email,    :with => Authentication.email_regex, 
 																							 :message => Authentication.bad_email_message
 
-				  before_create :make_activation_code 
+					validates_presence_of :invitation_id, :message => 'is required', :if => :site_in_beta?
+					validates_uniqueness_of :invitation_id, :if => :site_in_beta?
 
+					before_create :set_invitation_limit
+				  before_create :make_activation_code
+ 
+					belongs_to :invitation
 					has_and_belongs_to_many :roles
-
+					has_many :sent_invitations, :class_name => 'Invitation', :foreign_key => 'sender_id'
 
       end
     end # #included directives
@@ -109,6 +114,14 @@ module Authentication
     		write_attribute :email, (value ? value.downcase : nil)
   		end
 
+			def invitation_token
+			  invitation.token if invitation
+			end
+
+			def invitation_token=(token)
+			  self.invitation = Invitation.find_by_token(token)
+			end
+
       def to_param
         login
       end
@@ -172,15 +185,39 @@ module Authentication
 		    @reset_password
 		  end
 
+			def site_in_beta?
+				APP_CONFIG['settings']['in_beta']
+			end
+
+			def emails_match?
+				self.email == self.invitation.email
+			end
+	
 		  protected
 		    
 		  def make_activation_code
 		    self.activation_code = self.class.make_token
+				if site_in_beta? && emails_match?
+					self.activated_at = Time.now
+					# Uncomment if you'd like UserMailer to deliver 
+					# the activation.erb email
+					# @activated = true
+				else
+					UserMailer.deliver_signup_notification(self)
+				end					
 		  end
 
 		  def make_password_reset_code
 		    self.password_reset_code = self.class.make_token
 		  end
+
+			private
+
+			def set_invitation_limit
+				if site_in_beta?
+  				self.invitation_limit = APP_CONFIG['settings']['new_user_invite_limit']
+				end
+			end
 
     end # instance methods
 

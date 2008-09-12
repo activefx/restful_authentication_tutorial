@@ -3,7 +3,10 @@ ActionController::Routing::Routes.draw do |map|
   map.login '/login', :controller => 'sessions', :action => 'new'
 	map.login_with_openid '/login_with_openid', :controller => 'openid_sessions', :action => 'new'
   map.register '/register', :controller => 'user/profiles', :action => 'create'
-  map.signup '/signup', :controller => 'user/profiles', :action => 'new'
+	map.signup '/signup', :controller => 'user/profiles', :action => 'new'
+  map.beta_signup '/signup/:invitation_token', :controller => 'user/profiles', :action => 'new'
+	map.openid_signup '/openid_signup', :controller => 'openid_sessions', :action => 'index'
+	map.beta_openid_signup '/openid_signup/:invitation_token', :controller => 'openid_sessions', :action => 'index'
   map.activate '/activate/:activation_code', :controller => 'user/activations', 
 		:action => 'activate', :activation_code => nil
   map.forgot_password '/forgot_password', :controller => 'user/passwords', :action => 'new'  
@@ -19,6 +22,7 @@ ActionController::Routing::Routes.draw do |map|
 
   map.namespace :user do |user|
 		user.resources :activations
+		user.resources :invitations
 		user.resources :openid_accounts 
 		user.resources :passwords
     user.resources :profiles do |profiles|

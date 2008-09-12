@@ -30,6 +30,10 @@ class ApplicationController < ActionController::Base
 		"default"
 	end
 
+	def in_beta?
+		APP_CONFIG['settings']['in_beta']
+	end
+
 	protected
 	
 	def check_visitor

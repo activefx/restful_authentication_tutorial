@@ -1,12 +1,25 @@
 <h1>Sign up as a new user</h1>
-<p>New OpenID users should <%= link_to "log in here",  new_openid_session_path %>.</p>
+
+<p>New OpenID users should <%= link_to "log in here",  
+		(beta_openid_signup_path(params[:invitation_token]) || openid_signup_path) %>.</p>
+
 <% @user.password = @user.password_confirmation = nil %>
 
 <%= error_messages_for :user %>
 <% form_for :user, :url => user_profiles_path, :builder => Uberkit::Forms::Builder do |f| -%>
+	<% if_in_beta? do -%>
+		<%= f.text_field :invitation_token, 
+										 :label => "Invitation Code", 
+										 :help => "*we are currently in private beta and an invitation code is required" %>
+	<% end -%>
 	<%= f.text_field :name, :help => "*optional" %>
   <%= f.text_field :login, :label => "Username" %>
-	<%= f.text_field :email %>
+	<% if in_beta? -%>
+		<%= f.text_field :email, 
+										 :help => "*email should match the one your invitation code was sent to, or you will have to 																	activate your account" %>
+	<% else -%>
+		<%= f.text_field :email %>
+	<% end -%>
   <%= f.password_field :password %>
 	<%= f.password_field :password_confirmation %>
   <%= f.submit "Sign up"%>

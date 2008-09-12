@@ -12,7 +12,7 @@ class User < ActiveRecord::Base
   # anything else you want your user to change should be added here.
 	# Add identity_url if you want users to be able to update their OpenID identity
 	# Because role_ids is included, never mass assign a User, SiteUser, or OpenidUser
-  attr_accessible :login, :email, :name, :password, :password_confirmation, :role_ids
+  attr_accessible :login, :email, :name, :password, :password_confirmation, :role_ids, :invitation_token
 
 	def self.member_list(page)
 		paginate :all,

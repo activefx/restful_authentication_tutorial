@@ -6,7 +6,7 @@ class SetUpFirstAdminUser < ActiveRecord::Migration
 		user.email = APP_CONFIG['settings']['admin_email']
 		user.password = "password"
 		user.password_confirmation = "password"
-    user.save
+    user.save(false)
 		role = Role.new
 		#Admin role name should be "admin" for convenience
 		role.name = "admin"
@@ -15,7 +15,7 @@ class SetUpFirstAdminUser < ActiveRecord::Migration
 		admin_role = Role.find_by_name("admin")
 		admin_user.activated_at = Time.now.utc
 		admin_user.roles << admin_role
-		admin_user.save		
+		admin_user.save(false)		
   end
 
   def self.down

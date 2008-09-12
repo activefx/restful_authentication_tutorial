@@ -58,7 +58,9 @@ class SessionsController < ApplicationController
     # Pass optional :required and :optional keys to specify what sreg fields you want.
     # Be sure to yield registration, a third argument in the #authenticate_with_open_id block.
     authenticate_with_open_id(identity_url_params, 
-        :optional => [ :nickname, :email, :fullname]) do |result, identity_url, registration|
+        :optional => [ :nickname, :email, :fullname],
+				:invitation_token => params[:invitation_token],
+				:remember_me => params[:remember_me]) do |result, identity_url, registration, extensions|
       case result.status
       when :missing
         failed_login("Sorry, the OpenID server couldn't be found.", identity_url, true)
@@ -73,11 +75,12 @@ class SessionsController < ApplicationController
 					if user = OpenidUser.find_with_identity_url(identity_url)
 						successful_login(user)
 					else
-						@user = OpenidUser.new
+						@user = OpenidUser.new(:invitation_token => params[:invitation_token])
 						assign_registration_attributes!(registration, identity_url)
 						if @user.save
 	            redirect_to root_path
-	      			flash[:notice] = "Thanks for signing up!  We're sending you an email with your activation code."
+      				flash[:notice] = "Thanks for signing up! "
+							flash[:notice] += ((in_beta? && @user.emails_match?) ? "You can now log into 																		your account." : "We're sending you an email with your activation code.")
 						else
 							flash.now[:error] = "We need some additional details before we can create your account."
 							render :template => "user/openid_accounts/new"
@@ -129,7 +132,10 @@ class SessionsController < ApplicationController
     @remember_me 			 = params[:remember_me]
 		@openid_identifier = params[:openid_identifier] 
 		@recaptcha = @bad_visitor 
-		if openid 
+		case
+		when openid && params[:invitation_token]
+			render :template => 'openid_sessions/index'
+		when openid
 			render :template => 'openid_sessions/new'
 		else
 			render :action => 'new'

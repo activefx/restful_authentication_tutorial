@@ -25,6 +25,7 @@ CURRENT FEATURES
 		- Set roles, activate, enable / disable users  
 	- Member list and public profiles for logged in users
 	- Activation, with option to resend activation code
+	- Beta invitation system with easy on/off functionality
 	- Forgot Password / Reset Password
 	- Change Password 
 	- Failed login attempts database logging
@@ -58,7 +59,6 @@ TODO
 	- Set up admin interface on a subdomain and require a second password
 	- Better access and permission denied redirects
 	- Make the ActivationsController "activate" action restful
-	- Beta invitations
 	- Integrate user interface plugins / dry form builders
 	- Move query stats and rows logger to footnotes plugin
 	- Refactoring, google authentication, facebook connect, oauth, api metering
@@ -75,6 +75,7 @@ Rails-footnotes by Jose Valim and Duane Johnson is released under the MIT Licens
 	- http://github.com/activefx/rails-footnotes/tree/master (modified for restful_authentication_tutorial)
 Open_id_authentication by David Heinemeier Hansson is released under the MIT License
 	- http://github.com/rails/open_id_authentication/tree/master
+	- http://github.com/activefx/open_id_authentication/tree/master (modified for restful_authentication_tutorial)
 Permalink_fu by Rick Olson is released under the MIT License
 	- http://github.com/technoweenie/permalink_fu/tree/master
 Query_analyzer by Bob Silva is released under the MIT License

@@ -15,8 +15,9 @@ class CreateUsers < ActiveRecord::Migration
       t.column :activated_at,              :datetime
  		  t.column :password_reset_code,       :string, :limit => 40
       t.column :enabled,                   :boolean, :default => true   
-			t.column :identity_url,							 :string 
-
+			t.column :identity_url,							 :string
+			t.column :invitation_id,						 :integer
+			t.column :invitation_limit, 				 :integer
     end
     add_index :users, :login, :unique => true
   end

@@ -1,0 +1,7 @@
+<h1>Send invitation</h1>
+
+<%= error_messages_for :invitation %>
+<% uberform_for [:user, @invitation] do |f| %>
+	<%= f.text_field :email, :label => "Friend's email address:" %>
+	<%= f.submit "Invite!" %>
+<% end %>

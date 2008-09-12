@@ -43,4 +43,16 @@ module ApplicationHelper
 		yield if @recaptcha
 	end
 
+	def in_beta?
+		APP_CONFIG['settings']['in_beta']
+	end
+
+	def if_in_beta?
+		yield if in_beta?
+	end
+
+	def unless_in_beta?
+		yield unless in_beta?
+	end
+
 end

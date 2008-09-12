@@ -19,9 +19,6 @@
 [submodule "vendor/plugins/recaptcha"]
 	path = vendor/plugins/recaptcha
 	url = git://github.com/ambethia/recaptcha.git
-[submodule "vendor/plugins/open_id_authentication"]
-	path = vendor/plugins/open_id_authentication
-	url = git://github.com/rails/open_id_authentication.git
 [submodule "vendor/plugins/footnotes"]
 	path = vendor/plugins/footnotes
 	url = git://github.com/activefx/rails-footnotes.git
@@ -31,3 +28,6 @@
 [submodule "vendor/plugins/auto_migrations"]
 	path = vendor/plugins/auto_migrations
 	url = git://github.com/pjhyett/auto_migrations.git
+[submodule "vendor/plugins/open_id_authentication"]
+	path = vendor/plugins/open_id_authentication
+	url = git://github.com/activefx/open_id_authentication.git

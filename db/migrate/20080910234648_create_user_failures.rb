@@ -6,7 +6,7 @@ class CreateUserFailures < ActiveRecord::Migration
       t.timestamps
     end
 
-    add_index :user_failures, :remote_ip, :unique => true
+    add_index :user_failures, :remote_ip
   end
 
   def self.down

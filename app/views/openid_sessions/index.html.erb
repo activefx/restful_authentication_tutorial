@@ -1,0 +1,21 @@
+<h1>Sign up with OpenID</h1>
+
+<% form_tag session_path do -%>
+<%= hidden_field_tag 'openid', true %>
+
+<% if_in_beta? do -%>
+	<p><%= label_tag 'invitation_token', 'Invitation Code' %><br/>
+	<%= text_field_tag :invitation_token, params[:invitation_token] %>
+	<span>*we are currently in private beta and an invitation code is required</span></p>
+<% end -%>
+
+<p><%= label_tag 'openid_indentifier', 'OpenID Url' %><br/>
+<%= text_field_tag "openid_identifier", @openid_identifier %></p>
+
+<% if_recaptcha? do %>
+	<p>Please enter the following words below.<br/>
+	<%= recaptcha_tags %></p>
+<% end %>
+
+<p><%= submit_tag 'Log in', :disable_with => "Signing in&hellip;" %></p>
+<% end -%>
