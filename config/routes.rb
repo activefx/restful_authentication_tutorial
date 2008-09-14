@@ -18,7 +18,8 @@ ActionController::Routing::Routes.draw do |map|
 		admin.resources :invite_actions
 		admin.resources :invites
 		admin.resources :mailings
-    admin.resources :users, :member => { :enable => :put } do |users|
+		admin.resources :states
+    admin.resources :users do |users|
 			users.resources :roles
 		end    
   end

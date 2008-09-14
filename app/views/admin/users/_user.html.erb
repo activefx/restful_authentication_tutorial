@@ -9,9 +9,9 @@
   <td><%= user.enabled ? 'yes' : 'no' %>
     <% unless user == current_user %>
       <% if user.enabled %>
-        <%= link_to('disable', admin_user_path(user), :method => :delete) %>
+        <%= link_to('disable', admin_state_path(user), :method => :delete) %>
       <% else %>
-        <%= link_to('enable', enable_admin_user_path(user), :method => :put) %>
+        <%= link_to('enable', admin_state_path(user), :method => :put) %>
       <% end %>
     <% end %>
   </td>
