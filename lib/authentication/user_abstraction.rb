@@ -33,8 +33,14 @@ module Authentication
   				validates_format_of       :email,    :with => Authentication.email_regex, 
 																							 :message => Authentication.bad_email_message
 
-					validates_presence_of :invitation_id, :message => 'is required', :if => :site_in_beta?
-					validates_uniqueness_of :invitation_id, :if => :site_in_beta?
+					validates_presence_of 		:invitation_id, :message => 'is required', 
+																										:on => :create, 
+																										:if => :site_in_beta?
+					validates_uniqueness_of 	:invitation_id, :on => :create, :if => :site_in_beta?
+
+					validates_numericality_of :invitation_limit, 
+																			:less_than_or_equal_to => APP_CONFIG['settings']['max_user_invite_limit'],
+																			:on => :update
 
 					before_create :set_invitation_limit
 				  before_create :make_activation_code
@@ -98,6 +104,22 @@ module Authentication
 				return false if (email.blank? || u.nil? || (!u.identity_url.blank? && u.password.blank?))
 				(u.forgot_password && u.save) ? true : false
 		  end
+
+			def add_to_invitation_limit(number)
+				users = find :all, :conditions => ['enabled = ? and activated_at IS NOT NULL', true]
+				users.each do |u|
+					u.add_invites(number)
+					u.save(false)
+				end
+			end
+
+			def remove_all_invitations
+				users = find :all
+				users.each do |u|
+					u.invitation_limit = 0
+					u.save(false)
+				end
+			end
    
     end # class methods
 
@@ -185,12 +207,26 @@ module Authentication
 		    @reset_password
 		  end
 
+		  def recently_created?
+		    @created
+		  end
+
 			def site_in_beta?
 				APP_CONFIG['settings']['in_beta']
 			end
 
 			def emails_match?
+				return false if self.invitation.nil?
 				self.email == self.invitation.email
+			end
+
+			def add_invites(number)
+				self.invitation_limit || (self.invitation_limit = 0)
+				if ((self.invitation_limit + number) > APP_CONFIG['settings']['max_user_invite_limit'])
+					self.invitation_limit = APP_CONFIG['settings']['max_user_invite_limit']
+				else
+					self.invitation_limit += number
+				end
 			end
 	
 		  protected
@@ -199,11 +235,9 @@ module Authentication
 		    self.activation_code = self.class.make_token
 				if site_in_beta? && emails_match?
 					self.activated_at = Time.now
-					# Uncomment if you'd like UserMailer to deliver 
-					# the activation.erb email
-					# @activated = true
+					@activated = true
 				else
-					UserMailer.deliver_signup_notification(self)
+					@created = true
 				end					
 		  end
 

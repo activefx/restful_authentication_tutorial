@@ -8,6 +8,7 @@ development:
     admin_email: yourpersonalemail@example.com
     in_beta: true
     new_user_invite_limit: 5
+    max_user_invite_limit: 100
   rest_auth:
     site_key: e587f9d09baa59c920b9ee97ac70f58b3c51356c
     stretches: 10
@@ -16,7 +17,7 @@ development:
     port: 25
     domain: yourapplication.com
     authentication: :login
-    user_name: emailaccount@yourapplication.com
+    user_name: email_account_username_or_address@yourapplication.com
     password: emailaccountpassword
     sender: donotreply@yourapplication.com
   recaptcha:

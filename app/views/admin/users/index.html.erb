@@ -1,4 +1,8 @@
 <h1>All Users</h1>
+<% if_in_beta? do -%>
+	<p><%= link_to 'Manage Beta Invitations for All Users', admin_invites_path %> |
+<%= link_to 'Pending Beta Users', admin_invite_actions_path %></p>
+<% end -%>
   <table>
     <tr>
       <th>Login</th>
@@ -6,6 +10,9 @@
 			<th>Active?</th>
       <th>Enabled?</th>
       <th>Roles</th>
+			<% if_in_beta? do -%>
+				<th>Invitations</th>
+			<% end -%>
     </tr>
       <%= render :partial => 'user', :collection => @users %>
   </table>

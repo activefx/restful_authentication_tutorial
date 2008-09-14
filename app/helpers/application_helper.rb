@@ -55,4 +55,8 @@ module ApplicationHelper
 		yield unless in_beta?
 	end
 
+	def if_invites_available?
+		yield if in_beta? and logged_in? and (current_user.invitation_limit > 0)
+	end
+
 end

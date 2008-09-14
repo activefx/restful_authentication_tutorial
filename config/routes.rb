@@ -11,10 +11,13 @@ ActionController::Routing::Routes.draw do |map|
 		:action => 'activate', :activation_code => nil
   map.forgot_password '/forgot_password', :controller => 'user/passwords', :action => 'new'  
 	map.reset_password '/reset_password/:id', :controller => 'user/passwords', :action => 'edit', :id => nil  
-	map.resend_activation '/resend_activation', :controller => 'user/activations', :action => 'edit'
+	map.resend_activation '/resend_activation', :controller => 'user/activations', :action => 'new'
 
   map.namespace :admin do |admin|
 		admin.resources :controls
+		admin.resources :invite_actions
+		admin.resources :invites
+		admin.resources :mailings
     admin.resources :users, :member => { :enable => :put } do |users|
 			users.resources :roles
 		end    

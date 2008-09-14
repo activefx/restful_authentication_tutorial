@@ -60,7 +60,7 @@ class SessionsController < ApplicationController
     authenticate_with_open_id(identity_url_params, 
         :optional => [ :nickname, :email, :fullname],
 				:invitation_token => params[:invitation_token],
-				:remember_me => params[:remember_me]) do |result, identity_url, registration, extensions|
+				:remember_me => params[:remember_me]) do |result, identity_url, registration|
       case result.status
       when :missing
         failed_login("Sorry, the OpenID server couldn't be found.", identity_url, true)

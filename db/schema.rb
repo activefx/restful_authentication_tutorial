@@ -27,6 +27,8 @@ ActiveRecord::Schema.define(:version => 20080911154835) do
     t.string   "email"
     t.string   "token"
     t.datetime "sent_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "invitations", ["token"], :name => "index_invitations_on_token", :unique => true

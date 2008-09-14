@@ -1,0 +1,9 @@
+<h1>Edit invitations for <%= @user.login %></h1>
+<p><%= link_to 'Back to user administration', admin_users_path %>.</p>
+<%= error_messages_for :user %>
+<% form_for :user, :url => admin_invite_path(@user), 
+									 :html => { :method => :put }, 
+								   :builder => Uberkit::Forms::Builder do |f| -%>
+	<%= f.text_field :invitation_limit %>
+	<%= f.submit "Update" %>
+<% end -%>

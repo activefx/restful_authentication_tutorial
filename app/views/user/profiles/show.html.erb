@@ -1,5 +1,9 @@
 <h1>My Profile: <%=h @user.login %> <%= link_to '(edit)', edit_user_profile_path(current_user) %></h1>
-<p>Joined on: <%= @user.created_at.to_s(:long) %></p>
+<% if_invites_available? do -%>
+	<p>You have <%=h @user.invitation_limit %> invitations left. <%= link_to "Invite friends to join",
+				new_user_invitation_path %>.</p>
+<% end -%>
+<p>Joined on: <%=h @user.created_at.to_s(:long) %></p>
 <p>Name: <%=h @user.name %></p>
 <p>Username: <%=h @user.login %></p>
 <p>Email: <%=h @user.email %></p>

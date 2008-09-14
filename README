@@ -25,7 +25,8 @@ CURRENT FEATURES
 		- Set roles, activate, enable / disable users  
 	- Member list and public profiles for logged in users
 	- Activation, with option to resend activation code
-	- Beta invitation system with easy on/off functionality
+	- Beta invitation system 
+			- easy on/off functionality, add/remove invites, send emails to pending users
 	- Forgot Password / Reset Password
 	- Change Password 
 	- Failed login attempts database logging
@@ -45,6 +46,8 @@ CURRENT FEATURES
 		- auto_migrations
 	- Testing 
 		- rspec, rspec_rails
+	- Gems
+		- ruby-openid-2.1.2
 	
 KNOWN ISSUES
 	- View and Layout notes for the rails-footnotes plugin do not work due to changes to ActionView::Base
@@ -56,7 +59,6 @@ KNOWN ISSUES
 TODO
 	- Fix known issues
 	- Full rSpec test suite
-	- Set up admin interface on a subdomain and require a second password
 	- Better access and permission denied redirects
 	- Make the ActivationsController "activate" action restful
 	- Integrate user interface plugins / dry form builders
@@ -113,6 +115,8 @@ Exception Logger:
 	- http://railscasts.com/episodes/104
 Beta Invitations:
 	- http://railscasts.com/episodes/124-beta-invitations
+ar_mailer gem:
+	- http://www.ameravant.com/posts/sending-tons-of-emails-in-ruby-on-rails-with-ar_mailer
 Configuration File:
 	- http://railscasts.com/episodes/85-yaml-configuration-file
 	- https://peepcode.com/products/draft-rails-code-review-pdf

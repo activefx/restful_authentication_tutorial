@@ -4,6 +4,7 @@ class CreateInvitations < ActiveRecord::Migration
 			t.integer  :sender_id
 			t.string   :email, :token
 			t.datetime :sent_at
+			t.timestamps
     end
 
     add_index :invitations, :token, :unique => true

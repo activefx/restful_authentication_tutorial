@@ -1,5 +1,5 @@
 <h1>Resend activation</h1>
-<% form_tag url_for(:action => 'update') do %>
+<% form_tag user_activations_path do %>
     What is the email address used to create your account?<br />
     <%= text_field_tag :email, "", :size => 50 %><br />
     <%= submit_tag 'Resend activation code' %>

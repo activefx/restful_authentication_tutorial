@@ -1,7 +1,7 @@
 <h1>Log in with your account</h1>
-
+<p><%= link_to "Login with OpenID", login_with_openid_path %></p>
 <% form_tag session_path do -%>
-<p><%= label_tag 'login' %><br />
+<p><%= label_tag 'login', "Username" %><br />
 <%= text_field_tag 'login', @login %></p>
 
 <p><%= label_tag 'password' %><br/>

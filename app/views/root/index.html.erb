@@ -1,5 +1,6 @@
 <% content_for :side do -%>	
 	<% unless logged_in? -%><% if_in_beta? do -%>
+		<%= error_messages_for :invitation %>
 		<p>We are currently in private beta. Please enter your email address below and we will let know when an invitation becomes available.</p>
 		<% uberform_for [:user, Invitation.new] do |f| -%>
 		    <%= f.text_field :email, :label => "Your Email:" %>

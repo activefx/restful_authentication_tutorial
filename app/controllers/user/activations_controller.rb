@@ -7,7 +7,7 @@ class User::ActivationsController < ApplicationController
 			if user = User.find_with_activation_code(params[:activation_code])
 	      user.activate!
 	      flash[:notice] = "Signup complete! Please sign in to continue."
-	      redirect_to login_path
+	      (user.user_type == "SiteUser") ? (redirect_to login_path) : (redirect_to login_with_openid_path)
 			else
 				logger.warn "Invalid activation code from #{request.remote_ip} at #{Time.now.utc}"
 	      flash[:error]  = "We couldn't find a user with that activation code, please check your email and try again, or %s."
@@ -24,11 +24,11 @@ class User::ActivationsController < ApplicationController
   end
 
   # Enter email address to resend activation 
-  def edit
+  def new
   end
 
   # Resend activation action
-  def update  
+  def create  
 		begin  
 	    if !params[:email].blank? && User.send_new_activation_code(params[:email])
 	      flash[:notice] = "A new activation code has been sent to your email address."
