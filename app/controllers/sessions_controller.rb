@@ -7,13 +7,20 @@ class SessionsController < ApplicationController
   def new
 		#	Display recaptcha only if the number of failed logins have 
 		# exceeded the specified limit within a certain timeframe
-		@recaptcha = @bad_visitor
+		@bad_visitor = UserFailure.failure_check(request.remote_ip)
+		respond_to do |format|
+      format.html 
+			format.js
+    end
   end
 
   def create  
-    logout_keeping_session!  
+    logout_keeping_session!
+		# Only verify recaptcha if the user has reached the failed login limit  
+		@bad_visitor = UserFailure.failure_check(request.remote_ip)
 		if @bad_visitor && !verify_recaptcha
-			failed_login("The captcha was incorrect, please enter the words from the picture again.", '', params[:openid])
+			failed_login("The captcha was incorrect, please enter the words from the picture again.", 
+											(params[:login] || params[:openid_identifier] || ''), params[:openid])
 			return
 		end
     if using_open_id?
@@ -49,9 +56,9 @@ class SessionsController < ApplicationController
   end
 
   # Track failed login attempts
-  def note_failed_signin(message)
+  def note_failed_signin(message, login_name = nil)
 		flash.now[:error] = message
-		UserFailure.record_failure(request.remote_ip, request.env['HTTP_USER_AGENT'])
+		UserFailure.record_failure(request.remote_ip, request.env['HTTP_USER_AGENT'], "login", login_name)
   end
 
   def open_id_authentication(identity_url_params)
@@ -127,11 +134,11 @@ class SessionsController < ApplicationController
   end
 
   def failed_login(message, login_name, openid = nil) 	
-		note_failed_signin(message)	   
+		note_failed_signin(message, login_name)	   
     @login       			 = params[:login]
     @remember_me 			 = params[:remember_me]
 		@openid_identifier = params[:openid_identifier] 
-		@recaptcha = @bad_visitor 
+		@bad_visitor ||= UserFailure.failure_check(request.remote_ip)
 		case
 		when openid && params[:invitation_token]
 			render :template => 'openid_sessions/index'

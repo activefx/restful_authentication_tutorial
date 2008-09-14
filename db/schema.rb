@@ -83,6 +83,7 @@ ActiveRecord::Schema.define(:version => 20080911154835) do
     t.string   "remote_ip"
     t.string   "http_user_agent"
     t.string   "failure_type"
+    t.string   "username"
     t.integer  "count",           :default => 0
     t.datetime "created_at"
     t.datetime "updated_at"

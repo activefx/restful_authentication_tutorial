@@ -2,7 +2,6 @@
 # Likewise, all the methods added will be available for all controllers.
 
 class ApplicationController < ActionController::Base
-	before_filter :check_visitor
   layout "application"
   # AuthenticatedSystem must be included for RoleRequirement, and is provided by installing acts_as_authenticates and running 'script/generate authenticated account user'.
   include AuthenticatedSystem
@@ -34,11 +33,4 @@ class ApplicationController < ActionController::Base
 		APP_CONFIG['settings']['in_beta']
 	end
 
-	protected
-	
-	def check_visitor
-		unless logged_in?
-			@bad_visitor = UserFailure.failure_check(request.remote_ip)
-		end
-	end
 end

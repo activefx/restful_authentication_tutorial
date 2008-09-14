@@ -21,16 +21,6 @@ module ApplicationHelper
     end
   end
 
-  def show_login(partial)
-    update_page do |page|
-			if @bad_visitor
-				page.redirect_to send("#{partial}_path")
-			else
-				page['logins'].replace_html :partial => "shared/#{partial}"
-			end
-    end
-  end
-
 	def if_admin?
     yield if logged_in? && current_user.has_role?('admin')
 	end
@@ -40,7 +30,7 @@ module ApplicationHelper
 	end
 
 	def if_recaptcha?
-		yield if @recaptcha
+		yield if @bad_visitor
 	end
 
 	def in_beta?

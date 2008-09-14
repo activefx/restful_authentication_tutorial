@@ -1,0 +1,8 @@
+if @bad_visitor
+	page.redirect_to login_path
+else
+	page['logins'].hide
+	page['logins'].replace_html :partial => "shared/login"
+	page['logins'].appear
+end
+

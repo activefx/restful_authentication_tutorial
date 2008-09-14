@@ -1,0 +1,8 @@
+if @bad_visitor
+	page.redirect_to login_with_openid_path
+else
+	page['logins'].hide
+	page['logins'].replace_html :partial => "shared/login_with_openid"
+	page['logins'].appear
+end
+

@@ -8,7 +8,11 @@ class OpenidSessionsController < SessionsController
 	def new
 		#	Display recaptcha only if the number of failed logins have 
 		# exceeded the specified limit within a certain timeframe
-		@recaptcha = @bad_visitor
+		@bad_visitor = UserFailure.failure_check(request.remote_ip)
+    respond_to do |format|
+      format.html 
+			format.js
+    end
 	end
 
 end
