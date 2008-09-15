@@ -1,7 +1,6 @@
 # This controller handles the login/logout function of the site.  
 class SessionsController < ApplicationController
 	before_filter :login_prohibited, :only => [:new, :create]
-	protect_from_forgery :only => [ :new, :destroy ]
 
   # render new.html.erb
   def new
