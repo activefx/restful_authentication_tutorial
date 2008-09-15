@@ -157,9 +157,14 @@ module Authentication
 		  end
 
 			def change_password!(old_password, new_password, new_confirmation)
-				raise OpenidAccount if (!self.identity_url.blank? && self.crypted_password.blank?)
-				raise PasswordMismatch if (new_password != new_confirmation)
-				return nil unless (!new_password.blank? && User.authenticate(self.login, old_password))
+				errors.add_to_base("OpenID users cannot change their password.") and
+					return false if (!self.identity_url.blank? && self.crypted_password.blank?)
+				errors.add_to_base("New password does not match the password confirmation.") and
+					return false if (new_password != new_confirmation)
+				errors.add_to_base("New password cannot be blank.") and
+					return false if new_password.blank? 
+				errors.add_to_base("You password was not changed, your old password is incorrect.") and
+					return false unless User.authenticate(self.login, old_password) 
         self.password, self.password_confirmation = new_password, new_confirmation
 				save
 			end

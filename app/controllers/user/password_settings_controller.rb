@@ -11,21 +11,12 @@ class User::PasswordSettingsController < ApplicationController
   
   # Change password action  
   def create
-		begin
-			if current_user.change_password!(params[:old_password], params[:password], params[:password_confirmation])
-	   		flash[:notice] = "Password successfully updated."
-	    	redirect_to user_profile_path(current_user)		
-			else
-				@old_password = nil
-	      flash.now[:error] = "Your password was not changed, you old password may be incorrect."
-	      render :action => 'index'
-			end
-		rescue Authentication::UserAbstraction::OpenidAccount
-			flash[:error] = "OpenID users cannot change their password."
-			redirect_to user_profile_path(current_user)
-		rescue Authentication::UserAbstraction::PasswordMismatch
-      @old_password = nil
-			flash.now[:error] = "New password does not match the password confirmation."
+		if current_user.change_password!(params[:old_password], params[:password], params[:password_confirmation])
+   		flash[:notice] = "Password successfully updated."
+    	redirect_to user_profile_path(current_user)		
+		else
+			@old_password = nil
+      flash.now[:error] = current_user.errors.on_base || "There was a problem updating your password."
       render :action => 'index'
 		end
 	end
