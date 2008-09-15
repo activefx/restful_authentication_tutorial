@@ -1,3 +1,4 @@
 #!/usr/bin/env ruby
 ENV['RSPEC'] = 'true'
-system (["autotest"] << ARGV.dup).flatten.join(" ")
+ENV['AUTOTEST'] = 'true'
+system ("autotest", *ARGV)

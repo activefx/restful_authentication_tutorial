@@ -1,6 +1,5 @@
 module Spec
   module Matchers
-    
     class Have #:nodoc:
       def initialize(expected, relativity=:exactly)
         @expected = (expected == :no ? 0 : expected)
@@ -13,16 +12,6 @@ module Spec
           :at_least => "at least ",
           :at_most => "at most "
         }
-      end
-    
-      def method_missing(sym, *args, &block)
-        @collection_name = sym
-        if inflector = (defined?(ActiveSupport::Inflector) ? ActiveSupport::Inflector : (defined?(Inflector) ? Inflector : nil))
-          @plural_collection_name = inflector.pluralize(sym.to_s)
-        end
-        @args = args
-        @block = block
-        self
       end
     
       def matches?(collection_owner)
@@ -77,7 +66,21 @@ EOF
         "have #{relative_expectation} #{@collection_name}"
       end
       
+      def respond_to?(sym)
+        @expected.respond_to?(sym) || super
+      end
+    
       private
+      
+      def method_missing(sym, *args, &block)
+        @collection_name = sym
+        if inflector = (defined?(ActiveSupport::Inflector) ? ActiveSupport::Inflector : (defined?(Inflector) ? Inflector : nil))
+          @plural_collection_name = inflector.pluralize(sym.to_s)
+        end
+        @args = args
+        @block = block
+        self
+      end
       
       def relative_expectation
         "#{relativities[@relativity]}#{@expected}"
