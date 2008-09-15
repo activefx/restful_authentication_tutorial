@@ -1,0 +1,46 @@
+#!/usr/bin/ruby
+#
+#
+# Taken from http://www.beanlogic.co.uk/2008/7/12/gedit-on-rails
+# Modified for restful_authentication_tutorial to work with
+# the rails-footnotes plugin, gedit, ubuntu, and firefox. 
+# Make sure this file is executable ex. chmod ugo+rwx gediturl
+#
+#
+#
+# Copyright (c) 2004 - 2008 Beanlogic Limited
+#
+# This file is part of gedit_on_rails.
+#
+# gedit_on_rails is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# gedit_on_rails is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with gedit_on_rails.  If not, see <http://www.gnu.org/licenses/>.
+#
+# This file handles the openning of rspec examples 
+
+#GEDIT = 'which gedit'.chomp
+
+url = ARGV.first
+
+url = url[8..url.length]
+
+file, line = url.to_s.split('&')
+
+if !line.nil? 
+	l = line[5..line.length]
+	system("/usr/bin/gedit #{file} +#{l}")
+else
+	system("/usr/bin/gedit #{file}")
+end
+
+
+

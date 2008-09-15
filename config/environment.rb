@@ -75,4 +75,4 @@ end
 #Change for your text editor
 #Ex. Textmate = "txmt://open?url=file://"
 #See also http://josevalim.blogspot.com/2008/06/textmate-protocol-behavior-on-any.html
-Footnotes::Filter.prefix = "file://"#"gedit://open?file://"
+Footnotes::Filter.prefix = "gedit://"

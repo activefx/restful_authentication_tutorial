@@ -50,10 +50,8 @@ CURRENT FEATURES
 		- ruby-openid-2.1.2
 	
 KNOWN ISSUES
-	- View and Layout notes for the rails-footnotes plugin do not work due to changes to ActionView::Base
-	- SessionsController#create returns ActionController::InvalidAuthenticityToken unless protect_from_forgery is skipped for the create action. This may just be an issue on my end from fooling with the cookies, secret, and session key.
 	- Roles controller needs to be redesigned. Currently mass assigns user (shouldn't be a problem because only admins can access the controller) and can return the wrong flash message if the role association is updated but user validations still fail.
-	- Not sure if the exception_logger is working properly. If someone can test and let me know if it works or what the problem is it would be greatly appreciated. I think an error with the rails-footnotes plugin is preventing exceptions from being logged. 
+	- Not sure if the exception_logger is working properly. If someone can test and let me know if it works or what the problem is it would be greatly appreciated.
 
 TODO
 	- Fix known issues
@@ -73,7 +71,6 @@ Exception_logger by Chris Wanstrath appears to be released under the MIT License
 	- http://github.com/defunkt/exception_logger/tree/master
 Rails-footnotes by Jose Valim and Duane Johnson is released under the MIT License
 	- http://github.com/drnic/rails-footnotes/tree/master
-	- http://github.com/activefx/rails-footnotes/tree/master (modified for restful_authentication_tutorial)
 Open_id_authentication by David Heinemeier Hansson is released under the MIT License
 	- http://github.com/rails/open_id_authentication/tree/master
 	- http://github.com/activefx/open_id_authentication/tree/master (modified for restful_authentication_tutorial)
@@ -112,6 +109,9 @@ Flash Messages:
 	- http://rubypond.com/articles/2008/07/11/useful-flash-messages-in-rails/
 Exception Logger:
 	- http://railscasts.com/episodes/104
+Setting up your editor for the footnots plugin:
+	- http://josevalim.blogspot.com/2008/06/textmate-protocol-behavior-on-any.html
+	- http://www.beanlogic.co.uk/2008/7/12/gedit-on-rails
 Beta Invitations:
 	- http://railscasts.com/episodes/124-beta-invitations
 ar_mailer gem:
