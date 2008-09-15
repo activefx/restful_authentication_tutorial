@@ -4,5 +4,9 @@ else
 	page['logins'].hide
 	page['logins'].replace_html :partial => "shared/login"
 	page['logins'].appear
+	page.delay(1) do	
+		page << focus_on_div("login")
+	end
 end
+
 

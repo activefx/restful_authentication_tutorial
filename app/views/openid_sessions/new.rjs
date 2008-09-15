@@ -4,5 +4,8 @@ else
 	page['logins'].hide
 	page['logins'].replace_html :partial => "shared/login_with_openid"
 	page['logins'].appear
+	page.delay(1) do
+		page << focus_on_div("openid_identifier")
+	end
 end
 

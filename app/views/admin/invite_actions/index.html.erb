@@ -1,4 +1,4 @@
-<h1>Users waiting to sign up (<%=h @users.total_entries %>)</h1>
+<h1>Users waiting to sign up (<%=h @users.total_entries rescue nil%>)</h1>
 	<p><%= link_to 'User Administration', admin_users_path %> |
 <%= link_to 'Manage Beta Invitations for All Users', admin_invites_path %></p>
 
@@ -10,6 +10,8 @@ Send invitations to users who have signed up on the front page for the private b
 <% end -%>
 </p>
 
+<% if @users -%>
+
 <ul>
 	<% for user in @users -%>
 		<li><%=h user.email %></li>
@@ -17,3 +19,5 @@ Send invitations to users who have signed up on the front page for the private b
 </ul>
 
 <%= will_paginate @users %>
+
+<% end -%>

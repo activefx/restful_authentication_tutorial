@@ -9,12 +9,13 @@ class Admin::InviteActionsController < ApplicationController
 
 	# Add invitations to all users
 	def create
-		if User.add_to_invitation_limit(params[:add_invites].to_i)
+		if !params[:add_invites].blank?
+			User.add_to_invitation_limit(params[:add_invites].to_i)
       flash[:notice] = "Invitation limit updated."
       redirect_to admin_users_path
     else
-			flash.now[:error] = "There was a problem updating the invitation limit."
-      render :action => 'index'
+			flash[:error] = "There was a problem updating the invitation limit."
+      redirect_to admin_invites_path
 		end
 	end
 

@@ -49,4 +49,10 @@ module ApplicationHelper
 		yield if in_beta? and logged_in? and (current_user.invitation_limit > 0)
 	end
 
+	def focus_on_div(div)
+	  update_page do |page|
+	    page[div].focus
+	  end
+	end
+
 end

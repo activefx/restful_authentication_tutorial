@@ -31,3 +31,6 @@
 [submodule "vendor/plugins/footnotes"]
 	path = vendor/plugins/footnotes
 	url = git://github.com/drnic/rails-footnotes.git
+[submodule "vendor/plugins/pseudo_cursors"]
+	path = vendor/plugins/pseudo_cursors
+	url = git://github.com/sml/pseudo_cursors.git

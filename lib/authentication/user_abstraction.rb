@@ -105,17 +105,17 @@ module Authentication
 				(u.forgot_password && u.save) ? true : false
 		  end
 
+			# find_each method from pseudo_cursors
 			def add_to_invitation_limit(number)
-				users = find :all, :conditions => ['enabled = ? and activated_at IS NOT NULL', true]
-				users.each do |u|
+				find_each(:conditions => ['enabled = ? and activated_at IS NOT NULL', true]) do |u|
 					u.add_invites(number)
 					u.save(false)
 				end
 			end
 
+			# find_each method from pseudo_cursors
 			def remove_all_invitations
-				users = find :all
-				users.each do |u|
+				find_each do |u|
 					u.invitation_limit = 0
 					u.save(false)
 				end
