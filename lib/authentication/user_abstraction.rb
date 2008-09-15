@@ -79,18 +79,33 @@ module Authentication
 				u
 			end
 
-			def send_new_activation_code(email)
+			def send_new_activation_code(email = nil, &block) #yield error, message, path
 				u = find :first, :conditions => ['email = ?', email]
-				raise EmailNotFound if (email.blank? || u.nil?)
-				return nil unless (u.send(:make_activation_code) && u.save(false))
-				@lost_activation = true
-			end	
+				case 
+				when (email.blank? || u.nil?)
+					yield :error, "Could not find a user with that email address.", "resend_activation_path"
+				when (u.send(:make_activation_code) && u.save(false))
+					@lost_activation = true
+					yield :notice, "A new activation code has been sent to your email address.", "root_path"
+				else
+					yield :error, "There was a problem resending your activation code, please try again or %s.", 							"resend_activation_path"
+				end
+			end
 
-			def find_with_activation_code(activation_code)
-				raise NoActivationCode if activation_code.nil?
-				u = find :first, :conditions => ['activation_code = ?', activation_code]
-				return nil unless u
-				u.active? ? (raise AlreadyActivated) : u
+			def find_with_activation_code(activation_code = nil, &block) #yield user, error, message, path
+				u = find :first, :conditions => ['activation_code = ?', activation_code]				
+				case
+				when activation_code.nil?
+					yield nil, :error, "The activation code was missing, please follow the URL from your email.", "root_path"
+				when u.nil?
+					yield nil, :error, "We couldn't find a user with that activation code, please check your email and try 							again, or %s.", "root_path"
+				when u.active?
+					yield nil, :notice, "Your account has already been activated. You can log in below", "login_path"
+				when u
+					u.activate!
+					path = ((u.user_type == "SiteUser") ? "login_path" : "login_with_openid_path")
+					yield u, :notice, "Signup complete! Please sign in to continue.", path
+				end
 			end
 
 			def find_with_password_reset_code(reset_code)
