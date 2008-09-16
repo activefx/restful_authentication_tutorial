@@ -1,12 +1,18 @@
 <h1>Reset your password</h1>
 <% form_for "password", :url => user_password_url(params[:id]),
-       :html => { :method => :put } do |f| %>
+       :html => { :method => :put } do |f| -%>
 		<%= hidden_field_tag :reset_code, params[:id] %>
     Password:<br />
     <%= password_field_tag :password %><br />
     Confirm Password:<br />
     <%= password_field_tag :password_confirmation %><br />
+
+<% if_recaptcha? do -%>
+	<p>Please enter the following words below.<br/>
+	<%= recaptcha_tags %></p>
+<% end -%>
+
     <%= submit_tag "Reset Your Password" %>
-<% end %>
+<% end -%>
 
 

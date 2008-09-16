@@ -1,15 +1,6 @@
 module Authentication
   module UserAbstraction
 
-		class NotActivated < StandardError; end
-	  class NotEnabled < StandardError; end
-		class NoActivationCode < StandardError; end
-		class AlreadyActivated < StandardError; end
-		class BlankEmail < StandardError; end
-		class EmailNotFound < StandardError; end
-		class OpenidAccount < StandardError; end
-		class PasswordMismatch < StandardError; end
-
     # Stuff directives into including module
     def self.included( recipient )
       recipient.extend( ModelClassMethods )
@@ -56,29 +47,6 @@ module Authentication
     #
     module ModelClassMethods
 
-		  # Authenticates a user by their login name and unencrypted password.  Returns the user or nil.
-		  #
-		  # uff.  this is really an authorization, not authentication routine.  
-		  # We really need a Dispatch Chain here or something.
-		  # This will also let us return a human error message.
-		  #
-		  def authenticate(login, password)
-				return nil if (login.blank? || password.blank?)
-		    u = find :first, :conditions => ['login = ?', login], :include => :roles # need to get the salt
-		    return nil unless (u && u.authenticated?(password))
-				raise	NotActivated unless u.active?
-				raise NotEnabled unless u.enabled?
-				u
-		  end
-
-			def find_with_identity_url(identity_url)
-		    u = self.find :first, :conditions => ['identity_url = ?', identity_url] 
-				return nil if (identity_url.blank? || u.nil?) 
-				raise	NotActivated unless u.active?
-			  raise NotEnabled unless u.enabled?
-				u
-			end
-
 			def send_new_activation_code(email = nil, &block) #yield error, message, path
 				u = find :first, :conditions => ['email = ?', email]
 				case 
@@ -92,33 +60,21 @@ module Authentication
 				end
 			end
 
-			def find_with_activation_code(activation_code = nil, &block) #yield user, error, message, path
+			def find_with_activation_code(activation_code = nil, &block) #yield error, message, path
 				u = find :first, :conditions => ['activation_code = ?', activation_code]				
 				case
 				when activation_code.nil?
-					yield nil, :error, "The activation code was missing, please follow the URL from your email.", "root_path"
+					yield :error, "The activation code was missing, please follow the URL from your email.", "root_path"
 				when u.nil?
-					yield nil, :error, "We couldn't find a user with that activation code, please check your email and try 							again, or %s.", "root_path"
+					yield :error, "We couldn't find a user with that activation code, please check your email and try 						again, or %s.", "root_path"
 				when u.active?
-					yield nil, :notice, "Your account has already been activated. You can log in below", "login_path"
+					yield :notice, "Your account has already been activated. You can log in below", "login_path"
 				when u
 					u.activate!
 					path = ((u.user_type == "SiteUser") ? "login_path" : "login_with_openid_path")
-					yield u, :notice, "Signup complete! Please sign in to continue.", path
+					yield :notice, "Signup complete! Please sign in to continue.", path
 				end
 			end
-
-			def find_with_password_reset_code(reset_code)
-				u = find :first, :conditions => ['password_reset_code = ?', reset_code]
-				raise StandardError if (reset_code.blank? || u.nil?)
-				u
-			end
-
-		  def find_for_forget(email)
-		    u = find :first, :conditions => ['email = ? and activated_at IS NOT NULL', email]
-				return false if (email.blank? || u.nil? || (!u.identity_url.blank? && u.password.blank?))
-				(u.forgot_password && u.save) ? true : false
-		  end
 
 			# find_each method from pseudo_cursors
 			def add_to_invitation_limit(number)

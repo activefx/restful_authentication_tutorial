@@ -8,8 +8,9 @@ class UserFailure < ActiveRecord::Base
 	end
 
   def self.record_failure(remote_ip, http_user_agent, failure_type, username = nil)
-		failure = find_by_remote_ip(remote_ip)
-		if  (failure && failure.within_hour?)
+		failure = find(:first, :conditions => ['remote_ip = ?', remote_ip],
+													 :order => 'updated_at DESC')
+		if (failure && failure.within_hour?)
 			increment_count(failure, http_user_agent, failure_type, username)
 		else
 			new_user_failure(remote_ip, http_user_agent, failure_type, username)

@@ -11,7 +11,6 @@ class User::PasswordsController < ApplicationController
       flash[:notice] = "A password reset link has been sent to your email address."
       redirect_to root_path
     else
-			logger.warn "Password reset not sent with email '#{params[:email]}' from #{request.remote_ip} at #{Time.now.utc}"
       flash.now[:notice] = "A password reset link was not sent, you may have enetered an invalid email address."
       render :action => 'new'
     end  
@@ -21,36 +20,34 @@ class User::PasswordsController < ApplicationController
   # Checks that the id code matches a user in the database
   # Then if everything checks out, shows the password reset fields
   def edit
-    @user = SiteUser.find_with_password_reset_code(params[:id])
-  rescue
-    logger.warn "Invalid password reset code from #{request.remote_ip} at #{Time.now.utc}"
-    flash[:notice] = "Invalid password reset code, please check your email and try again."
-    redirect_to root_path
+		@bad_visitor = UserFailure.failure_check(request.remote_ip)
+		if params[:id].nil?
+			flash[:error] = "The password reset code was missing."
+			redirect_to root_path
+		end
   end
     
   # Reset password action /reset_password/:id
   def update
-    @user = SiteUser.find_with_password_reset_code(params[:reset_code]) 
-    if (params[:password] == params[:password_confirmation])
-      @user.password_confirmation = params[:password_confirmation]
-      @user.password = params[:password]
-      if (!params[:password].blank? && @user.save)
-			  @user.reset_password!        
-        flash[:notice] = "Password reset." 
+		@bad_visitor = UserFailure.failure_check(request.remote_ip)
+		if @bad_visitor && !verify_recaptcha
+			flash[:error] = "The captcha was incorrect, please follow the link from your email again."
+			redirect_to root_path
+			return
+		end
+    SiteUser.find_and_reset_password(params[:password], params[:password_confirmation], 
+			params[:reset_code]) do |error, message, path, failure|
+			if path
+				UserFailure.record_failure(request.remote_ip, 
+					request.env['HTTP_USER_AGENT'], "passwordreset", nil) if failure
+				flash[error] = message
+				redirect_to send(path)
 			else
-				flash[:notice] = "There was a problem resetting your password."
+				flash.now[error] = message
+				render :action => 'edit', :id => params[:id]
 			end
-    else
-      flash.now[:notice] = "Password and password confirmation did not match."
-      render :action => 'edit', :id => params[:id]
-      return
-    end  
-    redirect_to login_path
-  rescue
-    logger.warn "Invalid password reset code from #{request.remote_ip} at #{Time.now.utc}"
-    flash[:notice] = "Invalid password reset code, please check your email and try again."
-    redirect_to root_path
-  end
+		end
+	end
     
 end
 

@@ -38,21 +38,12 @@ class SessionsController < ApplicationController
   protected
 
   def password_authentication(name, password)
-    begin
-			user = SiteUser.authenticate(name, password)
-      if user
-			  successful_login(user)
-      else
-			  failed_login("Could not log you in as '#{name}', your username or password is incorrect.", name)
-      end
-		rescue Authentication::UserAbstraction::NotActivated
-			flash[:error_item] = ["request a new activation code", resend_activation_path]
-			failed_login("Your account has not been activated, please check your email or %s.", name)
-		rescue Authentication::UserAbstraction::NotEnabled
-			flash[:error_item] = ["contact the administrator", contact_site]
-			failed_login("Your account has been disabled, please %s.", name)
+		SiteUser.authenticate(name, password) do |user, message, item_msg, item_path|
+			(successful_login(user) and return) if user
+			(flash[:error_item] = [item_msg, send(item_path)]) if item_path
+			failed_login(message, name)
 		end
-  end
+	end
 
   # Track failed login attempts
   def note_failed_signin(message, login_name = nil)
@@ -77,32 +68,28 @@ class SessionsController < ApplicationController
       when :failed
         failed_login("Sorry, the OpenID verification failed.", identity_url, true)
       when :successful
-				begin
-					if user = OpenidUser.find_with_identity_url(identity_url)
-						successful_login(user)
+				OpenidUser.find_with_identity_url(identity_url) do |account, user, message, item_msg, item_path|
+					if account	
+						(successful_login(user) and return) if user
+						flash[:error_item] = [item_msg, send(item_path)]
+						failed_login(message, identity_url, true)
 					else
 						@user = OpenidUser.new(:invitation_token => params[:invitation_token])
 						assign_registration_attributes!(registration, identity_url)
 						if @user.save
 	            redirect_to root_path
-      				flash[:notice] = "Thanks for signing up! "
+	    				flash[:notice] = "Thanks for signing up! "
 							flash[:notice] += ((in_beta? && @user.emails_match?) ? "You can now log into 																		your account." : "We're sending you an email with your activation code.")
 						else
 							flash.now[:error] = "We need some additional details before we can create your account."
 							render :template => "user/openid_accounts/new"
 						end
 					end
-				rescue Authentication::UserAbstraction::NotActivated
-					flash[:error_item] = ["request a new activation code", resend_activation_path]
-					failed_login("Your account has not been activated, please check your email or %s.", identity_url, true)
-				rescue Authentication::UserAbstraction::NotEnabled
-					flash[:error_item] = ["contact the administrator", contact_site]
-					failed_login("Your account has been disabled, please %s.", identity_url, true)
 				end
       end
     end
   end
-      
+
   # registration is a hash containing the valid sreg keys given above
   # use this to map them to fields of your user model
   def assign_registration_attributes!(registration, identity_url)

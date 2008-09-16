@@ -3,7 +3,7 @@ class User::ActivationsController < ApplicationController
 
   def activate
     logout_keeping_session!
-		User.find_with_activation_code(params[:activation_code]) do |user, error, message, path|
+		User.find_with_activation_code(params[:activation_code]) do |error, message, path|
 			flash[:error_item] = ["request a new activation code", resend_activation_path]
 			flash[error] = message
 			redirect_to send(path)
