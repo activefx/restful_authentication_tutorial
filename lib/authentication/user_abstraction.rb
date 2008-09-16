@@ -71,7 +71,7 @@ module Authentication
 					yield :notice, "Your account has already been activated. You can log in below", "login_path"
 				when u
 					u.activate!
-					path = ((u.user_type == "SiteUser") ? "login_path" : "login_with_openid_path")
+					path = ((u.user_type == "OpenidUser") ? "login_with_openid_path" : "login_path")
 					yield :notice, "Signup complete! Please sign in to continue.", path
 				end
 			end
@@ -192,7 +192,7 @@ module Authentication
 			end
 
 			def emails_match?
-				return false if self.invitation.nil?
+				return false unless invitation
 				self.email == self.invitation.email
 			end
 

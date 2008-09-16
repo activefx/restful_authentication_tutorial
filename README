@@ -23,6 +23,7 @@ CURRENT FEATURES
 	- Roles and permissions
 	- Administrative user controller
 		- Set roles, activate, enable / disable users  
+	- Login, permission, and access denied redirection system
 	- Member list and public profiles for logged in users
 	- Activation, with option to resend activation code
 	- Beta invitation system 
@@ -42,8 +43,8 @@ CURRENT FEATURES
 		- custom-err-msg, permalink_fu, uberkit, will_paginate
 	- Debug Plugins 
 		- exception_logger, rails-footnotes, query_analyzer, query_stats, rows_logger
-	- Development Plugins
-		- auto_migrations
+	- Development and Performance Plugins
+		- auto_migrations, pseudo_cursors
 	- Testing 
 		- rspec, rspec_rails
 	- Gems
@@ -56,7 +57,6 @@ KNOWN ISSUES
 TODO
 	- Fix known issues
 	- Full rSpec test suite
-	- Better access and permission denied redirects
 	- Make the ActivationsController "activate" action restful
 	- Integrate user interface plugins / dry form builders
 	- Move query stats and rows logger to footnotes plugin
@@ -76,6 +76,8 @@ Open_id_authentication by David Heinemeier Hansson is released under the MIT Lic
 	- http://github.com/activefx/open_id_authentication/tree/master (modified for restful_authentication_tutorial)
 Permalink_fu by Rick Olson is released under the MIT License
 	- http://github.com/technoweenie/permalink_fu/tree/master
+Pseudo_cursors by Brian Durand is released under the MIT License
+	- http://github.com/sml/pseudo_cursors/tree/master
 Query_analyzer by Bob Silva is released under the MIT License
 	- http://svn.nfectio.us/plugins/query_analyzer
 Query_stats by Dan Manges is released under the MIT License
@@ -128,6 +130,7 @@ Yahoo User Interface 3 CSS:
 	- http://developer.yahoo.com/yui/3/cssbase/
 Rails Security:
 	- http://www.slideshare.net/heikowebers/advanced-ruby-on-rails-security/
+	- http://guides.rails.info/securing_rails_applications/security.html
 Additional Resources:
 	- http://delicious.com/activefx/restful_authentication
 	- http://delicious.com/activefx/openid

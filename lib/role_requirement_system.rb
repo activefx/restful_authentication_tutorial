@@ -115,8 +115,36 @@ module RoleRequirementSystem
         #return false
 				respond_to do |format|
 					format.html do 
-						flash[:error] = "You don't have permission to complete this action."
-	          redirect_to root_path
+						flash[:error] = "You don't have permission to complete this action."		
+						domain = "http://#{APP_CONFIG['settings']['domain']}"				
+						case
+						# Checks to see if the call to access_denied is the result of a failed redirect after logging 
+						# in normally (HTTP_REFERER includes one of the paths) or with OpenID (HTTP_REFERER is nil)
+						when (session[:refered_from] && request.env['HTTP_REFERER'] && 
+							(request.env['HTTP_REFERER'].include?("#{APP_CONFIG['settings']['domain']}/session/new" || 
+							"#{APP_CONFIG['settings']['domain']}/login"))), (request.env['HTTP_REFERER'].nil? && 
+							session[:refered_from]) 
+								referer = session[:refered_from]
+						else
+								referer = request.env['HTTP_REFERER']
+						end							
+						case 
+						# Makes sure the referer is a page on your website
+						when (referer[0...(domain.length)] != domain)
+							redirect_to root_path
+						else
+							# Make sure the current_user has permission to access the referer path
+							path = referer[(domain.length)..(referer.length)]
+							route = ActionController::Routing::Routes.recognize_path(path, {:method => :get})
+							if url_options_authenticate?(:controller => route[:controller], :action => route[:action], 
+								:params => route[:id]) && (route[:controller] != "four_oh_fours")
+								redirect_to(referer)
+							else
+								redirect_to root_path
+							end
+						end
+						session[:refered_from] = nil
+						session[:return_to] = nil
 					end
 	        format.any do
 	          headers["Status"]           = "Unauthorized"
@@ -131,13 +159,14 @@ module RoleRequirementSystem
     
     def check_roles       
       return access_denied unless self.class.user_authorized_for?(current_user, params, binding)
-      
+      session[:refered_from] = nil
+			session[:return_to] = nil
       true
     end
     
   protected
     # receives a :controller, :action, and :params.  Finds the given controller and runs user_authorized_for? on it.
-    # This can be called in your views, and is for advanced users only.  If you are using :if / :unless eval expressions, 
+    # This can be called in your views, and is for advanced users only.  If you are usredirect_to root_pathing :if / :unless eval expressions, 
     #   then this may or may not work (eval strings use the current binding to execute, not the binding of the target 
     #   controller)
     def url_options_authenticate?(params = {})

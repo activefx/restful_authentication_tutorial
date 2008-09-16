@@ -57,7 +57,11 @@ class SessionsController < ApplicationController
     authenticate_with_open_id(identity_url_params, 
         :optional => [ :nickname, :email, :fullname],
 				:invitation_token => params[:invitation_token],
-				:remember_me => params[:remember_me]) do |result, identity_url, registration|
+				:remember_me => params[:remember_me],
+				:requested => session[:return_to],
+				:refered_from => session[:refered_from]) do |result, identity_url, registration|
+			session[:return_to] = params[:requested]
+			session[:refered_from] = params[:refered_from]
       case result.status
       when :missing
         failed_login("Sorry, the OpenID server couldn't be found.", identity_url, true)
@@ -67,7 +71,7 @@ class SessionsController < ApplicationController
         failed_login("OpenID verification was canceled.", identity_url, true)
       when :failed
         failed_login("Sorry, the OpenID verification failed.", identity_url, true)
-      when :successful
+      when :successful 
 				OpenidUser.find_with_identity_url(identity_url) do |account, user, message, item_msg, item_path|
 					if account	
 						(successful_login(user) and return) if user
@@ -111,7 +115,16 @@ class SessionsController < ApplicationController
     # Protects against session fixation attacks, causes request forgery
     # protection if user resubmits an earlier form using back
     # button. Uncomment if you understand the tradeoffs.
-    # reset_session
+		#
+		# reset_session has been uncommented in the restful_authentication_tutorial app,
+		# which is not the default setting of the restful_authentication plugin
+		# guides.rails.info/securing_rails_applications/security.html#_session_fixation_countermeasures
+		#
+		refered_from = session[:refered_from]
+		return_to = session[:return_to]
+    reset_session
+		session[:refered_from] = refered_from 
+		session[:return_to] = return_to
     self.current_user = user
     new_cookie_flag = (params[:remember_me] == "1")
     handle_remember_cookie! new_cookie_flag

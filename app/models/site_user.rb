@@ -7,8 +7,8 @@ class SiteUser < User
 		yield nil, "Username and password cannot be blank.", nil, nil and
 			return if (login.blank? || password.blank?)
 		u = find :first, :conditions => ['login = ?', login], :include => :roles
-		yield nil, "Could not log you in as '#{login}', your username or password is incorrect.", nil, nil and
-			return unless (u && u.authenticated?(password))
+		yield nil, "Could not log you in as '#{CGI.escapeHTML(login)}', your username or password is incorrect.", nil, 
+			nil and return unless (u && u.authenticated?(password))
 		case
 		when !u.active?
 			yield nil, "Your account has not been activated, please check your email or %s.", "request a new activation 				code", "resend_activation_path"

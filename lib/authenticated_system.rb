@@ -90,6 +90,7 @@ module AuthenticatedSystem
     # We can return to this location by calling #redirect_back_or_default.
     def store_location
       session[:return_to] = request.request_uri
+			session[:refered_from] = request.env["HTTP_REFERER"]
     end
 
     # Redirect to the URI stored by the most recent store_location call or
@@ -98,7 +99,7 @@ module AuthenticatedSystem
     # for any controller you want to be bounce-backable.
     def redirect_back_or_default(default)
       redirect_to(session[:return_to] || default)
-      session[:return_to] = nil
+			session[:return_to] = nil
     end
 
     # Inclusion hook to make #current_user and #logged_in?
