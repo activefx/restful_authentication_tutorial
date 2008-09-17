@@ -2,7 +2,6 @@ ActionController::Routing::Routes.draw do |map|
   map.logout '/logout', :controller => 'sessions', :action => 'destroy'
   map.login '/login', :controller => 'sessions', :action => 'new'
 	map.login_with_openid '/login_with_openid', :controller => 'openid_sessions', :action => 'new'
-  map.register '/register', :controller => 'user/profiles', :action => 'create'
 	map.signup '/signup', :controller => 'user/profiles', :action => 'new'
   map.beta_signup '/signup/:invitation_token', :controller => 'user/profiles', :action => 'new'
 	map.openid_signup '/openid_signup', :controller => 'openid_sessions', :action => 'index'

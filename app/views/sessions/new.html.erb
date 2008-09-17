@@ -1,22 +1,31 @@
 <h1>Log in with your account</h1>
 <p><%= link_to "Login with OpenID", login_with_openid_path %></p>
 <% form_tag session_path do -%>
-<p><%= label_tag 'login', "Username" %><br />
-<%= text_field_tag 'login', @login %></p>
 
-<p><%= label_tag 'password' %><br/>
-<%= password_field_tag 'password', nil %><br/>
-<%= link_to 'Forgot Password?', forgot_password_path %></p>
+	<div class="field_row">
+		<%= label_tag 'login', "Username" %>
+		<%= text_field_tag 'login', @login %><br />
+	</div>
+
+	<div class="field_row">
+		<%= label_tag 'password' %>
+		<%= password_field_tag 'password', nil %><br/>
+	</div>
+	<p><%= link_to 'Forgot Password?', forgot_password_path %></p>
 
 <% if_recaptcha? do %>
-	<p>Please enter the following words below.<br/>
-	<%= recaptcha_tags %></p>
+	<div class="field_row">
+		<label for="recaptcha">Please enter the following words below.</label>
+		<%= recaptcha_tags %><br />
+	</div>
 <% end %>
 
-<p>Stay logged in on this computer:<br/>
-<%= label_tag 'remember_me', 'Remember me' %>
-<%= check_box_tag 'remember_me', '1', @remember_me %></p>
+	Stay logged in on this computer:<br/>
+	<div class="field_row">
+		<%= label_tag 'remember_me', 'Remember me' %>
+		<%= check_box_tag 'remember_me', '1', @remember_me %><br />
+	</div>
 
-<p><%= submit_tag 'Log in', :disable_with => "Signing in&hellip;" %></p>
+	<p><%= submit_tag 'Log in', :disable_with => "Signing in&hellip;" %></p>
 <% end -%>
 

@@ -3,17 +3,23 @@
 <% form_tag session_path do -%>
 <%= hidden_field_tag 'openid', true %>
 
-<p><%= label_tag 'openid_indentifier', 'OpenID Url' %><br/>
-<%= text_field_tag "openid_identifier", @openid_identifier %></p>
+	<div class="field_row">
+		<%= label_tag 'openid_indentifier', 'OpenID Url' %><br/>
+		<%= text_field_tag "openid_identifier", @openid_identifier %>
+	</div>
 
 <% if_recaptcha? do %>
-	<p>Please enter the following words below.<br/>
-	<%= recaptcha_tags %></p>
+	<div class="field_row">
+		<label for="recaptcha">Please enter the following words below.</label>
+		<%= recaptcha_tags %><br />
+	</div>
 <% end %>
 
-<p>Stay logged in on this computer:<br/>
-<%= label_tag 'remember_me', 'Remember me' %>
-<%= check_box_tag 'remember_me', '1', @remember_me %></p>
+	Stay logged in on this computer:<br />
+	<div class="field_row">
+		<%= label_tag 'remember_me', 'Remember me' %>
+		<%= check_box_tag 'remember_me', '1', @remember_me %><br />
+	</div>
 
-<p><%= submit_tag 'Log in', :disable_with => "Signing in&hellip;" %></p>
+	<p><%= submit_tag 'Log in', :disable_with => "Signing in&hellip;" %></p>
 <% end -%>

@@ -1,15 +1,22 @@
 <h1>Change your password</h1>
 
 <% form_tag url_for(:action => 'create') do %>
-  <p><label for="old_password" class="block">Old Password</label><br />
-  <%= password_field_tag 'old_password', @old_password, :size => 45 %></p>
+  
+	<div class="field_row">
+		<label for="old_password" class="block">Old Password</label>
+  	<%= password_field_tag 'old_password', @old_password, :size => 45 %><br />
+	</div>
 
-  <p><label for="password" class="block">New Password</label><br />
-  <%= password_field_tag 'password', {}, :size => 45 %><br />
-  <small>Between 6 and 40 characters</small></p>
+	<div class="field_row">
+  	<label for="password" class="block">New Password</label>
+  	<%= password_field_tag 'password', {}, :size => 45 %>
+  	<span class="description">Between 6 and 40 characters</span><br />
+	</div>
 
-  <p><label for="password_confirmation"  class="block">Confirm New Password</label><br />
-  <%= password_field_tag 'password_confirmation', {}, :size => 45 %></p>
+	<div class="field_row">
+  	<label for="password_confirmation"  class="block">Confirm New Password</label>
+  	<%= password_field_tag 'password_confirmation', {}, :size => 45 %><br />
+	</div>
 
   <%= submit_tag 'Change Password' %>
 <% end %>

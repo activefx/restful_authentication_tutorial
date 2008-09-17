@@ -2,17 +2,25 @@
 <% form_for "password", :url => user_password_url(params[:id]),
        :html => { :method => :put } do |f| -%>
 		<%= hidden_field_tag :reset_code, params[:id] %>
-    Password:<br />
+
+	<div class="field_row">
+    <label for="password">Password:<label>
     <%= password_field_tag :password %><br />
-    Confirm Password:<br />
+	</div>
+
+	<div class="field_row">
+    <label for="password_confirmation">Confirm Password:</label>
     <%= password_field_tag :password_confirmation %><br />
+	</div>
 
-<% if_recaptcha? do -%>
-	<p>Please enter the following words below.<br/>
-	<%= recaptcha_tags %></p>
-<% end -%>
+<% if_recaptcha? do %>
+	<div class="field_row">
+		<label for="recaptcha">Please enter the following words below.</label>
+		<%= recaptcha_tags %><br />
+	</div>
+<% end %>
 
-    <%= submit_tag "Reset Your Password" %>
+  <%= f.submit "Reset Your Password" %>
 <% end -%>
 
 

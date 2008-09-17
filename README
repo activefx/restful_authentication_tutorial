@@ -11,6 +11,9 @@ SET UP
 	- git submodule update
 	- Set up database.yml file
 	- Set up config.yml file (repeat as necessary for test and production environments)
+		- settings/domain - should be your domain name without www or http, ex. yourdomain.com
+		- settings/in_beta - should be true or false only
+		- set new_user_invite_limit to zero to prevent new users from sending invitations when in beta
 	- Change the login and password for the admin user in the _set_up_first_admin_user.rb migration
 	- Change contact_site method in application.rb to redirect to your site's contact form or info
 	- rake db:create:all or db:create
@@ -52,14 +55,11 @@ CURRENT FEATURES
 		- ruby-openid-2.1.2
 	
 KNOWN ISSUES
-	- Not sure if the exception_logger is working properly. If someone can test and let me know if it works or what the problem is it would be greatly appreciated.
+	- Not sure if the exception_logger is working properly, it does not appear to be recording exceptions. If someone can test and let me know if it works or what the problem is it would be greatly appreciated.
 
 TODO
-	- Fix known issues
 	- Full rSpec test suite
-	- Integrate user interface plugins / dry form builders
-	- Move query stats and rows logger to footnotes plugin
-	- Refactoring, google authentication, facebook connect, oauth, api metering
+	- Ongoing: refactoring, google authentication, facebook connect, oauth, api metering, seperate login for admins
 
 PLUGINS
 Auto_migrations by PJ Hyett is released under the MIT License

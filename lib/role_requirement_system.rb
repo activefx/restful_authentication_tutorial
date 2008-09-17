@@ -116,7 +116,8 @@ module RoleRequirementSystem
 				respond_to do |format|
 					format.html do 
 						flash[:error] = "You don't have permission to complete this action."		
-						domain = "http://#{APP_CONFIG['settings']['domain']}"				
+						domain = "http://#{APP_CONFIG['settings']['domain']}"		
+						wwwdomain = "http://www.#{APP_CONFIG['settings']['domain']}"		
 						case
 						# Checks to see if the call to access_denied is the result of a failed redirect after logging 
 						# in normally (HTTP_REFERER includes one of the paths) or with OpenID (HTTP_REFERER is nil)
@@ -130,11 +131,13 @@ module RoleRequirementSystem
 						end							
 						case 
 						# Makes sure the referer is a page on your website
-						when (referer[0...(domain.length)] != domain)
-							redirect_to root_path
-						else
+						when (referer[0...(domain.length)] == domain), (referer[0...(wwwdomain.length)] == wwwdomain)
 							# Make sure the current_user has permission to access the referer path
-							path = referer[(domain.length)..(referer.length)]
+							if referer[0..10] == "http://www."
+								path = referer[(wwwdomain.length)..(referer.length)]
+							else
+								path = referer[(domain.length)..(referer.length)]
+							end
 							route = ActionController::Routing::Routes.recognize_path(path, {:method => :get})
 							if url_options_authenticate?(:controller => route[:controller], :action => route[:action], 
 								:params => route[:id]) && (route[:controller] != "four_oh_fours")
@@ -142,6 +145,8 @@ module RoleRequirementSystem
 							else
 								redirect_to root_path
 							end
+						else
+							redirect_to root_path
 						end
 						session[:refered_from] = nil
 						session[:return_to] = nil

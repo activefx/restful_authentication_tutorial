@@ -1,6 +1,10 @@
 <h1>Resend activation</h1>
 <% form_tag user_activations_path do %>
-    What is the email address used to create your account?<br />
+
+	<div class="field_row">	
+    <label for="email">What is the email address used to create your account?</label>
     <%= text_field_tag :email, "", :size => 50 %><br />
-    <%= submit_tag 'Resend activation code' %>
+	</div>
+
+    <%= submit_tag 'Resend Activation Code', :disable_with => "Sending&hellip;" %>
 <% end %>

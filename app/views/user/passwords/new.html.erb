@@ -1,7 +1,11 @@
 <h1>Forgot password</h1>
 <% form_tag url_for(:action => 'create') do %>
-    What is the email address used to create your account?<br />
+
+	<div class="field_row">
+    <label for="email">What is the email address used to create your account?</label>
     <%= text_field_tag :email, "", :size => 50 %><br />
+	</div>
+
     <%= submit_tag 'Reset Password' %>
 <% end %>
 

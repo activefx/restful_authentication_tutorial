@@ -5,8 +5,11 @@
 <p>
 <% form_tag url_for(:controller => 'mailings', :action => 'create') do -%>
 Send invitations to users who have signed up on the front page for the private beta. Recommended maximum of 20 (enforced in the find) sent emails at a time, if you consistantly use that many or need more you should implement the ar_mailer gem or a background process.<br/>
-	Number of invitations to send (max 20): <%= text_field_tag 'limit' %><br/>
-	<%= submit_tag 'Send invitations' %>
+	<div class="field_row">
+	<label for="limit">Number of invitations to send (max 20):</label>
+	<%= text_field_tag 'limit' %><br/>
+  </div>
+	<%= submit_tag 'Send Invitations', :disable_with => "Sending&hellip;" %>
 <% end -%>
 </p>
 

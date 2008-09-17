@@ -1,25 +1,40 @@
 <h1>Invitations</h1>
 <p><%= link_to 'User Administration', admin_users_path %> | 
 <%= link_to 'Pending Beta Users', admin_invite_actions_path %></p>
+<br />
+
 <h2>Add invitations to all users</h2>
 
 <% form_tag url_for(:controller => 'invite_actions', :action => 'create') do -%>
-Add number of invites to users: <%= text_field_tag 'add_invites' %>
-	<%= submit_tag 'Update invite limits' %>
+	<div class="field_row">
+		<label for="add_invites">Add number of invites to users: </label>
+		<%= text_field_tag 'add_invites' %><br/>
+  </div>
+	<%= submit_tag 'Update Invite Limits', :disable_with => "Updating&hellip;" %>
 <% end -%>
+<br />
 
 <h2>Remove invitations from all users</h2>
 
 <% form_tag url_for(:action => 'create') do -%>
 Reset all invitation limits to zero. Users with invitation codes will still be able to sign up and have the default number of invitations availabe, unless you also set new_user_invite_limit to zero in the config file.<br/>
-	Check for confirmation: <%= check_box_tag 'remove_invites' %> Remove all invites?<br/>
-	<%= submit_tag 'Reset invite limits' %>
+	 
+	<div class="field_row">
+		<label for="remove_invites">Check for confirmation:</label>
+		<%= check_box_tag 'remove_invites' %> <span class="description">Remove all invites?</span><br/>
+	</div>
+	<%= submit_tag 'Reset Invite Limits', :disable_with => "Reseting&hellip;" %>
 <% end -%>
+<br />
 
 <h2>Send invitations to pending beta users</h2>
 
 <% form_tag url_for(:controller => 'mailings', :action => 'create') do -%>
 Send invitations to users who have signed up on the front page for the private beta. Recommended maximum of 20 (enforced in the find) sent emails at a time, if you consistantly use that many or need more you should implement the ar_mailer gem or a background process.<br/>
-	Number of invitations to send (max 20): <%= text_field_tag 'limit' %><br/>
-	<%= submit_tag 'Send invitations' %>
+	<div class="field_row">
+		<label for="limit">Number of invitations to send (max 20):</label>
+		<%= text_field_tag 'limit' %><br/>
+	</div>
+	<%= submit_tag 'Send Invitations', :disable_with => "Sending&hellip;" %>
 <% end -%>
+<br />
