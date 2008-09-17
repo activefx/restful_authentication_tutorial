@@ -14,9 +14,6 @@ class User::ProfilesController < ApplicationController
  
   def create
     logout_keeping_session!
-		# WARNING
-		# Because role ids are an accessible attribute, anytime you create  
-		# or update a User you need to assign the params individually
     @user = SiteUser.new(:login => params[:user][:login],
 										 		 :email => params[:user][:email],
 										 		 :name => params[:user][:name],
@@ -44,7 +41,6 @@ class User::ProfilesController < ApplicationController
 
   def update
     @user = current_user
-		# Do not mass assign user attributes
     if @user.update_attributes(:name  => params[:user][:name],
 															 :email => params[:user][:email])
       flash[:notice] = "Profile updated."

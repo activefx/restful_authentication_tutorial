@@ -166,9 +166,10 @@ module RoleRequirementSystem
     
   protected
     # receives a :controller, :action, and :params.  Finds the given controller and runs user_authorized_for? on it.
-    # This can be called in your views, and is for advanced users only.  If you are usredirect_to root_pathing :if / :unless eval expressions, 
-    #   then this may or may not work (eval strings use the current binding to execute, not the binding of the target 
-    #   controller)
+    # This can be called in your views, and is for advanced users only.  
+		# If you are using :if / :unless eval expressions, 
+    # then this may or may not work (eval strings use the current binding to execute, not the binding of the target 
+    # controller)
     def url_options_authenticate?(params = {})
       params = params.symbolize_keys
       if params[:controller]

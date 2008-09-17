@@ -17,8 +17,9 @@ SET UP
 	- rake db:migrate
 
 CURRENT FEATURES
-	- Namespaced admin and user sections
 	- Login / Logout
+	- Restful, with the exception of the "activate" action
+	- Namespaced admin and user sections
 	- OpenID Authentication with support for incomplete OpenID profiles
 	- Roles and permissions
 	- Administrative user controller
@@ -51,13 +52,11 @@ CURRENT FEATURES
 		- ruby-openid-2.1.2
 	
 KNOWN ISSUES
-	- Roles controller needs to be redesigned. Currently mass assigns user (shouldn't be a problem because only admins can access the controller) and can return the wrong flash message if the role association is updated but user validations still fail.
 	- Not sure if the exception_logger is working properly. If someone can test and let me know if it works or what the problem is it would be greatly appreciated.
 
 TODO
 	- Fix known issues
 	- Full rSpec test suite
-	- Make the ActivationsController "activate" action restful
 	- Integrate user interface plugins / dry form builders
 	- Move query stats and rows logger to footnotes plugin
 	- Refactoring, google authentication, facebook connect, oauth, api metering
