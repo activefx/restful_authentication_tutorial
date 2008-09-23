@@ -135,7 +135,7 @@ module Authentication
 				errors.add_to_base("New password cannot be blank.") and
 					return false if new_password.blank? 
 				errors.add_to_base("You password was not changed, your old password is incorrect.") and
-					return false unless User.authenticate(self.login, old_password) 
+					return false unless self.authenticated?(old_password) 
         self.password, self.password_confirmation = new_password, new_confirmation
 				save
 			end
