@@ -31,7 +31,7 @@ module Authentication
 
 					validates_numericality_of :invitation_limit, 
 																			:less_than_or_equal_to => APP_CONFIG['settings']['max_user_invite_limit'],
-																			:on => :update
+																			:on => :update, :allow_nil => true, :if => :site_in_beta?
 
 					before_create :set_invitation_limit
 				  before_create :make_activation_code
