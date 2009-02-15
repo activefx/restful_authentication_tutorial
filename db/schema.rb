@@ -59,14 +59,6 @@ ActiveRecord::Schema.define(:version => 20080911154835) do
     t.string  "salt",       :null => false
   end
 
-  create_table "pages", :force => true do |t|
-    t.string   "title"
-    t.string   "body"
-    t.integer  "user_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "roles", :force => true do |t|
     t.string "name"
   end

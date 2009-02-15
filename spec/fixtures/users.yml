@@ -1,7 +1,9 @@
 
 quentin:
   id:                        1
+  user_type:                 SiteUser
   login:                     quentin
+  name:                      
   email:                     quentin@example.com
   salt:                      356a192b7913b04c54574d18c28d46e6395428ab # SHA1('0')
   crypted_password:          df42adbd0b4f7d31af495bcd170d4496686aecb1 # 'monkey'
@@ -10,10 +12,17 @@ quentin:
   remember_token:            77de68daecd823babbb58edb1c8e14d7106e83bb
   activation_code:           
   activated_at:              <%= 5.days.ago.to_s :db %>
+  password_reset_code:       
+  enabled:                   1
+  identity_url:              
+  invitation_id:             
+  invitation_limit:          
       
 aaron:
   id:                        2
+  user_type:                 SiteUser
   login:                     aaron
+  name:                      
   email:                     aaron@example.com
   salt:                      da4b9237bacccdf19c0760cab7aec4a8359010b0 # SHA1('1')
   crypted_password:          5326a08cf4f5618c9e9fb059f949e58671f74b29 # 'monkey'
@@ -22,7 +31,11 @@ aaron:
   remember_token:            
   activation_code:           1b6453892473a467d07372d45eb05abc2031647a
   activated_at:              
-
+  password_reset_code:       
+  enabled:                   1
+  identity_url:              
+  invitation_id:             
+  invitation_limit:          
 
 old_password_holder:
   id:                        3

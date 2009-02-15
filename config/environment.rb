@@ -30,6 +30,13 @@ Rails::Initializer.run do |config|
   # config.gem "bj"
   # config.gem "hpricot", :version => '0.6', :source => "http://code.whytheluckystiff.net"
   # config.gem "aws-s3", :lib => "aws/s3"
+	config.gem "rspec", :lib => false, :version => '1.1.12' 
+	config.gem "rspec-rails", :lib => false, :version => '1.1.12'
+	config.gem "ctran-annotate", :lib => false, :version => '2.0.0',
+								:source => "http://gems.github.com"
+	config.gem "yfactorial-utility_scopes", :lib => false, :version => '0.2.2',
+								:source => "http://gems.github.com"
+
 	
   # Only load the plugins named here, in the order given. By default, all plugins 
   # in vendor/plugins are loaded in alphabetical order.
@@ -72,7 +79,4 @@ Rails::Initializer.run do |config|
 	config.active_record.observers = :user_observer
 end
 
-#Change for your text editor
-#Ex. Textmate = "txmt://open?url=file://"
-#See also http://josevalim.blogspot.com/2008/06/textmate-protocol-behavior-on-any.html
-Footnotes::Filter.prefix = "gedit://"
+

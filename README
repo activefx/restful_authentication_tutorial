@@ -53,6 +53,12 @@ CURRENT FEATURES
 		- rspec, rspec_rails
 	- Gems
 		- ruby-openid-2.1.2
+		- ctran-annotate-2.0.0
+		- rspec-1.1.12
+		- rspec-rails-1.1.12
+		- yfactorial-utility_scopes-0.2.2
+	- Rails
+		- Tagged to Version 2.3
 	
 KNOWN ISSUES
 	- Not sure if the exception_logger is working properly, it does not appear to be recording exceptions. If someone can test and let me know if it works or what the problem is it would be greatly appreciated.
@@ -62,6 +68,8 @@ TODO
 	- Ongoing: refactoring, google authentication, facebook connect, oauth, api metering, seperate login for admins
 
 PLUGINS
+Annotate_models - see readme for authors and license 
+	- http://github.com/ctran/annotate_models/tree/master
 Auto_migrations by PJ Hyett is released under the MIT License
 	- http://github.com/pjhyett/auto_migrations/tree/master
 Custom-err-msg by David Easley is released under the MIT License
@@ -95,6 +103,8 @@ Rspec and Rspec_rails by The RSpec Development Team is released under the MIT Li
 Uberkit by Michael Bleigh and Intridea, Inc. is released under the MIT License 
 	- http://github.com/mbleigh/uberkit/tree/master
 	- http://github.com/activefx/uberkit/tree/master (modified for restful_authentication_tutorial)
+Utility_scopes by Ryan Daigle is released under the MIT License
+	- http://github.com/yfactorial/utility_scopes/tree/master
 Will_paginate by PJ Hyett and Mislav Marohnic is released under the MIT License 
 	- http://github.com/mislav/will_paginate/tree/master
 Yahoo User Interface by Yahoo! Inc. is released under the BSD License
@@ -135,4 +145,4 @@ Additional Resources:
 	- http://delicious.com/activefx/openid
 
 
-Copyright (c) 2008 Matthew Solt, released under the MIT license
+Copyright (c) 2009 Matthew Solt, released under the MIT license
