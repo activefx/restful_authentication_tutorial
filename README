@@ -46,7 +46,7 @@ CURRENT FEATURES
 	- UI Plugins 
 		- custom-err-msg, permalink_fu, uberkit, will_paginate
 	- Debug Plugins 
-		- exception_logger, rails-footnotes, query_analyzer, query_stats, rows_logger
+		- rails-footnotes, query_analyzer, query_stats, rows_logger
 	- Development and Performance Plugins
 		- auto_migrations, pseudo_cursors
 	- Testing 

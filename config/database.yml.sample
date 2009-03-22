@@ -17,7 +17,9 @@
 development:
   adapter: mysql
   encoding: utf8
-  database: restful_authentication_tutorial_development
+  reconnect: true
+  database: sample_development
+  pool: 5
   username: root
   password:
   socket: /var/run/mysqld/mysqld.sock
@@ -28,7 +30,9 @@ development:
 test:
   adapter: mysql
   encoding: utf8
-  database: restful_authentication_tutorial_test
+  reconnect: true
+  database: sample_test
+  pool: 5
   username: root
   password:
   socket: /var/run/mysqld/mysqld.sock
@@ -36,7 +40,9 @@ test:
 production:
   adapter: mysql
   encoding: utf8
-  database: restful_authentication_tutorial_production
+  reconnect: true
+  database: sample_production
+  pool: 5
   username: root
   password: 
   socket: /var/run/mysqld/mysqld.sock
